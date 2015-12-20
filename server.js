@@ -26,9 +26,9 @@
 
 
      // define model =================
-    var Todo = mongoose.model('Todo', {
-        text : String
-    });
+     var Todo = {test: "test"};
+     
+   
 
 
     // routes ======================================================================
@@ -36,16 +36,9 @@
     // api ---------------------------------------------------------------------
     // get all todos
     app.get('/api/todos', function(req, res) {
-
+     res.json({test: "test"}); 
         // use mongoose to get all todos in the database
-        Todo.find(function(err, todos) {
-
-            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err)
-                res.send(err)
-
-            res.json(todos); // return all todos in JSON format
-        });
+       
     });
 
     // create todo and send back all todos after creation
