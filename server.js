@@ -26,7 +26,7 @@
 
 
      // define model =================
-     var Todo = {test: "test"};
+     var Todo = {test: "tesst"};
      
    
 
