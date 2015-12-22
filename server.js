@@ -29,9 +29,6 @@
     });
      // define model =================
 
-     
-   
-
 
 
      app.get('*', function(req, res) {

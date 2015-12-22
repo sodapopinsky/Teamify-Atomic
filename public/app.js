@@ -88,15 +88,15 @@ myApp.config(function($stateProvider, $urlRouterProvider, $authProvider, $httpPr
 
     // Redirect to the auth state if any other states
     // are requested other than users
-    $urlRouterProvider.otherwise('/auth');
+    $urlRouterProvider.otherwise('/');
 
     //
     // Now set up the states
     $stateProvider
         .state('auth', {
             url: '/auth',
-                template: "hello"
-            /*
+
+
             views: {
                 "mainContent": {
                     controller: "AuthController as auth",
@@ -106,12 +106,10 @@ myApp.config(function($stateProvider, $urlRouterProvider, $authProvider, $httpPr
                     templateUrl: "views/footer.html"
                 }
             }
-            */
+
 
         })
-        .state('app', {
-            abstract: true
-        })
+
 
 
 });
