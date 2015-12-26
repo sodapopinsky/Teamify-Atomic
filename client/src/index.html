@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
 <head>
+    <base href="/">
     <script type="text/javascript" src="angular.js"></script>
     <script type="text/javascript" src="<%= grunt.config.get('pkg.name') %>.js"></script>
 </head>
 
-<body>
-fdas
+<body>fdf
+<div ng-include="'auth/auth.tpl.html'"></div>
+<div ui-view></div>
+
 </body>
 </html>
