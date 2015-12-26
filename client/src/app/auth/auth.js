@@ -7,7 +7,7 @@ angular.module('auth').config(function($stateProvider) {
         templateUrl:"auth/auth.tpl.html",
         controller:'ProjectsViewCtrl'
 
-    })
+    });
 })
 
 .controller('ProjectsViewCtrl', function() {

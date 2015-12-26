@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2015-12-25
+/*! teamify - v0.0.1 - 2015-12-26
  * Copyright (c) 2015 Nick Spitale;
  * Licensed 
  */
@@ -21,7 +21,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
             views: {
                 "mainContent": {
                     controller: "AppController",
-                    templateUrl: "views/index.html" //
+                    templateUrl: "views/index.html"
                 }
             }
         })
@@ -40,7 +40,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
         .state('app.team.members', {
             url: '/team/members',
             template:"members"
-        })
+        });
 
 });
 
@@ -65,7 +65,7 @@ angular.module('auth').config(function($stateProvider) {
         templateUrl:"auth/auth.tpl.html",
         controller:'ProjectsViewCtrl'
 
-    })
+    });
 })
 
 .controller('ProjectsViewCtrl', function() {
@@ -78,6 +78,10 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
   $templateCache.put("auth/auth.tpl.html",
     "<div>\n" +
     "    dfdfsfd\n" +
+    "    <button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">\n" +
+    "        <span class=\"glyphicon glyphicon-align-left\" aria-hidden=\"true\"></span>\n" +
+    "    </button>\n" +
+    "\n" +
     "</div>");
 }]);
 

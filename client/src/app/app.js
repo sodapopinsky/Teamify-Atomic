@@ -17,7 +17,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
             views: {
                 "mainContent": {
                     controller: "AppController",
-                    templateUrl: "views/index.html" //
+                    templateUrl: "views/index.html"
                 }
             }
         })
@@ -36,7 +36,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
         .state('app.team.members', {
             url: '/team/members',
             template:"members"
-        })
+        });
 
 });
 
