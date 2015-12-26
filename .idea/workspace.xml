@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss" afterPath="$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/templates/app.js" afterPath="$PROJECT_DIR$/client/dist/templates/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/app.js" afterPath="$PROJECT_DIR$/client/src/app/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/auth/auth.js" afterPath="$PROJECT_DIR$/client/src/app/auth/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" afterPath="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/gruntFile.js" afterPath="$PROJECT_DIR$/client/gruntFile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/index.html" afterPath="$PROJECT_DIR$/client/dist/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/index.html" afterPath="$PROJECT_DIR$/client/src/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/style.css.map" afterPath="$PROJECT_DIR$/client/dist/style.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/style.css" afterPath="$PROJECT_DIR$/client/dist/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/sass/style.scss" afterPath="$PROJECT_DIR$/client/src/sass/style.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/teamify.js" afterPath="$PROJECT_DIR$/client/dist/teamify.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="" />
     <ignored path="Website.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -275,7 +261,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -342,7 +328,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="131" y="23" width="1012" height="773" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
