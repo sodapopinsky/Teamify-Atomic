@@ -1,0 +1,24 @@
+{
+  "name": "teamify",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "~3.0",
+    "passport": "~0.1.12",
+    "passport-local": "~0.1.6",
+    "express-namespace": "~0.1.1",
+    "open": "0.0.3",
+    "request": "~2.16.6",
+    "mongoose": "~3.6.2",
+    "method-override": "~2.1.2",
+    "body-parser": "~1.5.2",
+    "morgan": "~1.2.2"
+  },
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "rewire": "^2.0.1",
+    "supervisor": "~0.4.1"
+  }
+}
