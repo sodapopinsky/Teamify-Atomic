@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['clean','html2js','concat','recess:build','copy:assets']);
     grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
     grunt.registerTask('test-watch', ['karma:watch']);
-
+    grunt.loadNpmTasks('grunt-contrib-sass');
     // Print a timestamp (useful for when watching)
     grunt.registerTask('timestamp', function() {
         grunt.log.subhead(Date());
@@ -46,6 +46,8 @@ module.exports = function (grunt) {
                 app: ['src/app/**/*.tpl.html'],
                 common: ['src/common/**/*.tpl.html']
             },
+            sass: ['src/sass/style.scss'],
+            sassWatch: ['src/sass/**/*.scss'],
             less: ['src/less/stylesheet.less'], // recess:build doesn't accept ** in its file patterns
             lessWatch: ['src/less/**/*.less']
         },
@@ -53,6 +55,14 @@ module.exports = function (grunt) {
         copy: {
             assets: {
                 files: [{ dest: '<%= distdir %>', src : '**', expand: true, cwd: 'src/assets/' }]
+            }
+        },
+        sass: {
+            dist: {
+
+                files: {
+                    '<%= distdir %>/style.css' : ['<%= src.sass %>']
+                }
             }
         },
         karma: {
