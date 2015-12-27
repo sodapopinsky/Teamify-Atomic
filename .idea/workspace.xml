@@ -1,7 +1,439 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="" />
+    <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/.bin/express" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/bin/express" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/client.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/middleware.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/buffer-crc32/tests/crc.test.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/History.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/lib/commander.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/commander/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/connect.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/basicAuth.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/bodyParser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/compress.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/cookieParser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/cookieSession.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/csrf.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/directory.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/errorHandler.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/favicon.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/json.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/limit.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/logger.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/methodOverride.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/multipart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/query.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/responseTime.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/session.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/session/cookie.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/session/memory.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/session/session.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/session/store.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/static.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/staticCache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/timeout.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/urlencoded.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/middleware/vhost.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/patch.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/proto.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/directory.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/error.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_add.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_attach.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_code.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_copy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_delete.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_edit.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_error.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_excel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_find.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_gear.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_go.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_green.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_key.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_paintbrush.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_paste.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_acrobat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_actionscript.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_add.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_c.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_camera.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_cd.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_code.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_code_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_coldfusion.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_compressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_copy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_cplusplus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_csharp.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_cup.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_database.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_delete.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_dvd.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_edit.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_error.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_excel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_find.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_flash.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_freehand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_gear.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_get.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_go.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_h.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_horizontal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_key.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_magnify.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_medal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_office.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_paint.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_paintbrush.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_paste.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_php.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_picture.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_powerpoint.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_put.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_ruby.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_stack.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_star.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_swoosh.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_text.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_text_width.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_tux.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_vector.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_visualstudio.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_width.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_word.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_world.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_wrench.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_white_zip.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_word.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/icons/page_world.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/public/style.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib-cov/utils.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/cache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/connect.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/basicAuth.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/bodyParser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/compress.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/cookieSession.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/csrf.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/directory.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/errorHandler.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/favicon.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/json.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/limit.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/logger.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/multipart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/query.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/responseTime.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/session.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/session/cookie.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/session/memory.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/session/session.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/session/store.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/static.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/staticCache.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/timeout.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/urlencoded.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/middleware/vhost.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/patch.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/proto.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/directory.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/error.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_add.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_attach.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_code.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_copy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_delete.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_edit.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_error.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_excel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_find.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_gear.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_go.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_green.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_key.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_paintbrush.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_paste.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_acrobat.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_actionscript.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_add.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_c.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_camera.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_cd.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_code.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_code_red.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_coldfusion.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_compressed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_copy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_cplusplus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_csharp.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_cup.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_database.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_delete.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_dvd.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_edit.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_error.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_excel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_find.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_flash.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_freehand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_gear.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_get.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_go.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_h.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_horizontal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_key.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_magnify.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_medal.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_office.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_paint.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_paintbrush.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_paste.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_php.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_picture.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_powerpoint.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_put.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_ruby.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_stack.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_star.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_swoosh.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_text.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_text_width.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_tux.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_vector.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_visualstudio.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_width.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_word.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_world.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_wrench.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_white_zip.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_word.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/icons/page_world.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/public/style.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/lib/utils.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/History.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/component.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/bytes/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/TODO" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/benchmark/bench-multipart-parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/example/post.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/example/upload.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/file.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/incoming_form.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/multipart_parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/querystring_parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/lib/util.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/example/dog.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/example/event_emitter.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/lib/gently/gently.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/lib/gently/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/test/common.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/node-gently/test/simple/test-gently.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/common.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/file/funkyfilename.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/file/plain.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/http/special-chars-in-filename/info.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/js/no-filename.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/js/special-chars-in-filename.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/fixture/multipart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/integration/test-fixtures.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/common.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/integration/test-multipart-parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/simple/test-file.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/simple/test-incoming-form.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/simple/test-multipart-parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/simple/test-querystring-parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/legacy/system/test-multi-video-upload.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/run.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/test/unit/test-incoming-form.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/formidable/tool/record.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/History.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/pause/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/.gitmodules" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/History.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/Readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/benchmark.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/component.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/examples.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/lib/head.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/lib/querystring.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/lib/tail.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/querystring.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/expect.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/mocha.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/mocha.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/qs.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/browser/qs.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/parse.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/node_modules/qs/test/stringify.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/connect/test.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/test/mocha.opts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/test/parse.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/test/serialize.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/.gitignore.orig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/.gitignore.rej" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/README.markdown" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/examples/pow.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/examples/pow.js.orig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/examples/pow.js.rej" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/chmod.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/clobber.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/mkdirp.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/perm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/perm_sync.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/race.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/rel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/return.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/return_sync.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/root.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/sync.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/umask.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/mkdirp/test/umask_sync.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/lib/send.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/lib/utils.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/test.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types/mime.types" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types/node.types" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/node_modules/express/test.js" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/Readme.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/History.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/HISTORY.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/Readme.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/History.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/HISTORY.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/Readme.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/.sass-cache/fb59ac908ced16a50ddcf98ec858bc3e8c406e8d/style.scssc" afterPath="$PROJECT_DIR$/client/.sass-cache/fb59ac908ced16a50ddcf98ec858bc3e8c406e8d/style.scssc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/History.md" afterPath="$PROJECT_DIR$/server/node_modules/express/History.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/History.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/History.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/LICENSE" afterPath="$PROJECT_DIR$/server/node_modules/express/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/README.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/README.md" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/Readme.md" afterPath="$PROJECT_DIR$/server/node_modules/express/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/templates/app.js" afterPath="$PROJECT_DIR$/client/dist/templates/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/app.js" afterPath="$PROJECT_DIR$/client/src/app/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/application.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/application.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/auth/auth.js" afterPath="$PROJECT_DIR$/client/src/app/auth/auth.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" afterPath="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/express.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/express.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/gruntFile.js" afterPath="$PROJECT_DIR$/client/gruntFile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/index.html" afterPath="$PROJECT_DIR$/client/dist/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/index.html" afterPath="$PROJECT_DIR$/client/src/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/router/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/router/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/methods/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/methods/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/index.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/mime.js" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/mime.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/package.json" afterPath="$PROJECT_DIR$/server/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/cookie-signature/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/debug/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/debug/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/debug/node_modules/ms/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/debug/node_modules/ms/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/fresh/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/methods/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/methods/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/range-parser/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/package.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/request.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/request.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/response.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/response.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/router/route.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/router/route.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/style.css.map" afterPath="$PROJECT_DIR$/client/dist/style.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/teamify.js" afterPath="$PROJECT_DIR$/client/dist/teamify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/utils.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/lib/view.js" afterPath="$PROJECT_DIR$/server/node_modules/express/lib/view.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="Website.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -25,81 +457,113 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="300">
-              <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="auth.tpl.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.tpl.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="180">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="756">
+              <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#div#2;n#form#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/app/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2961">
+              <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.scss" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/src/sass/style.scss">
+      <file leaf-file-name="auth.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.044576522" vertical-offset="0" max-vertical-offset="673">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1092">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/sass/bootstrap.scss">
+      <file leaf-file-name="teamify.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/dist/teamify.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.75" vertical-offset="0" max-vertical-offset="1215">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2576" max-vertical-offset="4809">
+              <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+              <folding>
+                <marker date="1451184417000" expanded="true" signature="3829:3921" placeholder="{...}" />
+                <marker date="1451184417000" expanded="true" signature="3889:3925" placeholder="{&quot;controller&quot;: &quot;AppController&quot;...}" />
+                <marker date="1451184417000" expanded="true" signature="4787:5571" placeholder="{...}" />
+                <marker date="1451184417000" expanded="true" signature="5510:5553" placeholder="//..." />
+                <marker date="1451184417000" expanded="true" signature="6400:6413" placeholder="..." />
+                <marker date="1451184417000" expanded="true" signature="6571:6582" placeholder="..." />
+                <marker date="1451184417000" expanded="true" signature="7197:7212" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="651">
+              <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="variables.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/sass/variables.scss">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="90">
-              <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="672" max-vertical-offset="3465">
+              <caret line="100" column="42" selection-start-line="100" selection-start-column="42" selection-end-line="100" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_alerts.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="1185">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_variables.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss">
+      <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/lib/models/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.3529413" vertical-offset="0" max-vertical-offset="13200">
-              <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.16307162" vertical-offset="0" max-vertical-offset="1159">
+              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/dist/style.css">
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.259259" vertical-offset="87062" max-vertical-offset="87375">
-              <caret line="5819" column="0" selection-start-line="5819" selection-start-column="0" selection-end-line="5819" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
+              <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="441">
+              <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -137,25 +601,29 @@
         <option value="$PROJECT_DIR$/client/bower.json" />
         <option value="$PROJECT_DIR$/.bowerrc" />
         <option value="$PROJECT_DIR$/server.js" />
-        <option value="$PROJECT_DIR$/server/package.json" />
         <option value="$PROJECT_DIR$/client/dist/index.html" />
         <option value="$PROJECT_DIR$/Procfile" />
-        <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/client/src/app/auth/auth.html" />
         <option value="$PROJECT_DIR$/client/dist/templates/app.js" />
         <option value="$PROJECT_DIR$/client/src/less/stylesheet.less" />
         <option value="$PROJECT_DIR$/client/package.json" />
-        <option value="$PROJECT_DIR$/client/src/app/app.js" />
-        <option value="$PROJECT_DIR$/client/src/app/auth/auth.js" />
-        <option value="$PROJECT_DIR$/client/gruntFile.js" />
         <option value="$PROJECT_DIR$/client/dist/style.css" />
-        <option value="$PROJECT_DIR$/client/src/index.html" />
-        <option value="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" />
         <option value="$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss" />
         <option value="$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss" />
         <option value="$PROJECT_DIR$/client/src/sass/variables.scss" />
         <option value="$PROJECT_DIR$/client/src/sass/boostrap.scss" />
         <option value="$PROJECT_DIR$/client/src/sass/style.scss" />
+        <option value="$PROJECT_DIR$/client/src/common/security/security.js" />
+        <option value="$PROJECT_DIR$/client/src/app/auth/auth.tpl.html" />
+        <option value="$PROJECT_DIR$/client/gruntFile.js" />
+        <option value="$PROJECT_DIR$/server/lib/models/user.js" />
+        <option value="$PROJECT_DIR$/server/config.js" />
+        <option value="$PROJECT_DIR$/server/package.json" />
+        <option value="$PROJECT_DIR$/client/src/app/auth/auth.js" />
+        <option value="$PROJECT_DIR$/server/server.js" />
+        <option value="$PROJECT_DIR$/client/dist/teamify.js" />
+        <option value="$PROJECT_DIR$/client/src/index.html" />
+        <option value="$PROJECT_DIR$/client/src/app/app.js" />
       </list>
     </option>
   </component>
@@ -164,10 +632,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="131" />
+    <option name="x" value="1131" />
     <option name="y" value="23" />
-    <option name="width" value="1012" />
-    <option name="height" value="773" />
+    <option name="width" value="1421" />
+    <option name="height" value="1209" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -208,6 +676,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -265,6 +765,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -295,11 +813,11 @@
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
     <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
       <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
@@ -309,9 +827,6 @@
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -327,7 +842,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="131" y="23" width="1012" height="773" extended-state="0" />
+    <frame x="1131" y="23" width="1421" height="1209" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -336,9 +851,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3478261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24771288" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -346,7 +859,9 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -372,30 +887,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/src/sass/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="255">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/dist/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="87375">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="285">
-          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/gruntFile.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2970">
@@ -429,7 +920,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="930">
           <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -561,38 +1051,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.25" vertical-offset="0" max-vertical-offset="525">
-          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="450">
-          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/dist/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="240">
-          <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="987">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -645,69 +1107,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.js">
+    <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.3343239" vertical-offset="0" max-vertical-offset="945">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/app.js">
+    <entry file="file://$PROJECT_DIR$/client/src/sass/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="885">
-          <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="168">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/gruntFile.js">
+    <entry file="file://$PROJECT_DIR$/client/src/sass/bootstrap.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12912482" vertical-offset="60" max-vertical-offset="2970">
-          <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/dist/teamify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4404591" vertical-offset="623" max-vertical-offset="1320">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1701">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/dist/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.259259" vertical-offset="87062" max-vertical-offset="87375">
+        <state vertical-scroll-proportion="0.82572615" vertical-offset="121602" max-vertical-offset="122325">
           <caret line="5819" column="0" selection-start-line="5819" selection-start-column="0" selection-end-line="5819" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.tpl.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="180">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3343239" vertical-offset="0" max-vertical-offset="945">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="300">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.3529413" vertical-offset="0" max-vertical-offset="13200">
+        <state vertical-scroll-proportion="0.0" vertical-offset="168" max-vertical-offset="18480">
           <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
           <folding />
         </state>
@@ -715,32 +1148,132 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="1185">
+        <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1659">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/sass/bootstrap.scss">
+    <entry file="file://$PROJECT_DIR$/server/node_modules/grunt-contrib-nodeunit/node_modules/nodeunit/node_modules/tap/node_modules/js-yaml/node_modules/argparse/node_modules/sprintf-js/gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.75" vertical-offset="0" max-vertical-offset="1215">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1159">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/sass/variables.scss">
+    <entry file="file://$PROJECT_DIR$/client/dist/vendor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="673">
-          <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="231">
+          <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/sass/style.scss">
+    <entry file="file://$PROJECT_DIR$/client/dist/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.044576522" vertical-offset="0" max-vertical-offset="673">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="441">
+          <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/gruntFile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2016" max-vertical-offset="4263">
+          <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
+          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
+          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="651">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.tpl.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="756">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#2;n#form#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/dist/teamify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2576" max-vertical-offset="4809">
+          <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+          <folding>
+            <marker date="1451184417000" expanded="true" signature="3829:3921" placeholder="{...}" />
+            <marker date="1451184417000" expanded="true" signature="3889:3925" placeholder="{&quot;controller&quot;: &quot;AppController&quot;...}" />
+            <marker date="1451184417000" expanded="true" signature="4787:5571" placeholder="{...}" />
+            <marker date="1451184417000" expanded="true" signature="5510:5553" placeholder="//..." />
+            <marker date="1451184417000" expanded="true" signature="6400:6413" placeholder="..." />
+            <marker date="1451184417000" expanded="true" signature="6571:6582" placeholder="..." />
+            <marker date="1451184417000" expanded="true" signature="7197:7212" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="441">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/auth/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1092">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2961">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1655" max-vertical-offset="3465">
+          <caret line="100" column="42" selection-start-line="100" selection-start-column="42" selection-end-line="100" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16307162" vertical-offset="0" max-vertical-offset="1159">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
           <folding />
         </state>
       </provider>

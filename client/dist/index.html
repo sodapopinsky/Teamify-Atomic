@@ -4,12 +4,13 @@
     <base href="/">
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="vendor.js"></script>
     <script type="text/javascript" src="teamify.js"></script>
 </head>
 
-<body>fdf
-<div ng-include="'auth/auth.tpl.html'"></div>
-<div ui-view></div>
+<body>
 
+<div ui-view></div>
+<div ui-view="mainContent"></div>
 </body>
 </html>

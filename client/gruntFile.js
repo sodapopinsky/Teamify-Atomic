@@ -46,6 +46,7 @@ module.exports = function (grunt) {
                 app: ['src/app/**/*.tpl.html'],
                 common: ['src/common/**/*.tpl.html']
             },
+
             sass: ['src/sass/style.scss'],
             sassWatch: ['src/sass/**/*.scss'],
             less: ['src/less/stylesheet.less'], // recess:build doesn't accept ** in its file patterns
@@ -101,6 +102,10 @@ module.exports = function (grunt) {
                 options: {
                     process: true
                 }
+            },
+            vendor: {
+                src:['bower_components/satellizer/satellizer.min.js'],
+                dest: '<%= distdir %>/vendor.js'
             },
             angular: {
                 src:['bower_components/angular/angular.js','bower_components/angular-ui-router/release/angular-ui-router.min.js'],
