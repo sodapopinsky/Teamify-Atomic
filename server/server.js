@@ -11,10 +11,23 @@ var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
 var security = require('./lib/security');
+
 // configuration =================
 
 //mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
 //on mac: export MONGOLAB_URI="mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev"
+var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+    replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
+
+/*
+ * Mongoose uses a different connection string format than MongoDB's standard.
+ * Use the mongodb-uri library to help you convert from the standard format to
+ * Mongoose's format.
+ */
+//var mongodbUri = 'mongodb://heroku_dhgtspdz:rva9lpi2br503uspmangtj2omh@ds037215.mongolab.com:37215/heroku_dhgtspdz';
+
+//mongoose.connect(mongodbUri, options);
+
 
 if(process.env.MONGOLAB_URI){
 mongoose.connect(process.env.MONGOLAB_URI, function (error) {
@@ -22,8 +35,9 @@ mongoose.connect(process.env.MONGOLAB_URI, function (error) {
     else console.log('mongo connected');
 });}
 else{
-    mongoose.connect(config.database);
+    mongoose.connect("mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev");
 }
+
 
 
 app.set('superSecret', config.secret); // secret variable
