@@ -2,6 +2,8 @@ angular.module('app', [
     'ui.router',
     'auth',
     'satellizer',
+    'team',
+    'directives.uiSrefActiveIf',
     'templates.app']);
 
 angular.module('app').run(function($rootScope, $state) {
@@ -11,7 +13,10 @@ angular.module('app').run(function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart', function(event, toState) {
 
         // Grab the user from local storage and parse it to an object
+
         var user = JSON.parse(localStorage.getItem('user'));
+
+
 
         // If there is any user data in local storage then the user is quite
         // likely authenticated. If their token is expired, or if they are
@@ -35,13 +40,17 @@ angular.module('app').run(function($rootScope, $state) {
                 event.preventDefault();
 
                 // go to the "main" state which in our case is users
-                $state.go('app');
+                $state.go('app.team.members');
             }
         }
+
     });
+
+
 });
 
 angular.module('app').config(function($stateProvider, $locationProvider,$urlRouterProvider,  $authProvider, $httpProvider, $provide) {
+
     function redirectWhenLoggedOut($q, $injector) {
 
         return {
@@ -99,27 +108,14 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
     $stateProvider
 
         .state('app', {
-            url: '/app',
-          template: "test"
-
-        })
-
-//Team
-        .state('app.team', {
             abstract: true,
-            controller: "TeamController",
             views: {
-                "content@app": {
-                    controller: "TeamController",
-                    templateUrl: "views/team/index.html"
+                "mainContent": {
+                    controller: "AppController",
+                    templateUrl: "index.tpl.html"
                 }
             }
         })
-        .state('app.team.members', {
-            url: '/team/members',
-            template:"members"
-        });
-
 });
 
 

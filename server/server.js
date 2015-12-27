@@ -10,6 +10,7 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
+var security = require('./lib/security');
 // configuration =================
 
 mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
@@ -48,7 +49,9 @@ app.get('/setup', function(req, res) {
 
     // create a sample user
     var nick = new User({
-        name: 'Nick Cerminara',
+        first_name: 'Joe',
+        last_name: 'Spitale',
+        email: 'joe@theatomicburger.com',
         password: 'password',
         admin: true
     });
@@ -70,7 +73,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 
     // find the user
     User.findOne({
-        name: req.body.name
+        email: req.body.email
     }, function(err, user) {
 
         if (err) throw err;
@@ -110,6 +113,8 @@ apiRoutes.post('/authenticate', function(req, res) {
 });
 
 
+
+require('./lib/routes/security').addRoutes(app, security);
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
 
@@ -141,6 +146,7 @@ apiRoutes.use(function(req, res, next) {
 
     }
 });
+
 
 app.get('/api/authenticate/user', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });

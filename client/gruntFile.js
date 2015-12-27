@@ -104,7 +104,7 @@ module.exports = function (grunt) {
                 }
             },
             vendor: {
-                src:['bower_components/satellizer/satellizer.min.js'],
+                src:['bower_components/jquery/dist/jquery.min.js','bower_components/satellizer/satellizer.min.js','bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
             },
             angular: {
@@ -114,10 +114,6 @@ module.exports = function (grunt) {
             mongo: {
                 src:['vendor/mongolab/*.js'],
                 dest: '<%= distdir %>/mongolab.js'
-            },
-            bootstrap: {
-                src:['vendor/angular-ui/bootstrap/*.js'],
-                dest: '<%= distdir %>/bootstrap.js'
             },
             jquery: {
                 src:['vendor/jquery/*.js'],
