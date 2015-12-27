@@ -119,7 +119,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
                     templateUrl: "index.tpl.html"
                 }
             }
-        })
+        });
 });
 
 
@@ -188,7 +188,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
                 $auth.login(credentials).then(function(response) {
                     // Return an $http request for the now authenticated
-                    // user so that we can flatten the promise chain
+                    // user so that we can flatten the promise chainf
 
 
                        // Stringify the returned data to prepare it
@@ -261,13 +261,13 @@ angular.module('directives.loading',[]).directive('loading', function () {
             link: function (scope, element, attr) {
                 scope.$watch('loading', function (val) {
                     if (val)
-                        $(element).show();
+                    { $(element).show(); }
                     else
-                        $(element).hide();
+                    {  $(element).hide(); }
                 });
             }
-        }
-    }); //ett
+        };
+    });
 angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$state', function($state) {
     return {
         restrict: "A",
@@ -288,6 +288,109 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
     };
 }]);
 
+
+angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CONFIG','$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
+
+  function MongolabResourceFactory(collectionName) {
+
+    var url = MONGOLAB_CONFIG.baseUrl + MONGOLAB_CONFIG.dbName + '/collections/' + collectionName;
+    var defaultParams = {};
+    if (MONGOLAB_CONFIG.apiKey) {
+      defaultParams.apiKey = MONGOLAB_CONFIG.apiKey;
+    }
+    
+    var thenFactoryMethod = function (httpPromise, successcb, errorcb, isArray) {
+      var scb = successcb || angular.noop;
+      var ecb = errorcb || angular.noop;
+
+      return httpPromise.then(function (response) {
+        var result;
+        if (isArray) {
+          result = [];
+          for (var i = 0; i < response.data.length; i++) {
+            result.push(new Resource(response.data[i]));
+          }
+        } else {
+          //MongoLab has rather peculiar way of reporting not-found items, I would expect 404 HTTP response status...
+          if (response.data === " null "){
+            return $q.reject({
+              code:'resource.notfound',
+              collection:collectionName
+            });
+          } else {
+            result = new Resource(response.data);
+          }
+        }
+        scb(result, response.status, response.headers, response.config);
+        return result;
+      }, function (response) {
+        ecb(undefined, response.status, response.headers, response.config);
+        return undefined;
+      });
+    };
+
+    var Resource = function (data) {
+      angular.extend(this, data);
+    };
+
+    Resource.all = function (cb, errorcb) {
+      return Resource.query({}, cb, errorcb);
+    };
+
+    Resource.query = function (queryJson, successcb, errorcb) {
+      var params = angular.isObject(queryJson) ? {q:JSON.stringify(queryJson)} : {};
+      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
+      return thenFactoryMethod(httpPromise, successcb, errorcb, true);
+    };
+
+    Resource.getById = function (id, successcb, errorcb) {
+      var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
+      return thenFactoryMethod(httpPromise, successcb, errorcb);
+    };
+
+    Resource.getByIds = function (ids, successcb, errorcb) {
+      var qin = [];
+      angular.forEach(ids, function (id) {
+         qin.push({$oid: id});
+      });
+      return Resource.query({_id:{$in:qin}}, successcb, errorcb);
+    };
+
+    //instance methods
+
+    Resource.prototype.$id = function () {
+      if (this._id && this._id.$oid) {
+        return this._id.$oid;
+      }
+    };
+
+    Resource.prototype.$save = function (successcb, errorcb) {
+      var httpPromise = $http.post(url, this, {params:defaultParams});
+      return thenFactoryMethod(httpPromise, successcb, errorcb);
+    };
+
+    Resource.prototype.$update = function (successcb, errorcb) {
+      var httpPromise = $http.put(url + "/" + this.$id(), angular.extend({}, this, {_id:undefined}), {params:defaultParams});
+      return thenFactoryMethod(httpPromise, successcb, errorcb);
+    };
+
+    Resource.prototype.$remove = function (successcb, errorcb) {
+      var httpPromise = $http['delete'](url + "/" + this.$id(), {params:defaultParams});
+      return thenFactoryMethod(httpPromise, successcb, errorcb);
+    };
+
+    Resource.prototype.$saveOrUpdate = function (savecb, updatecb, errorSavecb, errorUpdatecb) {
+      if (this.$id()) {
+        return this.$update(updatecb, errorUpdatecb);
+      } else {
+        return this.$save(savecb, errorSavecb);
+      }
+    };
+
+    return Resource;
+  }
+  return MongolabResourceFactory;
+}]);
 
 angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team.tpl.html']);
 
@@ -356,31 +459,11 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "            <a  ui-sref-active-if=\"app.inventory\" ui-sref=\"app.inventory.items\">\n" +
     "                <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span><p>INVENTORY</p></a>\n" +
     "        </li>\n" +
-    "\n" +
-    "        <!--\n" +
-    "           <li >\n" +
-    "            <a  ng-class=\"{active: sidebarTab == 'checklist',inactive: sidebarTab != 'checklist' }\"\n" +
-    "                href=\"/#/checklist\">Tasks</a>\n" +
-    "        </li>\n" +
-    "        <li >\n" +
-    "            <a  ng-class=\"{active: sidebarTab == 'ordering',inactive: sidebarTab != 'ordering' }\"\n" +
-    "                href=\"/#/ordering/inventory\">Ordering</a>\n" +
-    "        </li>\n" +
-    "        <li>\n" +
-    "            <h5 ng-if=\"authenticated\">{{currentUser.first_name}} {{currentUser.last_name}}</h5>\n" +
-    "            <button class=\"btn btn-danger\" ng-click=\"logout()\">Logout</button>\n" +
-    "        </li>\n" +
-    "        -->\n" +
     "    </ul>\n" +
     "</div>\n" +
     "\n" +
     "<div id=\"wrapper\">\n" +
-    "\n" +
-    "\n" +
     "    <div ui-view =\"content\" ></div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
     "</div>\n" +
     "\n" +
     "\n" +

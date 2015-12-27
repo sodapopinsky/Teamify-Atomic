@@ -8,10 +8,10 @@ angular.module('directives.loading',[]).directive('loading', function () {
             link: function (scope, element, attr) {
                 scope.$watch('loading', function (val) {
                     if (val)
-                        $(element).show();
+                    { $(element).show(); }
                     else
-                        $(element).hide();
+                    {  $(element).hide(); }
                 });
             }
-        }
-    }); //ett
+        };
+    });

@@ -112,7 +112,7 @@ module.exports = function (grunt) {
                 dest: '<%= distdir %>/angular.js'
             },
             mongo: {
-                src:['vendor/mongolab/*.js'],
+                src:['src/vendor/mongolab-resource.js'],
                 dest: '<%= distdir %>/mongolab.js'
             },
             jquery: {

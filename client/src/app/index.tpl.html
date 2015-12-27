@@ -27,31 +27,11 @@
             <a  ui-sref-active-if="app.inventory" ui-sref="app.inventory.items">
                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><p>INVENTORY</p></a>
         </li>
-
-        <!--
-           <li >
-            <a  ng-class="{active: sidebarTab == 'checklist',inactive: sidebarTab != 'checklist' }"
-                href="/#/checklist">Tasks</a>
-        </li>
-        <li >
-            <a  ng-class="{active: sidebarTab == 'ordering',inactive: sidebarTab != 'ordering' }"
-                href="/#/ordering/inventory">Ordering</a>
-        </li>
-        <li>
-            <h5 ng-if="authenticated">{{currentUser.first_name}} {{currentUser.last_name}}</h5>
-            <button class="btn btn-danger" ng-click="logout()">Logout</button>
-        </li>
-        -->
     </ul>
 </div>
 
 <div id="wrapper">
-
-
     <div ui-view ="content" ></div>
-
-
-
 </div>
 
 

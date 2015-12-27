@@ -13,7 +13,19 @@ var User   = require('./lib/models/user');
 var security = require('./lib/security');
 // configuration =================
 
-mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
+//mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
+//on mac: export MONGOLAB_URI="mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev"
+
+if(process.env.MONGOLAB_URI){
+mongoose.connect(process.env.MONGOLAB_URI, function (error) {
+    if (error) console.error(error);
+    else console.log('mongo connected');
+});}
+else{
+    mongoose.connect(config.database);
+}
+
+
 app.set('superSecret', config.secret); // secret variable
 //app.use(express.static(__dirname + '/static'));
 

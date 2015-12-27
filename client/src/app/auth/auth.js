@@ -52,7 +52,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
                 $auth.login(credentials).then(function(response) {
                     // Return an $http request for the now authenticated
-                    // user so that we can flatten the promise chain
+                    // user so that we can flatten the promise chainf
 
 
                        // Stringify the returned data to prepare it

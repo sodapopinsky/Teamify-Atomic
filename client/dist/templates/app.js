@@ -65,31 +65,11 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "            <a  ui-sref-active-if=\"app.inventory\" ui-sref=\"app.inventory.items\">\n" +
     "                <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span><p>INVENTORY</p></a>\n" +
     "        </li>\n" +
-    "\n" +
-    "        <!--\n" +
-    "           <li >\n" +
-    "            <a  ng-class=\"{active: sidebarTab == 'checklist',inactive: sidebarTab != 'checklist' }\"\n" +
-    "                href=\"/#/checklist\">Tasks</a>\n" +
-    "        </li>\n" +
-    "        <li >\n" +
-    "            <a  ng-class=\"{active: sidebarTab == 'ordering',inactive: sidebarTab != 'ordering' }\"\n" +
-    "                href=\"/#/ordering/inventory\">Ordering</a>\n" +
-    "        </li>\n" +
-    "        <li>\n" +
-    "            <h5 ng-if=\"authenticated\">{{currentUser.first_name}} {{currentUser.last_name}}</h5>\n" +
-    "            <button class=\"btn btn-danger\" ng-click=\"logout()\">Logout</button>\n" +
-    "        </li>\n" +
-    "        -->\n" +
     "    </ul>\n" +
     "</div>\n" +
     "\n" +
     "<div id=\"wrapper\">\n" +
-    "\n" +
-    "\n" +
     "    <div ui-view =\"content\" ></div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
     "</div>\n" +
     "\n" +
     "\n" +

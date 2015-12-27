@@ -115,7 +115,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
                     templateUrl: "index.tpl.html"
                 }
             }
-        })
+        });
 });
 
 
