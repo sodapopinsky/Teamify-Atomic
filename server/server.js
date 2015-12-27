@@ -16,8 +16,7 @@ var security = require('./lib/security');
 
 //mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
 //on mac: export MONGOLAB_URI="mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev"
-var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-    replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
+
 
 /*
  * Mongoose uses a different connection string format than MongoDB's standard.
