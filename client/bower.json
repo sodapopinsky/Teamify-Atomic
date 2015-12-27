@@ -1,0 +1,27 @@
+{
+  "name": "teamify",
+  "description": "teamify",
+  "main": "server.js",
+  "authors": [
+    "sodapopinsky"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/sodapopinsky/Teamify",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "sweetalert": "~1.1.3",
+    "daterangepicker": "~1.4.2",
+    "ocModal": "~0.1.11",
+    "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
+    "angular-ui-router": "~0.2.15",
+    "satellizer": "~0.13.2"
+  }
+}

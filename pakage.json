@@ -1,0 +1,9 @@
+{
+  "name": "teamify",
+  "description": "a really cool app",
+  "version": "1.0.0",
+  "engines": {
+    "node": "0.12.0",
+    "npm": "2.5.1"
+  }
+}

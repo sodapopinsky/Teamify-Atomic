@@ -1,0 +1,29 @@
+<div class="container" >
+    <img src="/img/checkLogoBig.png"  class="img-responsive center-block voffset7" />
+    <div class="text-center voffset4"><h1>Log in to your account</h1></div>
+    <div class="form-group text-red text-center voffset4" style="display:none;">
+        That account was not found.  Please Try Again.
+    </div>
+    <div class="col-sm-4 center-block voffset5" style="float:none;">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <input type="email"  class="tmf-form-control" placeholder="Email" ng-model="auth.email">
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Password"  class="tmf-form-control"  ng-model="auth.password">
+            </div>
+            <div class="form-group voffset2">
+
+                <a href="" class="pull-right" style="font-size:13px;">Forgot your password?</a>
+
+            </div>
+            <div class="form-group voffset5">
+                <div>
+                    <button class=" tmf-form-control btn btn-primary btn-caps" ng-click="auth.login()">LOG IN</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

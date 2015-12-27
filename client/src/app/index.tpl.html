@@ -1,0 +1,38 @@
+<div id="sidebar-wrapper">
+    <div id="sidebar-user">
+        <span class="glyphicon glyphicon-comment"></span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav">
+                <li><div class="avatar">{{currentUser.first_name.slice(0,1)}}{{currentUser.last_name.slice(0,1)}}</div></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><span class="glyphicon glyphicon-menu-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li> <a ui-sref="logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+
+
+    </div>
+    <ul class="sidebar-nav">
+        <li>
+            <a  ui-sref-active-if="app.team" ui-sref="app.team.team-members">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span><p>TEAM</p></a>
+        </li>
+        <li>
+            <a  ui-sref-active-if="app.inventory" ui-sref="app.inventory.items">
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><p>INVENTORY</p></a>
+        </li>
+    </ul>
+</div>
+
+<div id="wrapper">
+    <div ui-view ="content" ></div>
+</div>
+
+
+

@@ -1,0 +1,28 @@
+@import "bootstrap";
+
+@import 'inc/variables';
+@import 'inc/colors';
+@import 'inc/sidebar';
+@import 'inc/nav';
+@import 'inc/base';
+@import 'inc/forms';
+@import 'inc/buttons';
+@import 'inc/table';
+@import 'inc/dropdowns';
+@import 'inc/sidepanel';
+/* css/style.css */
+
+.time-numbers > *, .time-entry > * {
+  display: inline-block;
+}
+
+.timepicker {
+  margin-right: 15px;
+}
+
+@media (min-width: 546px) {
+  .time-entry-comment {
+    position: relative;
+    top: 60px;
+  }
+}

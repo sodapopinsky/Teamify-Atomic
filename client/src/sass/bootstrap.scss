@@ -1,0 +1,75 @@
+
+
+
+
+
+/*!
+ * ../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap v3.3.6 (http://get../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/blob/master/LICENSE)
+ */
+
+// Core variables and mixins
+
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "variables";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+
+// Reset and dependencies
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/print";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/code";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+
+// Components
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/pagination";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/pager";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/labels";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/badges";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/progress-bars";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/media";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/list-group";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/panels";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-embed";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/wells";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/modals";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/tooltip";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/popovers";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/carousel";
+
+// Utility classes
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "../../../client/bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+
+h1 {
+  color:#000;
+  span {
+    color: #FFF;
+  }
+  div{
+    color:#000;
+  }
+}
+
