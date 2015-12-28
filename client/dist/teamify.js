@@ -242,7 +242,27 @@ angular.module('team-members', [])
 
 angular.module('team-members').controller('TeamMembersController', function($scope,$state,$auth, $rootScope) {
 
-    console.log("here");
+    $scope.goCreateNewEmployee = function(){
+        $scope.activeUser = {};
+        $scope.panelContent = 'team/team-members/sidepanel/new_employee.tpl.html';
+        $('.cd-panel').addClass('is-visible');
+    }
+
+    $scope.cancelChanges = function(){
+
+        if($scope.activeUser.id) {
+            $scope.activeUser = $scope.staleUser;
+            for (var i = 0; i < $scope.users.length; i++) {
+                if ($scope.users[i].id == $scope.activeUser.id) {
+                    $scope.users[i] = $scope.activeUser;
+                    break;
+                }
+            }
+
+        }
+        $('.cd-panel').removeClass('is-visible');
+    }
+
 
 });
 
@@ -402,7 +422,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -478,6 +498,52 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("team/team-members/sidepanel/new_employee.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/team-members/sidepanel/new_employee.tpl.html",
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create New Employee</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <form>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"firstName\">First Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"firstName\" ng-model=\"activeUser.first_name\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"lastName\">Last Name</label>\n" +
+    "                <input ng-model=\"activeUser.last_name\" type=\"text\" class=\"form-control\" id=\"lastName\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-4\">\n" +
+    "                <label for=\"pin\">Workstation PIN</label>\n" +
+    "                <input type=\"text\" ng-model=\"activeUser.pin\"  class=\"form-control\" id=\"pin\" placeholder=\"Optional\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createUser()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelChanges()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
     "");
 }]);
 

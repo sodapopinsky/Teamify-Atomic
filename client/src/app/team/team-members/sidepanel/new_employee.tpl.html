@@ -1,0 +1,41 @@
+<div class="cd-panel-content">
+
+    <div class="cd-panel-nav">
+
+
+        <div class=" navbar-brand">Create New Employee</div>
+
+    </div>
+
+
+    <form>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" ng-model="activeUser.first_name">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="lastName">Last Name</label>
+                <input ng-model="activeUser.last_name" type="text" class="form-control" id="lastName">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="pin">Workstation PIN</label>
+                <input type="text" ng-model="activeUser.pin"  class="form-control" id="pin" placeholder="Optional">
+            </div>
+
+        </div>
+
+
+
+
+
+    </form>
+
+    <div class="cd-panel-footer background-secondary">
+
+        <button type="submit" class="btn btn-primary pull-right" ng-click="createUser()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelChanges()">Cancel</button>
+    </div>
+</div> <!-- cd-panel-content -->

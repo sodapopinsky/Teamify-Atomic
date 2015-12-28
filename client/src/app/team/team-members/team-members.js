@@ -17,6 +17,26 @@ angular.module('team-members', [])
 
 angular.module('team-members').controller('TeamMembersController', function($scope,$state,$auth, $rootScope) {
 
-    console.log("here");
+    $scope.goCreateNewEmployee = function(){
+        $scope.activeUser = {};
+        $scope.panelContent = 'team/team-members/sidepanel/new_employee.tpl.html';
+        $('.cd-panel').addClass('is-visible');
+    }
+
+    $scope.cancelChanges = function(){
+
+        if($scope.activeUser.id) {
+            $scope.activeUser = $scope.staleUser;
+            for (var i = 0; i < $scope.users.length; i++) {
+                if ($scope.users[i].id == $scope.activeUser.id) {
+                    $scope.users[i] = $scope.activeUser;
+                    break;
+                }
+            }
+
+        }
+        $('.cd-panel').removeClass('is-visible');
+    }
+
 
 });
