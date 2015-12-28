@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -75,6 +75,61 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "");
+}]);
+
+angular.module("team/team-members/team-members.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/team-members/team-members.tpl.html",
+    "<div>\n" +
+    "    <div class=\"btn btn-primary  pull-right\" ng-click=\"goCreateNewEmployee()\">Add Team Member</div>\n" +
+    "    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
+    "\n" +
+    "        <ul class=\"nav navbar-nav\">\n" +
+    "\n" +
+    "            <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                    aria-expanded=\"false\">Status ({{status.title}}) <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                <ul class=\"dropdown-menu\" >\n" +
+    "                    <li ><a ng-click=\"filterByStatus(1)\">Active</a> </li>\n" +
+    "                    <li><a ng-click=\"filterByStatus(0)\">Terminated</a></li>\n" +
+    "                </ul>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table table-hover voffset3\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th>First Name</th>\n" +
+    "            <th>Last Name</th>\n" +
+    "            <th>Status</th>\n" +
+    "            <th></th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"user in users | filter:customFilter\" ng-click=\"setActive(user)\">\n" +
+    "            <td>{{user.first_name}}</td>\n" +
+    "            <td>{{user.last_name}}</td>\n" +
+    "            <td>{{statusTitle(user.status)}}</td>\n" +
+    "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "<!-- SIDE PANEL -->\n" +
+    "<div class=\"cd-panel from-right\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "\n" +
+    "        <div ng-include=\"panelContent\"></div>\n" +
+    "    </div> <!-- cd-panel-container -->\n" +
+    "</div> <!-- cd-panel -->");
 }]);
 
 angular.module("team/team.tpl.html", []).run(["$templateCache", function($templateCache) {

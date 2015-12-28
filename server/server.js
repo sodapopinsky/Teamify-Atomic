@@ -12,38 +12,12 @@ var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
 var security = require('./lib/security');
 
-// configuration =================
 
-//mongoose.connect(config.database);     // connect to mongoDB database //'mongodb://localhost/'
-//on mac: export MONGOLAB_URI="mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev"
-
-
-/*
- * Mongoose uses a different connection string format than MongoDB's standard.
- * Use the mongodb-uri library to help you convert from the standard format to
- * Mongoose's format.
- */
-//var mongodbUri = 'mongodb://heroku_dhgtspdz:rva9lpi2br503uspmangtj2omh@ds037215.mongolab.com:37215/heroku_dhgtspdz';
-
-//mongoose.connect(mongodbUri, options);fdds
-
-
-if(process.env.MONGOLAB_URI){
-mongoose.connect(process.env.MONGOLAB_URI, function (error) {
-    if (error) console.error(error);
-    else console.log('mongo connected');
-});}
-else{
-    mongoose.connect("mongodb://crash:joehorn@ds037205.mongolab.com:37205/teamify-dev");
-}
-
-
+mongoose.connect(config.databaseURI(process.env.MONGOLAB_URI));
 
 app.set('superSecret', config.secret); // secret variable
-//app.use(express.static(__dirname + '/static'));
-
-       app.use(express.static(__dirname + '/../client/dist'));   // set the static files location /public/img will be /img for users
-//app.use(morgan('dev'));                                         // log every request to the console
+app.use(express.static(__dirname + '/../client/dist'));   // set the static files location /public/img will be /img for users
+app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(morgan('dev'));
@@ -59,9 +33,8 @@ console.log("App listening on port 8080");
 app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
 });
+
 // define model =================
-
-
 
 app.get('/', function(req, res) {
     var path = require('path');

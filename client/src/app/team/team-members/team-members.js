@@ -5,10 +5,18 @@ angular.module('team-members', [])
             url: '/teammembers',
             views: {
                 "content": {
-
-                    template:"teammembers"
+                    controller: 'TeamMembersController',
+                    templateUrl:"team/team-members/team-members.tpl.html"
                 }
             }
         });
+
+});
+
+
+
+angular.module('team-members').controller('TeamMembersController', function($scope,$state,$auth, $rootScope) {
+
+    console.log("here");
 
 });
