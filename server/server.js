@@ -10,7 +10,7 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
-var security = require('./lib/security');
+
 
 
 mongoose.connect(config.databaseURI(process.env.MONGOLAB_URI));
@@ -112,7 +112,11 @@ apiRoutes.post('/authenticate', function(req, res) {
 
 
 
-require('./lib/routes/security').addRoutes(app, security);
+
+// Include API Routes
+require('./lib/routes/apiRoutes').addRoutes(apiRoutes);
+
+
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
 
@@ -154,11 +158,7 @@ apiRoutes.get('/', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
-apiRoutes.get('/users', function(req, res) {
 
-    User.find({}, function(err, users) {
-        res.json(users);
-    });
-});
+
 
 app.use('/api', apiRoutes);

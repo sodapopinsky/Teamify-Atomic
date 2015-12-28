@@ -13,8 +13,8 @@ module.exports = function (grunt) {
     // Default task.
     grunt.registerTask('default', ['jshint','build','karma:unit']);
     grunt.registerTask('build', ['clean','html2js','concat','sass','copy:assets']);
-    grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
-    grunt.registerTask('test-watch', ['karma:watch']);
+    grunt.registerTask('release', ['clean','html2js','uglify','karma:unit','concat:index', 'recess:min','copy:assets']);
+    grunt.registerTask('test-watch', ['karma:watch']); //'jshint'
     grunt.loadNpmTasks('grunt-contrib-sass');
     // Print a timestamp (useful for when watching)
     grunt.registerTask('timestamp', function() {
@@ -104,12 +104,20 @@ module.exports = function (grunt) {
                 }
             },
             vendor: {
-                src:['bower_components/jquery/dist/jquery.min.js','bower_components/satellizer/satellizer.min.js','bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
+                src:['bower_components/angular-resource/angular-resource.min.js',
+                    'bower_components/jquery/dist/jquery.min.js',
+                    'bower_components/sweetalert/dist/sweetalert.min.js',
+                    'bower_components/satellizer/satellizer.min.js',
+                    'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
             },
             angular: {
                 src:['bower_components/angular/angular.js','bower_components/angular-ui-router/release/angular-ui-router.min.js'],
                 dest: '<%= distdir %>/angular.js'
+            },
+            sweetalert: {
+                src:['bower_components/sweetalert/dist/sweetalert.css'],
+                dest: '<%= distdir %>/sweetalert.css'
             },
             mongo: {
                 src:['src/vendor/mongolab-resource.js'],

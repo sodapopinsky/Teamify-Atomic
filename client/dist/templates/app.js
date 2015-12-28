@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -74,6 +74,73 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/team-members/sidepanel/edit.tpl.html",
+    "\n" +
+    "\n" +
+    "<!--\n" +
+    "<nav class=\"tmf-nav-sidepanel\">\n" +
+    "    <div class=\"navbar-header\" style=\"width:100%\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative; top:5px; right:10px;\">\n" +
+    "            <button ng-if=\"activeUser.status == 1\" class=\"btn btn-default pull-right cd-btn-status\" type=\"submit\" ng-click=\"terminateUser(activeUser)\" >Terminate</button>\n" +
+    "            <button ng-if=\"activeUser.status == 0\" class=\"btn btn-default pull-right cd-btn-status\" type=\"submit\" ng-click=\"reactivateUser()\" >Re-Activate</button>\n" +
+    "        </div>\n" +
+    "       <div class=\"avatar pull-left\" style=\"position:relative; top:5px; left:10px;\">JS</div>\n" +
+    "            <div class=\" navbar-brand pull-left\">{{activeUser.first_name}} {{activeUser.last_name}}\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "</nav>\n" +
+    "-->\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative;  right:10px;\">\n" +
+    "            <button ng-if=\"activeUser.status == 1\" class=\"btn btn-default\" type=\"submit\" ng-click=\"terminateUser(activeUser)\" >Terminate</button>\n" +
+    "            <button ng-if=\"activeUser.status == 0\" class=\"btn btn-default\" type=\"submit\" ng-click=\"reactivateUser()\" >Re-Activate</button>\n" +
+    "        </div>\n" +
+    "        <div class=\"avatar\">{{activeUser.first_name.slice(0,1)}}{{activeUser.last_name.slice(0,1)}}</div>\n" +
+    "        <div class=\" navbar-brand\">{{activeUser.first_name}} {{activeUser.last_name}}</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"firstName\">First Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"firstName\" ng-model=\"activeUser.first_name\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"lastName\">Last Name</label>\n" +
+    "                <input ng-model=\"activeUser.last_name\" type=\"text\" class=\"form-control\" id=\"lastName\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-4\">\n" +
+    "                <label for=\"pin\">Workstation PIN</label>\n" +
+    "                <input type=\"text\" ng-model=\"activeUser.pin\"  class=\"form-control\" id=\"pin\" placeholder=\"Optional\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateUser()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelChanges()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
     "");
 }]);
 
@@ -155,7 +222,7 @@ angular.module("team/team-members/team-members.tpl.html", []).run(["$templateCac
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody>\n" +
-    "        <tr ng-repeat=\"user in users | filter:customFilter\" ng-click=\"setActive(user)\">\n" +
+    "        <tr ng-repeat=\"user in users | filter:statusFilter\" ng-click=\"setActive(user)\">\n" +
     "            <td>{{user.first_name}}</td>\n" +
     "            <td>{{user.last_name}}</td>\n" +
     "            <td>{{statusTitle(user.status)}}</td>\n" +

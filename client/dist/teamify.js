@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2015-12-27
+/*! teamify - v0.0.1 - 2015-12-28
  * Copyright (c) 2015 Nick Spitale;
  * Licensed 
  */
@@ -223,7 +223,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 
     });
-angular.module('team-members', [])
+angular.module('team-members', ['resources.users'])
 .config(function($stateProvider) {
     $stateProvider
         .state('app.team.members', {
@@ -240,13 +240,54 @@ angular.module('team-members', [])
 
 
 
-angular.module('team-members').controller('TeamMembersController', function($scope,$state,$auth, $rootScope) {
+angular.module('team-members').controller('TeamMembersController', function($scope,user) {
+
+
+    $scope.users = [];
+
+    $scope.status = {value:1, title:'Active'};
+
+
+    $scope.statusTitle = function(status){
+        if(status == 1)
+            return 'Active';
+        if(status == 0)
+            return 'Terminated';
+    }
+
+
+    $scope.statusFilter = function (data) {
+        if (data.status == $scope.status.value) {
+            return true;
+        }
+        return false;
+    };
+
+    $scope.filterByStatus = function(status){
+        $scope.status.title = $scope.statusTitle(status);
+        $scope.status.value = status;
+    }
+
+    $scope.setActive = function(user){
+        $scope.panelContent = 'team/team-members/sidepanel/edit.tpl.html';
+        $('.cd-panel').addClass('is-visible');
+        $scope.activeUser = user;
+        $scope.staleUser = JSON.parse(JSON.stringify(user));
+
+    }
+
+
+    user.getUsers().$promise.then(
+        function(response){
+            $scope.users = response;
+        }
+    );
 
     $scope.goCreateNewEmployee = function(){
         $scope.activeUser = {};
         $scope.panelContent = 'team/team-members/sidepanel/new_employee.tpl.html';
         $('.cd-panel').addClass('is-visible');
-    }
+    }//fd
 
     $scope.cancelChanges = function(){
 
@@ -261,6 +302,96 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         }
         $('.cd-panel').removeClass('is-visible');
+    }
+
+
+    $scope.updateUser = function() {
+
+        console.log("Fa" + $scope.activeUser);
+
+        try {user.isValid($scope.activeUser)}
+        catch (error) {
+            Crash.notificate.error(error);
+            return;
+        }
+
+        console.log("fd");
+
+        // Update the time entry and then refresh the list
+        user.updateUser($scope.activeUser).$promise.then(function(success) {
+            console.log("Fa" + $scope.activeUser);
+            $scope.staleUser = $scope.activeUser;
+          //  Crash.notificate.success("Your Changes Have Been Saved");
+        }, function(error) {
+            console.log(error);
+        });
+
+    }
+
+    $scope.createUser = function() {
+
+        try { //
+            user.isValid($scope.activeUser)
+        }
+        catch (error) {
+          //  Crash.notificate.error(error);
+            return;
+        }
+
+        user.createUser({
+            "first_name": $scope.activeUser.first_name,
+            "last_name": $scope.activeUser.last_name,
+            "pin": parseInt($scope.activeUser.pin)
+        }).$promise.then(function (createdId) {
+                user.getUsers().$promise.then(function(results) {
+                    $scope.users = results;
+                    $('.cd-panel').removeClass('is-visible');
+
+                    //c$scope.setActive($scope.getUserById(createdId.id));
+                }, function(error) { // Check for errors
+                    console.log(error);
+                });
+
+            }, function (error) {
+                console.log(error);
+            });
+    }
+
+    $scope.terminateUser = function(user) {
+
+        swal({   title: "Are you sure?",
+            text: "This employee will be made inactive, but may be reactived at any point.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true }, function(){
+
+            $scope.activeUser.status = 0;
+            $scope.updateUser();
+
+
+        });
+    }
+
+    $scope.reactivateUser = function() {
+
+        swal({   title: "Are you sure?",
+            text: "This employee will be re-activated.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true }, function(){
+
+            $scope.activeUser.status = 1;
+            $scope.updateUser();
+
+
+        });
+
+
+
     }
 
 
@@ -319,6 +450,73 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
 
 
 
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.users',['ngResource'])
+        .factory('user', user);
+
+    function user($resource) {
+
+        // ngResource call to our static data
+        var User = $resource('api/users/:id', {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+        var users = [];
+
+
+        function createUser(data) {
+
+            return User.save(data);
+        }
+        function updateUser(data) {
+
+            return User.update({id: data._id}, data);
+        }
+        function getUsers() {
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            return User.query();
+        }
+
+        function getById(id){
+            var result = $.grep(users, function(e){ return e._id == id; });
+            return result[0];
+        }
+
+
+        function isValid(user) {
+
+            if (!user.first_name || !user.last_name)
+                throw "First and Last Names are required.";
+
+            if (user.pin) {
+                if (isNaN(user.pin))
+                    throw "PIN must be a number";
+
+                if (user.pin.toString().length != 4)
+                    throw "PINs must be 4 digits long.";
+
+            }
+        }
+
+
+
+        return {
+            getUsers: getUsers,
+            createUser: createUser,
+            updateUser: updateUser,
+            getById: getById,
+            isValid: isValid
+        }
+    }
+
+})();
 angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CONFIG','$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
 
   function MongolabResourceFactory(collectionName) {
@@ -422,7 +620,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -498,6 +696,73 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "\n" +
+    "");
+}]);
+
+angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/team-members/sidepanel/edit.tpl.html",
+    "\n" +
+    "\n" +
+    "<!--\n" +
+    "<nav class=\"tmf-nav-sidepanel\">\n" +
+    "    <div class=\"navbar-header\" style=\"width:100%\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative; top:5px; right:10px;\">\n" +
+    "            <button ng-if=\"activeUser.status == 1\" class=\"btn btn-default pull-right cd-btn-status\" type=\"submit\" ng-click=\"terminateUser(activeUser)\" >Terminate</button>\n" +
+    "            <button ng-if=\"activeUser.status == 0\" class=\"btn btn-default pull-right cd-btn-status\" type=\"submit\" ng-click=\"reactivateUser()\" >Re-Activate</button>\n" +
+    "        </div>\n" +
+    "       <div class=\"avatar pull-left\" style=\"position:relative; top:5px; left:10px;\">JS</div>\n" +
+    "            <div class=\" navbar-brand pull-left\">{{activeUser.first_name}} {{activeUser.last_name}}\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "</nav>\n" +
+    "-->\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative;  right:10px;\">\n" +
+    "            <button ng-if=\"activeUser.status == 1\" class=\"btn btn-default\" type=\"submit\" ng-click=\"terminateUser(activeUser)\" >Terminate</button>\n" +
+    "            <button ng-if=\"activeUser.status == 0\" class=\"btn btn-default\" type=\"submit\" ng-click=\"reactivateUser()\" >Re-Activate</button>\n" +
+    "        </div>\n" +
+    "        <div class=\"avatar\">{{activeUser.first_name.slice(0,1)}}{{activeUser.last_name.slice(0,1)}}</div>\n" +
+    "        <div class=\" navbar-brand\">{{activeUser.first_name}} {{activeUser.last_name}}</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"firstName\">First Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"firstName\" ng-model=\"activeUser.first_name\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"lastName\">Last Name</label>\n" +
+    "                <input ng-model=\"activeUser.last_name\" type=\"text\" class=\"form-control\" id=\"lastName\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-4\">\n" +
+    "                <label for=\"pin\">Workstation PIN</label>\n" +
+    "                <input type=\"text\" ng-model=\"activeUser.pin\"  class=\"form-control\" id=\"pin\" placeholder=\"Optional\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateUser()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelChanges()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
     "");
 }]);
 
@@ -579,7 +844,7 @@ angular.module("team/team-members/team-members.tpl.html", []).run(["$templateCac
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody>\n" +
-    "        <tr ng-repeat=\"user in users | filter:customFilter\" ng-click=\"setActive(user)\">\n" +
+    "        <tr ng-repeat=\"user in users | filter:statusFilter\" ng-click=\"setActive(user)\">\n" +
     "            <td>{{user.first_name}}</td>\n" +
     "            <td>{{user.last_name}}</td>\n" +
     "            <td>{{statusTitle(user.status)}}</td>\n" +

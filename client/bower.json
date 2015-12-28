@@ -22,6 +22,7 @@
     "ocModal": "~0.1.11",
     "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
     "angular-ui-router": "~0.2.15",
-    "satellizer": "~0.13.2"
+    "satellizer": "~0.13.2",
+    "angular-resource": "~1.4.8"
   }
 }
