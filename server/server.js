@@ -113,15 +113,16 @@ apiRoutes.post('/authenticate', function(req, res) {
 
 
 
-// Include API Routes
-require('./lib/routes/apiRoutes').addRoutes(apiRoutes);
+
 
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
+    if(req.headers.authorization)
+        var token = req.headers.authorization.split(' ')[1];
 
     // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+   // var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['Bearer'] || req.headers['authorization'];
 
     // decode token
     if (token) {
@@ -129,7 +130,10 @@ apiRoutes.use(function(req, res, next) {
         // verifies secret and checks exp
         jwt.verify(token, app.get('superSecret'), function(err, decoded) {
             if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                return res.status(400).send({
+                    error: 'token_invalid'
+                });
+
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
@@ -141,14 +145,14 @@ apiRoutes.use(function(req, res, next) {
 
         // if there is no token
         // return an error
-        return res.status(403).send({
-            success: false,
-            message: 'No token provided.'
+        return res.status(400).send({
+            error: 'token_not_provided'
         });
 
     }
 });
-
+// Include API Routes
+require('./lib/routes/apiRoutes').addRoutes(apiRoutes);
 
 app.get('/api/authenticate/user', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });
@@ -157,8 +161,6 @@ app.get('/api/authenticate/user', function(req, res) {
 apiRoutes.get('/', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
-
-
 
 
 app.use('/api', apiRoutes);

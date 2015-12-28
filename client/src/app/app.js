@@ -3,6 +3,7 @@ angular.module('app', [
     'auth',
     'satellizer',
     'team',
+    'inventory',
     'directives.uiSrefActiveIf',
     'templates.app']);
 

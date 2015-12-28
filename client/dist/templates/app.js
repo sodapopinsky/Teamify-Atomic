@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -58,7 +58,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "    </div>\n" +
     "    <ul class=\"sidebar-nav\">\n" +
     "        <li>\n" +
-    "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.team-members\">\n" +
+    "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.members\">\n" +
     "                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span><p>TEAM</p></a>\n" +
     "        </li>\n" +
     "        <li>\n" +
@@ -75,6 +75,41 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "");
+}]);
+
+angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/inventory-items.tpl.html",
+    "");
+}]);
+
+angular.module("inventory/inventory.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.inventory.items\" ui-sref=\"app.inventory.items\">Items</li>\n" +
+    "        <li ui-sref-active-if=\"app.inventory.ordering\" ui-sref=\"app.inventory.ordering\">Ordering</li>\n" +
+    "\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Inventory</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
+    "\n" +
+    "<!-- SIDE PANEL -->\n" +
+    "<div class=\"cd-panel from-right\"   id=\"addInventoryItemPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ui-view=\"panelContent\"></div>\n" +
+    "    </div>\n" +
+    "    <!-- cd-panel-container -->\n" +
+    "</div> <!-- cd-panels -->");
 }]);
 
 angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {

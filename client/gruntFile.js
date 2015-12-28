@@ -184,15 +184,16 @@ module.exports = function (grunt) {
         jshint:{
             files:['gruntFile.js', '<%= src.js %>', '<%= src.jsTpl %>', '<%= src.specs %>', '<%= src.scenarios %>'],
             options:{
-                curly:true,
+                curly:false,
                 eqeqeq:true,
                 immed:true,
-                latedef:true,
+                latedef: false,
                 newcap:true,
                 noarg:true,
                 sub:true,
                 boss:true,
                 eqnull:true,
+                "-W065": true,
                 globals:{}
             }
         }

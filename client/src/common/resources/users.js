@@ -7,6 +7,7 @@
         .module('resources.users',['ngResource'])
         .factory('user', user);
 
+
     function user($resource) {
 
         // ngResource call to our static data
@@ -34,7 +35,7 @@
         }
 
         function getById(id){
-            var result = $.grep(users, function(e){ return e._id == id; });
+            var result = $.grep(users, function(e){ return e._id === id; });
             return result[0];
         }
 
@@ -48,7 +49,7 @@
                 if (isNaN(user.pin))
                     throw "PIN must be a number";
 
-                if (user.pin.toString().length != 4)
+                if (user.pin.toString().length !== 4)
                     throw "PINs must be 4 digits long.";
 
             }
@@ -62,7 +63,7 @@
             updateUser: updateUser,
             getById: getById,
             isValid: isValid
-        }
+        };
     }
 
 })();

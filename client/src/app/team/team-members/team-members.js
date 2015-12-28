@@ -24,15 +24,15 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
     $scope.statusTitle = function(status){
-        if(status == 1)
+        if(status === 1)
             return 'Active';
-        if(status == 0)
+        if(status === 0)
             return 'Terminated';
-    }
+    };
 
 
     $scope.statusFilter = function (data) {
-        if (data.status == $scope.status.value) {
+        if (data.status === $scope.status.value) {
             return true;
         }
         return false;
@@ -41,7 +41,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
     $scope.filterByStatus = function(status){
         $scope.status.title = $scope.statusTitle(status);
         $scope.status.value = status;
-    }
+    };
 
     $scope.setActive = function(user){
         $scope.panelContent = 'team/team-members/sidepanel/edit.tpl.html';
@@ -49,7 +49,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
         $scope.activeUser = user;
         $scope.staleUser = JSON.parse(JSON.stringify(user));
 
-    }
+    };
 
 
     user.getUsers().$promise.then(
@@ -62,14 +62,14 @@ angular.module('team-members').controller('TeamMembersController', function($sco
         $scope.activeUser = {};
         $scope.panelContent = 'team/team-members/sidepanel/new_employee.tpl.html';
         $('.cd-panel').addClass('is-visible');
-    }//fd
+    };
 
     $scope.cancelChanges = function(){
 
         if($scope.activeUser.id) {
             $scope.activeUser = $scope.staleUser;
             for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].id == $scope.activeUser.id) {
+                if ($scope.users[i].id === $scope.activeUser.id) {
                     $scope.users[i] = $scope.activeUser;
                     break;
                 }
@@ -77,20 +77,20 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         }
         $('.cd-panel').removeClass('is-visible');
-    }
+    };
 
 
     $scope.updateUser = function() {
 
         console.log("Fa" + $scope.activeUser);
 
-        try {user.isValid($scope.activeUser)}
+        try {user.isValid($scope.activeUser);}
         catch (error) {
             Crash.notificate.error(error);
             return;
         }
 
-        console.log("fd");
+
 
         // Update the time entry and then refresh the list
         user.updateUser($scope.activeUser).$promise.then(function(success) {
@@ -101,12 +101,12 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             console.log(error);
         });
 
-    }
+    };
 
     $scope.createUser = function() {
 
-        try { //
-            user.isValid($scope.activeUser)
+        try {
+            user.isValid($scope.activeUser);
         }
         catch (error) {
           //  Crash.notificate.error(error);
@@ -130,7 +130,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             }, function (error) {
                 console.log(error);
             });
-    }
+    };
 
     $scope.terminateUser = function(user) {
 
@@ -147,7 +147,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
         });
-    }
+    };
 
     $scope.reactivateUser = function() {
 
@@ -167,7 +167,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
 
-    }
+    };
 
 
 });

@@ -7,6 +7,7 @@ angular.module('app', [
     'auth',
     'satellizer',
     'team',
+    'inventory',
     'directives.uiSrefActiveIf',
     'templates.app']);
 
@@ -223,6 +224,46 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 
     });
+
+angular.module('inventory-items',[])
+    .config(function($stateProvider) {
+        $stateProvider
+            .state('app.inventory.items', {
+                url: '/inventoryitems',
+                views: {
+                    "content": {
+                        controller: 'InventoryItemsController',
+                        templateUrl:"inventory/inventory-items/inventory-items.tpl.html"
+                    }
+                }
+            });
+
+    });
+
+
+
+
+angular.module('inventory-items').controller('InventoryItemsController', function($scope) {
+
+
+
+});
+angular.module('inventory', ['inventory-items'])
+
+    .config(function($stateProvider){
+        $stateProvider
+            .state('app.inventory', {
+                abstract: true,
+                views: {
+                    "content@app": {
+                        templateUrl: "inventory/inventory.tpl.html"
+                    }
+                }
+            });
+    });
+
+
+
 angular.module('team-members', ['resources.users'])
 .config(function($stateProvider) {
     $stateProvider
@@ -249,15 +290,15 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
     $scope.statusTitle = function(status){
-        if(status == 1)
+        if(status === 1)
             return 'Active';
-        if(status == 0)
+        if(status === 0)
             return 'Terminated';
-    }
+    };
 
 
     $scope.statusFilter = function (data) {
-        if (data.status == $scope.status.value) {
+        if (data.status === $scope.status.value) {
             return true;
         }
         return false;
@@ -266,7 +307,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
     $scope.filterByStatus = function(status){
         $scope.status.title = $scope.statusTitle(status);
         $scope.status.value = status;
-    }
+    };
 
     $scope.setActive = function(user){
         $scope.panelContent = 'team/team-members/sidepanel/edit.tpl.html';
@@ -274,7 +315,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
         $scope.activeUser = user;
         $scope.staleUser = JSON.parse(JSON.stringify(user));
 
-    }
+    };
 
 
     user.getUsers().$promise.then(
@@ -287,14 +328,14 @@ angular.module('team-members').controller('TeamMembersController', function($sco
         $scope.activeUser = {};
         $scope.panelContent = 'team/team-members/sidepanel/new_employee.tpl.html';
         $('.cd-panel').addClass('is-visible');
-    }//fd
+    };
 
     $scope.cancelChanges = function(){
 
         if($scope.activeUser.id) {
             $scope.activeUser = $scope.staleUser;
             for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].id == $scope.activeUser.id) {
+                if ($scope.users[i].id === $scope.activeUser.id) {
                     $scope.users[i] = $scope.activeUser;
                     break;
                 }
@@ -302,20 +343,20 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         }
         $('.cd-panel').removeClass('is-visible');
-    }
+    };
 
 
     $scope.updateUser = function() {
 
         console.log("Fa" + $scope.activeUser);
 
-        try {user.isValid($scope.activeUser)}
+        try {user.isValid($scope.activeUser);}
         catch (error) {
             Crash.notificate.error(error);
             return;
         }
 
-        console.log("fd");
+
 
         // Update the time entry and then refresh the list
         user.updateUser($scope.activeUser).$promise.then(function(success) {
@@ -326,12 +367,12 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             console.log(error);
         });
 
-    }
+    };
 
     $scope.createUser = function() {
 
-        try { //
-            user.isValid($scope.activeUser)
+        try {
+            user.isValid($scope.activeUser);
         }
         catch (error) {
           //  Crash.notificate.error(error);
@@ -355,7 +396,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             }, function (error) {
                 console.log(error);
             });
-    }
+    };
 
     $scope.terminateUser = function(user) {
 
@@ -372,7 +413,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
         });
-    }
+    };
 
     $scope.reactivateUser = function() {
 
@@ -392,7 +433,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
 
 
-    }
+    };
 
 
 });
@@ -458,6 +499,7 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
         .module('resources.users',['ngResource'])
         .factory('user', user);
 
+
     function user($resource) {
 
         // ngResource call to our static data
@@ -485,7 +527,7 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
         }
 
         function getById(id){
-            var result = $.grep(users, function(e){ return e._id == id; });
+            var result = $.grep(users, function(e){ return e._id === id; });
             return result[0];
         }
 
@@ -499,7 +541,7 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
                 if (isNaN(user.pin))
                     throw "PIN must be a number";
 
-                if (user.pin.toString().length != 4)
+                if (user.pin.toString().length !== 4)
                     throw "PINs must be 4 digits long.";
 
             }
@@ -513,7 +555,7 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
             updateUser: updateUser,
             getById: getById,
             isValid: isValid
-        }
+        };
     }
 
 })();
@@ -620,7 +662,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -680,7 +722,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "    </div>\n" +
     "    <ul class=\"sidebar-nav\">\n" +
     "        <li>\n" +
-    "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.team-members\">\n" +
+    "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.members\">\n" +
     "                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span><p>TEAM</p></a>\n" +
     "        </li>\n" +
     "        <li>\n" +
@@ -697,6 +739,41 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "\n" +
     "");
+}]);
+
+angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/inventory-items.tpl.html",
+    "");
+}]);
+
+angular.module("inventory/inventory.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.inventory.items\" ui-sref=\"app.inventory.items\">Items</li>\n" +
+    "        <li ui-sref-active-if=\"app.inventory.ordering\" ui-sref=\"app.inventory.ordering\">Ordering</li>\n" +
+    "\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Inventory</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
+    "\n" +
+    "<!-- SIDE PANEL -->\n" +
+    "<div class=\"cd-panel from-right\"   id=\"addInventoryItemPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ui-view=\"panelContent\"></div>\n" +
+    "    </div>\n" +
+    "    <!-- cd-panel-container -->\n" +
+    "</div> <!-- cd-panels -->");
 }]);
 
 angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
