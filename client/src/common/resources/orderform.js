@@ -25,6 +25,7 @@
         var Orderform = $resource("api/orderforms/:id", {}, {
             update: {
                 method: 'PUT'
+
             }
         });
 

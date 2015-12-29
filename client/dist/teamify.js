@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2015-12-28
+/*! teamify - v0.0.1 - 2015-12-29
  * Copyright (c) 2015 Nick Spitale;
  * Licensed 
  */
@@ -11,7 +11,14 @@ angular.module('app', [
     'directives.uiSrefActiveIf',
     'filters',
     'utils',
+    'oc.modal',
     'templates.app']);
+
+
+angular.module('inventory', [
+        'resources.inventory',
+        'resources.orderforms',
+        'resources.sales']);
 
 angular.module('app').run(function($rootScope, $state) {
 
@@ -227,7 +234,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
     });
 
-angular.module('inventory-items',['resources.inventory'])
+angular.module('inventory')
     .config(function($stateProvider) {
         $stateProvider
             .state('app.inventory.items', {
@@ -261,7 +268,7 @@ angular.module('inventory-items',['resources.inventory'])
 
     });
 
-angular.module('inventory-items').controller('InventoryItemsController', function($scope,$state) {
+angular.module('inventory').controller('InventoryItemsController', function($scope,$state) {
 
     $scope.printDate = function(dateFromApi){
         var d = new Date(dateFromApi);
@@ -274,7 +281,7 @@ angular.module('inventory-items').controller('InventoryItemsController', functio
 
 });
 
-angular.module('inventory-items').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
+angular.module('inventory').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
 
     $('#addInventoryItemPanel').addClass('is-visible');
     $scope.item = {};
@@ -293,6 +300,7 @@ angular.module('inventory-items').controller('InventoryItems_CreateController', 
             inventory.isValid($scope.item)
         }
         catch (error) {
+
          //   Crash.notificate.error(error);
             return;
         }
@@ -316,9 +324,7 @@ angular.module('inventory-items').controller('InventoryItems_CreateController', 
 });
 
 
-angular.module('inventory-items').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
-
-
+angular.module('inventory').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
 
 
 
@@ -384,7 +390,7 @@ angular.module('inventory-items').controller('InventoryItems_EditController', fu
 });
 
 
-angular.module('inventory-ordering',['resources.orderforms'])
+angular.module('inventory')
     .config(function($stateProvider) {
         $stateProvider
             .state('app.inventory.ordering', {
@@ -402,9 +408,9 @@ angular.module('inventory-ordering',['resources.orderforms'])
 
 
 
-angular.module('inventory-ordering').controller('InventoryOrderingController', function($scope,orderforms) {
+angular.module('inventory').controller('InventoryOrderingController', function($scope,orderforms,$ocModal) {
 
-
+    console.log($scope.inventory);
     $scope.selectedOrderForm = {};
 
     $scope.orderForms = orderforms.orderforms;
@@ -426,10 +432,12 @@ angular.module('inventory-ordering').controller('InventoryOrderingController', f
 
 
     $scope.goCreateOrderForm = function() {
+
+
         $ocModal.open({
             id: 'createOrderForm',
-            url: 'views/inventory/ordering/modals/createForm.html',
-            controller: 'Inventory_Ordering_CreateFormController',
+            url: 'inventory/inventory-ordering/createForm.tpl.html',
+            controller: 'InventoryOrdering_CreateFormController',
             init: {
                 inventory: $scope.inventory,
                 orderForms: $scope.orderForms,
@@ -445,7 +453,7 @@ angular.module('inventory-ordering').controller('InventoryOrderingController', f
     $scope.openModal = function() {
         $ocModal.open({
             url: 'views/inventory/ordering/modal.html',
-            controller: 'Inventory_Ordering_ModalController',
+            controller: 'InventoryOrdering_ModalController',
             init: {
                 inventory: $scope.inventory,
                 orderForm: $scope.selectedOrderForm
@@ -454,11 +462,77 @@ angular.module('inventory-ordering').controller('InventoryOrderingController', f
     }
 
 });
-angular.module('inventory',
-    ['inventory-items',
-    'inventory-ordering',
-        'resources.inventory',
-    'resources.sales'])
+
+
+angular.module('inventory').controller('InventoryOrdering_CreateFormController', function($scope,$state,orderforms,$ocModal, utils) {
+
+
+    $scope.orderFormEditing = {items: [], name:""};
+    $scope.inventoryEditing = utils.copy($scope.inventory);
+
+    $scope.saveChanges = function(){
+        if(!$scope.orderFormEditing.name) {
+            
+            // Crash.notificate.error("Please Enter a name for the form","#createOrderFormModal");
+            return;
+        }
+        var newForm = utils.copy($scope.orderFormEditing);
+
+        $scope.orderForms.push(newForm);
+
+        $ocModal.close(newForm);
+    }
+
+    $scope.cancelChanges = function(){
+        $ocModal.close();
+    }
+
+    $scope.addItem = function(item){
+        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1) {
+            $scope.orderFormEditing.items.push(item.id);
+            $scope.selected = ""
+        }
+    }
+
+    $scope.removeItem = function(item){
+
+        var index = Crash.indexOf(item.id,$scope.orderFormEditing.items);
+
+        if(index != -1)
+            $scope.orderFormEditing.items.splice(index,1);
+
+    }
+});
+
+angular.module('inventory').controller('InventoryOrdering_ModalController', function($scope,$state,orderforms,$ocModal, Crash) {
+
+    $scope.orderFormEditing = utils.copy($scope.orderForm);
+    $scope.inventoryEditing = utils.copy($scope.inventory);
+
+    $scope.saveChanges = function(){
+        $scope.orderForm.items = utils.copy($scope.orderFormEditing.items);
+        $ocModal.close();
+    }
+
+    $scope.cancelChanges = function(){
+        $ocModal.close();
+    }
+
+    $scope.addItem = function(item){
+        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1)
+            $scope.orderFormEditing.items.push(item.id);
+    }
+
+    $scope.removeItem = function(item){
+
+        var index = utils.indexOf(item.id,$scope.orderFormEditing.items);
+
+        if(index != -1)
+            $scope.orderFormEditing.items.splice(index,1);
+
+    }
+});
+angular.module('inventory')
 
     .config(function($stateProvider){
         $stateProvider
@@ -472,7 +546,6 @@ angular.module('inventory',
                 }
             });
     });
-
 
 
 angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
@@ -1016,6 +1089,7 @@ mod.filter('zeroFloor', function() {
         var Orderform = $resource("api/orderforms/:id", {}, {
             update: {
                 method: 'PUT'
+
             }
         });
 
@@ -1329,7 +1403,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1646,6 +1720,59 @@ angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$t
     "\n" +
     "</div>\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("inventory/inventory-ordering/createForm.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-ordering/createForm.tpl.html",
+    "<div style=\"height:400px; \" id=\"createOrderFormModal\">\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "            <div class=\"navbar-header col-sm-8\" >\n" +
+    "                <input type=\"text\" class=\"form-control  \" style=\"background:none; border:none; margin-top:10px; \" placeholder=\"Order Form Name\" ng-model=\"orderFormEditing.name\">\n" +
+    "            </div>\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <div style=\"padding:5px;\" class=\"background-secondary\">\n" +
+    "\n" +
+    "        <input type=\"text\" ng-model=\"selected\" uib-typeahead=\"item as item.name  for item in inventoryEditing\n" +
+    "                 | filter:$viewValue | limitTo:8\"\n" +
+    "               class=\"form-control \" id=\"itemDropdown\"\n" +
+    "               typeahead-on-select=\"addItem($item)\"\n" +
+    "               placeholder=\"Add Inventory Items...\">\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table\">\n" +
+    "\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"item in inventoryEditing | inArray:orderFormEditing.items\" >\n" +
+    "            <td>{{item.name}}</td>\n" +
+    "            <td>\n" +
+    "                <button type=\"button\" class=\"btn btn-default pull-right\" ng-click=\"removeItem(item)\">\n" +
+    "                    <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "                </button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
     "\n" +
     "\n" +
     "");

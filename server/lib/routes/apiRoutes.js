@@ -1,6 +1,6 @@
 var User   = require('../models/user');
 var Inventory   = require('../models/inventory');
-
+var OrderForm   = require('../models/orderform');
 exports.addRoutes = function(apiRoutes) {
 
 
@@ -126,6 +126,31 @@ exports.addRoutes = function(apiRoutes) {
                 });
 
             });
+        });
+
+
+    ///////Order Forms
+    apiRoutes.route('/orderforms')
+        .get(function(req, res) {
+            OrderForm.find({}, function(err, orderform) {
+                res.json(orderform);
+            });
+        })
+
+        .post(function(req, res) {
+
+            var orderform = new OrderForm();
+            orderform.name = req.body.name;
+            orderform.items = req.body.items;
+            orderform.created_at = Date.now(),
+            orderform.updated_at = Date.now()
+
+            orderform.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Order Form created!', orderform: orderform });
+            });
+
         });
 
 

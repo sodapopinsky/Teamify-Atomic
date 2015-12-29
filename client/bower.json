@@ -19,7 +19,7 @@
     "angular": "~1.4.8",
     "sweetalert": "~1.1.3",
     "daterangepicker": "~1.4.2",
-    "ocModal": "~0.1.11",
+    "ocModal": "~0.1.12",
     "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
     "angular-ui-router": "~0.2.15",
     "satellizer": "~0.13.2",

@@ -1,5 +1,5 @@
 
-angular.module('inventory-items',['resources.inventory'])
+angular.module('inventory')
     .config(function($stateProvider) {
         $stateProvider
             .state('app.inventory.items', {
@@ -33,7 +33,7 @@ angular.module('inventory-items',['resources.inventory'])
 
     });
 
-angular.module('inventory-items').controller('InventoryItemsController', function($scope,$state) {
+angular.module('inventory').controller('InventoryItemsController', function($scope,$state) {
 
     $scope.printDate = function(dateFromApi){
         var d = new Date(dateFromApi);
@@ -46,7 +46,7 @@ angular.module('inventory-items').controller('InventoryItemsController', functio
 
 });
 
-angular.module('inventory-items').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
+angular.module('inventory').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
 
     $('#addInventoryItemPanel').addClass('is-visible');
     $scope.item = {};
@@ -65,6 +65,7 @@ angular.module('inventory-items').controller('InventoryItems_CreateController', 
             inventory.isValid($scope.item)
         }
         catch (error) {
+
          //   Crash.notificate.error(error);
             return;
         }
@@ -88,9 +89,7 @@ angular.module('inventory-items').controller('InventoryItems_CreateController', 
 });
 
 
-angular.module('inventory-items').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
-
-
+angular.module('inventory').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
 
 
 

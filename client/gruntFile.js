@@ -108,6 +108,7 @@ module.exports = function (grunt) {
                     'bower_components/jquery/dist/jquery.min.js',
                     'bower_components/sweetalert/dist/sweetalert.min.js',
                     'bower_components/satellizer/satellizer.min.js',
+                    'bower_components/ocModal/dist/ocModal.min.js',
                     'bower_components/moment/moment.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
@@ -119,6 +120,10 @@ module.exports = function (grunt) {
             sweetalert: {
                 src:['bower_components/sweetalert/dist/sweetalert.css'],
                 dest: '<%= distdir %>/sweetalert.css'
+            },
+            ocModal: {
+                src:['bower_components/ocModal/dist/css/ocModal.light.min.css'],
+                dest: '<%= distdir %>/ocModal.css'
             },
             mongo: {
                 src:['src/vendor/mongolab-resource.js'],

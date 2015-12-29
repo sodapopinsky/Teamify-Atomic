@@ -1,8 +1,4 @@
-angular.module('inventory',
-    ['inventory-items',
-    'inventory-ordering',
-        'resources.inventory',
-    'resources.sales'])
+angular.module('inventory')
 
     .config(function($stateProvider){
         $stateProvider
@@ -16,7 +12,6 @@ angular.module('inventory',
                 }
             });
     });
-
 
 
 angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
