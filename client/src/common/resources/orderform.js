@@ -10,17 +10,6 @@
     function orderforms($resource) {
 
 
-        var orderforms = [
-            {"id":1,"name":"Schneider","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
-                [9,8]
-            }
-            ,
-            {"id":2,"name":"Restaurant Depot","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
-                [8,9]
-            }
-
-        ];
-        // ngResource call to our static data
 
         var Orderform = $resource("api/orderforms/:id", {}, {
             update: {
@@ -33,7 +22,7 @@
 
         function updateItem(data) {
 
-            return Orderform.update({id:data.id}, data);
+            return Orderform.update({id:data._id}, data);
         }
         function deleteItem(id) {
             return Orderform.delete({id:id});

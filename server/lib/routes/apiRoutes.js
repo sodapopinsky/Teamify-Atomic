@@ -151,6 +151,26 @@ exports.addRoutes = function(apiRoutes) {
                 res.json({ message: 'Order Form created!', orderform: orderform });
             });
 
+        })
+        .put(function(req, res) {
+
+            // use our bear model to find the bear we want
+            OrderForm.findById(req.params._id, function(err, orderform) {
+
+                if (err)
+                    res.send(err);
+
+                orderform.items = req.body.items;
+
+
+                orderform.save(function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Orderform updated!' });
+                });
+
+            });
         });
 
 

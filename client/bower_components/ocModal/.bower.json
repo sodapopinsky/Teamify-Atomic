@@ -30,6 +30,6 @@
     "commit": "6a22183a0119cf37dec18bebc5f1088113b162f5"
   },
   "_source": "git://github.com/ocombe/ocModal.git",
-  "_target": "~0.1.11",
+  "_target": "~0.1.12",
   "_originalSource": "ocModal"
 }

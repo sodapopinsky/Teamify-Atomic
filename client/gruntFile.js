@@ -110,6 +110,7 @@ module.exports = function (grunt) {
                     'bower_components/satellizer/satellizer.min.js',
                     'bower_components/ocModal/dist/ocModal.min.js',
                     'bower_components/moment/moment.js',
+                    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
             },
@@ -122,7 +123,8 @@ module.exports = function (grunt) {
                 dest: '<%= distdir %>/sweetalert.css'
             },
             ocModal: {
-                src:['bower_components/ocModal/dist/css/ocModal.light.min.css'],
+                src:['bower_components/ocModal/dist/css/ocModal.light.min.css',
+                    'bower_components/ocModal/dist/css/ocModal.animations.min.css'],
                 dest: '<%= distdir %>/ocModal.css'
             },
             mongo: {

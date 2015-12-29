@@ -5,7 +5,7 @@ mod.filter('inArray', function() {
     return function(array,items) {
         return array.filter(function(item) {
             if(items) {
-                if (items.indexOf(item.id) != -1) {
+                if (items.indexOf(item._id) != -1) {
                     return true;
                 }
             }

@@ -48,7 +48,7 @@
         </td>
         <td class="text-secondary text-center"  >
             <div  style="line-height:18px; ">
-                <div class="text-center">{{item.quantity_on_hand}}</div>
+                <div class="text-center">{{item.quantity_on_hand.quantity}}</div>
                 <div class="text-center" style="font-size:12px;"  >{{momentFromApi(item.updated_at).fromNow()}}</div>
             </div>
         </td>
@@ -57,7 +57,7 @@
                 Usage Not Set
             </div>
             <div ng-if="item.usage_per_thousand > 0">
-                {{item.adjusted_quantity_on_hand}}
+                {{item.adjusted_quantity_on_hand.quantity}}
             </div>
         </td>
         <td class="text-center">
@@ -67,13 +67,22 @@
                popover-trigger="mouseenter" popover-title="Dynamic Par Calculation" type="button"
                ng-if="item.par_type == 'dynamic'"
                class="glyphicon glyphicon-flash pull-left"></i>
+            <div ng-if="!item.par_value">
+                0
+            </div>
+            <div ng-if="item.par_value >0">
             {{item.calculated_par.par}}
+                </div>
 
         </td>
         <td class="center-block">
             <div class="background-secondary" style="padding:10px; ">
                 <div ng-click="decrementOrderQuantity(item)"  class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-minus"></i></div>
-                <div class="text-center col-sm-8"><b>{{item.orderQuantity | zeroFloor }}</b></div>
+                <div class="text-center col-sm-8">
+
+                    <b>{{item.orderQuantity | zeroFloor }}</b>
+
+                </div>
                 <div ng-click="incrementOrderQuantity(item)" class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-plus"></i></div>
                 <div class="clearfix"></div>
             </div>

@@ -7,6 +7,7 @@ angular.module('app', [
     'directives.uiSrefActiveIf',
     'filters',
     'utils',
+    'notificate',
     'oc.modal',
     'templates.app']);
 
@@ -14,6 +15,7 @@ angular.module('app', [
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
+         'ui.bootstrap',
         'resources.sales']);
 
 angular.module('app').run(function($rootScope, $state) {

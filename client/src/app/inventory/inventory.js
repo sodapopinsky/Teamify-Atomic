@@ -41,14 +41,15 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         });
 
     }
-
+    $scope.fetchInventory();
+    /*
     sales.weeklyProjections().then(function (response) {
       //  $scope.projections = response;
         $scope.fetchInventory(); //keep in here to avoid calling  functions on undefined projections
     }, function (error) {
         console.log(error);
     });
-
+*/
     function setAdditionalInventoryProperties(){
 
         for(var i = 0; i < inventory.inventory.length; i++){
@@ -59,6 +60,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
             inventory.inventory[i].popover = {templateUrl: "salesCalculationPopover.html"}
 
             inventory.inventory[i].orderQuantity = inventory.inventory[i].calculated_par.par - inventory.inventory[i].adjusted_quantity_on_hand;
+       console.log(inventory.inventory[i]);
         }
     }
 
@@ -66,7 +68,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
     $scope.incrementOrderQuantity = function(item){
         item.orderQuantity++;
         if(item.usage_per_thousand) {
-            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity+ item.adjusted_quantity_on_hand  , item.usage_per_thousand);
         }
     }
 
@@ -85,12 +87,18 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
 
     function calculatedPar(item) {
         response = {};
+        if(!item.par_value){
+            response.par = item.quantity_on_hand.quantity;
+            if(item.usage_per_thousand){
+                response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
+            }
+        return response;
+        }
 
         if(item.par_type == 'simple'){
             response.par = item.par_value;
 
             if(item.usage_per_thousand){
-
                 response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
             }
 

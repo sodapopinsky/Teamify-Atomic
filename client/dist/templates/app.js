@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -373,6 +373,62 @@ angular.module("inventory/inventory-ordering/createForm.tpl.html", []).run(["$te
     "");
 }]);
 
+angular.module("inventory/inventory-ordering/editForm.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-ordering/editForm.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "            <div class=\"navbar-header\">\n" +
+    "                <a class=\"navbar-brand\" >{{orderFormEditing.name}}</a>\n" +
+    "            </div>\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <div style=\"padding:5px;\" class=\"background-secondary\">\n" +
+    "\n" +
+    "        <input type=\"text\" ng-model=\"selected\" uib-typeahead=\"item as item.name  for item in inventoryEditing\n" +
+    "                 | filter:$viewValue | limitTo:8\"\n" +
+    "               class=\"form-control \" id=\"itemDropdown\"\n" +
+    "               typeahead-on-select=\"addItem($item)\"\n" +
+    "               placeholder=\"Add Inventory Items...\">\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table\">\n" +
+    "\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"item in inventoryEditing | inArray:orderFormEditing.items\" >\n" +
+    "            <td>{{item.name}}</td>\n" +
+    "            <td>\n" +
+    "                <button type=\"button\" class=\"btn btn-default pull-right\" ng-click=\"removeItem(item)\">\n" +
+    "                    <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "                </button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
 angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("inventory/inventory-ordering/inventory-ordering.tpl.html",
     "<nav class=\"navbar\">\n" +
@@ -425,7 +481,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "        </td>\n" +
     "        <td class=\"text-secondary text-center\"  >\n" +
     "            <div  style=\"line-height:18px; \">\n" +
-    "                <div class=\"text-center\">{{item.quantity_on_hand}}</div>\n" +
+    "                <div class=\"text-center\">{{item.quantity_on_hand.quantity}}</div>\n" +
     "                <div class=\"text-center\" style=\"font-size:12px;\"  >{{momentFromApi(item.updated_at).fromNow()}}</div>\n" +
     "            </div>\n" +
     "        </td>\n" +
@@ -434,7 +490,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                Usage Not Set\n" +
     "            </div>\n" +
     "            <div ng-if=\"item.usage_per_thousand > 0\">\n" +
-    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "                {{item.adjusted_quantity_on_hand.quantity}}\n" +
     "            </div>\n" +
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
@@ -444,13 +500,22 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "               popover-trigger=\"mouseenter\" popover-title=\"Dynamic Par Calculation\" type=\"button\"\n" +
     "               ng-if=\"item.par_type == 'dynamic'\"\n" +
     "               class=\"glyphicon glyphicon-flash pull-left\"></i>\n" +
+    "            <div ng-if=\"!item.par_value\">\n" +
+    "                0\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"item.par_value >0\">\n" +
     "            {{item.calculated_par.par}}\n" +
+    "                </div>\n" +
     "\n" +
     "        </td>\n" +
     "        <td class=\"center-block\">\n" +
     "            <div class=\"background-secondary\" style=\"padding:10px; \">\n" +
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
-    "                <div class=\"text-center col-sm-8\"><b>{{item.orderQuantity | zeroFloor }}</b></div>\n" +
+    "                <div class=\"text-center col-sm-8\">\n" +
+    "\n" +
+    "                    <b>{{item.orderQuantity | zeroFloor }}</b>\n" +
+    "\n" +
+    "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +
     "            </div>\n" +

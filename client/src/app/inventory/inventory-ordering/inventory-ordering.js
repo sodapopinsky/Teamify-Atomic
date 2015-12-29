@@ -19,17 +19,15 @@ angular.module('inventory')
 
 angular.module('inventory').controller('InventoryOrderingController', function($scope,orderforms,$ocModal) {
 
-    console.log($scope.inventory);
+
     $scope.selectedOrderForm = {};
 
-    $scope.orderForms = orderforms.orderforms;
+    $scope.orderForms = [];
     $scope.selectedOrderForm =  $scope.orderForms[0];
 
     orderforms.all().$promise.then(function(response)
     {
         $scope.orderForms = response;
-
-
         $scope.selectedOrderForm = response[0];
     }, function (error) {
         console.log(error);
@@ -61,8 +59,8 @@ angular.module('inventory').controller('InventoryOrderingController', function($
 
     $scope.openModal = function() {
         $ocModal.open({
-            url: 'views/inventory/ordering/modal.html',
-            controller: 'InventoryOrdering_ModalController',
+            url: 'inventory/inventory-ordering/editForm.tpl.html',
+            controller: 'InventoryOrdering_EditController',
             init: {
                 inventory: $scope.inventory,
                 orderForm: $scope.selectedOrderForm
@@ -73,7 +71,7 @@ angular.module('inventory').controller('InventoryOrderingController', function($
 });
 
 
-angular.module('inventory').controller('InventoryOrdering_CreateFormController', function($scope,$state,orderforms,$ocModal, utils) {
+angular.module('inventory').controller('InventoryOrdering_CreateFormController', function($scope,$state,orderforms,$ocModal,notificate, utils) {
 
 
     $scope.orderFormEditing = {items: [], name:""};
@@ -81,14 +79,19 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 
     $scope.saveChanges = function(){
         if(!$scope.orderFormEditing.name) {
-            
-            // Crash.notificate.error("Please Enter a name for the form","#createOrderFormModal");
+           notificate.error("Please Enter a name for the form","#createOrderFormModal");
             return;
         }
         var newForm = utils.copy($scope.orderFormEditing);
 
-        $scope.orderForms.push(newForm);
-
+        orderforms.createItem(newForm).$promise.then(function (response) {
+            $scope.orderForms.push(response);
+            $state.go('app.inventory.items');
+            notificate.success("Item Saved");
+            $('#addInventoryItemPanel').removeClass('is-visible');
+        }, function (error) {
+            notificate.error("There was an error with your request.  Please Try Again.");
+        });
         $ocModal.close(newForm);
     }
 
@@ -97,15 +100,15 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
     }
 
     $scope.addItem = function(item){
-        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1) {
-            $scope.orderFormEditing.items.push(item.id);
+        if(utils.indexOf(item._id,$scope.orderFormEditing.items) == -1) {
+            $scope.orderFormEditing.items.push(item._id);
             $scope.selected = ""
         }
     }
 
     $scope.removeItem = function(item){
 
-        var index = Crash.indexOf(item.id,$scope.orderFormEditing.items);
+        var index = utils.indexOf(item.id,$scope.orderFormEditing.items);
 
         if(index != -1)
             $scope.orderFormEditing.items.splice(index,1);
@@ -113,14 +116,30 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
     }
 });
 
-angular.module('inventory').controller('InventoryOrdering_ModalController', function($scope,$state,orderforms,$ocModal, Crash) {
+angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
 
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
+
     $scope.saveChanges = function(){
-        $scope.orderForm.items = utils.copy($scope.orderFormEditing.items);
-        $ocModal.close();
+        /*
+        if(!orderforms.isValid($scope.item)){
+            return;
+        }
+        */
+        if(!$scope.orderFormEditing.name) {
+            notificate.error("Please Enter a name for the form","#createOrderFormModal");
+            return;
+        }
+        orderforms.updateItem($scope.orderFormEditing).$promise.then(function (response) {
+          //  original = JSON.parse(JSON.stringify($scope.item));
+            notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
+        }, function (error) {
+            console.log(error);
+        });
+        var newForm = utils.copy($scope.orderFormEditing);
+
     }
 
     $scope.cancelChanges = function(){
@@ -128,13 +147,13 @@ angular.module('inventory').controller('InventoryOrdering_ModalController', func
     }
 
     $scope.addItem = function(item){
-        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1)
-            $scope.orderFormEditing.items.push(item.id);
+        if(utils.indexOf(item._id,$scope.orderFormEditing.items) == -1)
+            $scope.orderFormEditing.items.push(item._id);
     }
 
     $scope.removeItem = function(item){
 
-        var index = utils.indexOf(item.id,$scope.orderFormEditing.items);
+        var index = utils.indexOf(item._id,$scope.orderFormEditing.items);
 
         if(index != -1)
             $scope.orderFormEditing.items.splice(index,1);

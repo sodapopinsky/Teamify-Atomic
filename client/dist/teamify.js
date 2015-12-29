@@ -11,6 +11,7 @@ angular.module('app', [
     'directives.uiSrefActiveIf',
     'filters',
     'utils',
+    'notificate',
     'oc.modal',
     'templates.app']);
 
@@ -18,6 +19,7 @@ angular.module('app', [
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
+         'ui.bootstrap',
         'resources.sales']);
 
 angular.module('app').run(function($rootScope, $state) {
@@ -410,17 +412,15 @@ angular.module('inventory')
 
 angular.module('inventory').controller('InventoryOrderingController', function($scope,orderforms,$ocModal) {
 
-    console.log($scope.inventory);
+
     $scope.selectedOrderForm = {};
 
-    $scope.orderForms = orderforms.orderforms;
+    $scope.orderForms = [];
     $scope.selectedOrderForm =  $scope.orderForms[0];
 
     orderforms.all().$promise.then(function(response)
     {
         $scope.orderForms = response;
-
-
         $scope.selectedOrderForm = response[0];
     }, function (error) {
         console.log(error);
@@ -452,8 +452,8 @@ angular.module('inventory').controller('InventoryOrderingController', function($
 
     $scope.openModal = function() {
         $ocModal.open({
-            url: 'views/inventory/ordering/modal.html',
-            controller: 'InventoryOrdering_ModalController',
+            url: 'inventory/inventory-ordering/editForm.tpl.html',
+            controller: 'InventoryOrdering_EditController',
             init: {
                 inventory: $scope.inventory,
                 orderForm: $scope.selectedOrderForm
@@ -464,7 +464,7 @@ angular.module('inventory').controller('InventoryOrderingController', function($
 });
 
 
-angular.module('inventory').controller('InventoryOrdering_CreateFormController', function($scope,$state,orderforms,$ocModal, utils) {
+angular.module('inventory').controller('InventoryOrdering_CreateFormController', function($scope,$state,orderforms,$ocModal,notificate, utils) {
 
 
     $scope.orderFormEditing = {items: [], name:""};
@@ -472,14 +472,19 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 
     $scope.saveChanges = function(){
         if(!$scope.orderFormEditing.name) {
-            
-            // Crash.notificate.error("Please Enter a name for the form","#createOrderFormModal");
+           notificate.error("Please Enter a name for the form","#createOrderFormModal");
             return;
         }
         var newForm = utils.copy($scope.orderFormEditing);
 
-        $scope.orderForms.push(newForm);
-
+        orderforms.createItem(newForm).$promise.then(function (response) {
+            $scope.orderForms.push(response);
+            $state.go('app.inventory.items');
+            notificate.success("Item Saved");
+            $('#addInventoryItemPanel').removeClass('is-visible');
+        }, function (error) {
+            notificate.error("There was an error with your request.  Please Try Again.");
+        });
         $ocModal.close(newForm);
     }
 
@@ -488,15 +493,15 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
     }
 
     $scope.addItem = function(item){
-        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1) {
-            $scope.orderFormEditing.items.push(item.id);
+        if(utils.indexOf(item._id,$scope.orderFormEditing.items) == -1) {
+            $scope.orderFormEditing.items.push(item._id);
             $scope.selected = ""
         }
     }
 
     $scope.removeItem = function(item){
 
-        var index = Crash.indexOf(item.id,$scope.orderFormEditing.items);
+        var index = utils.indexOf(item.id,$scope.orderFormEditing.items);
 
         if(index != -1)
             $scope.orderFormEditing.items.splice(index,1);
@@ -504,14 +509,30 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
     }
 });
 
-angular.module('inventory').controller('InventoryOrdering_ModalController', function($scope,$state,orderforms,$ocModal, Crash) {
+angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
 
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
+
     $scope.saveChanges = function(){
-        $scope.orderForm.items = utils.copy($scope.orderFormEditing.items);
-        $ocModal.close();
+        /*
+        if(!orderforms.isValid($scope.item)){
+            return;
+        }
+        */
+        if(!$scope.orderFormEditing.name) {
+            notificate.error("Please Enter a name for the form","#createOrderFormModal");
+            return;
+        }
+        orderforms.updateItem($scope.orderFormEditing).$promise.then(function (response) {
+          //  original = JSON.parse(JSON.stringify($scope.item));
+            notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
+        }, function (error) {
+            console.log(error);
+        });
+        var newForm = utils.copy($scope.orderFormEditing);
+
     }
 
     $scope.cancelChanges = function(){
@@ -519,13 +540,13 @@ angular.module('inventory').controller('InventoryOrdering_ModalController', func
     }
 
     $scope.addItem = function(item){
-        if(utils.indexOf(item.id,$scope.orderFormEditing.items) == -1)
-            $scope.orderFormEditing.items.push(item.id);
+        if(utils.indexOf(item._id,$scope.orderFormEditing.items) == -1)
+            $scope.orderFormEditing.items.push(item._id);
     }
 
     $scope.removeItem = function(item){
 
-        var index = utils.indexOf(item.id,$scope.orderFormEditing.items);
+        var index = utils.indexOf(item._id,$scope.orderFormEditing.items);
 
         if(index != -1)
             $scope.orderFormEditing.items.splice(index,1);
@@ -575,14 +596,15 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         });
 
     }
-
+    $scope.fetchInventory();
+    /*
     sales.weeklyProjections().then(function (response) {
       //  $scope.projections = response;
         $scope.fetchInventory(); //keep in here to avoid calling  functions on undefined projections
     }, function (error) {
         console.log(error);
     });
-
+*/
     function setAdditionalInventoryProperties(){
 
         for(var i = 0; i < inventory.inventory.length; i++){
@@ -593,6 +615,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
             inventory.inventory[i].popover = {templateUrl: "salesCalculationPopover.html"}
 
             inventory.inventory[i].orderQuantity = inventory.inventory[i].calculated_par.par - inventory.inventory[i].adjusted_quantity_on_hand;
+       console.log(inventory.inventory[i]);
         }
     }
 
@@ -600,7 +623,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
     $scope.incrementOrderQuantity = function(item){
         item.orderQuantity++;
         if(item.usage_per_thousand) {
-            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity+ item.adjusted_quantity_on_hand  , item.usage_per_thousand);
         }
     }
 
@@ -619,12 +642,18 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
 
     function calculatedPar(item) {
         response = {};
+        if(!item.par_value){
+            response.par = item.quantity_on_hand.quantity;
+            if(item.usage_per_thousand){
+                response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
+            }
+        return response;
+        }
 
         if(item.par_type == 'simple'){
             response.par = item.par_value;
 
             if(item.usage_per_thousand){
-
                 response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
             }
 
@@ -971,7 +1000,7 @@ mod.filter('inArray', function() {
     return function(array,items) {
         return array.filter(function(item) {
             if(items) {
-                if (items.indexOf(item.id) != -1) {
+                if (items.indexOf(item._id) != -1) {
                     return true;
                 }
             }
@@ -988,6 +1017,42 @@ mod.filter('zeroFloor', function() {
 
     };
 });
+
+angular.module('notificate',[])
+
+    .factory('notificate', function() {
+
+        var factory = {};
+
+        factory.success = function(notifyText,selector) {
+
+            if(!selector)
+                selector = 'body';
+
+            $("#footer_notification").remove();
+            $(selector).append($("<div id='footer_notification' class='notificate notificate-success'></div>"));
+            $("#footer_notification").html(notifyText);
+            $("#footer_notification").hide();
+            $("#footer_notification").slideToggle(250);
+            $("#footer_notification").delay('2500').slideToggle('slow', function() {
+                $("#footer_notification").remove();
+            });
+        }
+        factory.error= function(notifyText,selector) {
+            if(!selector)
+                selector = 'body';
+            $("#footer_notification").remove();
+            $(selector).append($("<div id='footer_notification' class='notificate notificate-error'></div>"));
+            $("#footer_notification").html(notifyText);
+            $("#footer_notification").hide();
+            $("#footer_notification").slideToggle(250);
+            $("#footer_notification").delay('2500').slideToggle('slow', function() {
+                $("#footer_notification").remove();
+
+            });
+        }
+        return factory;
+    });
 
 (function() {
 
@@ -1074,17 +1139,6 @@ mod.filter('zeroFloor', function() {
     function orderforms($resource) {
 
 
-        var orderforms = [
-            {"id":1,"name":"Schneider","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
-                [9,8]
-            }
-            ,
-            {"id":2,"name":"Restaurant Depot","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
-                [8,9]
-            }
-
-        ];
-        // ngResource call to our static data
 
         var Orderform = $resource("api/orderforms/:id", {}, {
             update: {
@@ -1097,7 +1151,7 @@ mod.filter('zeroFloor', function() {
 
         function updateItem(data) {
 
-            return Orderform.update({id:data.id}, data);
+            return Orderform.update({id:data._id}, data);
         }
         function deleteItem(id) {
             return Orderform.delete({id:id});
@@ -1403,7 +1457,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1778,6 +1832,62 @@ angular.module("inventory/inventory-ordering/createForm.tpl.html", []).run(["$te
     "");
 }]);
 
+angular.module("inventory/inventory-ordering/editForm.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-ordering/editForm.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "            <div class=\"navbar-header\">\n" +
+    "                <a class=\"navbar-brand\" >{{orderFormEditing.name}}</a>\n" +
+    "            </div>\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <div style=\"padding:5px;\" class=\"background-secondary\">\n" +
+    "\n" +
+    "        <input type=\"text\" ng-model=\"selected\" uib-typeahead=\"item as item.name  for item in inventoryEditing\n" +
+    "                 | filter:$viewValue | limitTo:8\"\n" +
+    "               class=\"form-control \" id=\"itemDropdown\"\n" +
+    "               typeahead-on-select=\"addItem($item)\"\n" +
+    "               placeholder=\"Add Inventory Items...\">\n" +
+    "    </div>\n" +
+    "    <hr>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table\">\n" +
+    "\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"item in inventoryEditing | inArray:orderFormEditing.items\" >\n" +
+    "            <td>{{item.name}}</td>\n" +
+    "            <td>\n" +
+    "                <button type=\"button\" class=\"btn btn-default pull-right\" ng-click=\"removeItem(item)\">\n" +
+    "                    <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "                </button>\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
 angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("inventory/inventory-ordering/inventory-ordering.tpl.html",
     "<nav class=\"navbar\">\n" +
@@ -1830,7 +1940,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "        </td>\n" +
     "        <td class=\"text-secondary text-center\"  >\n" +
     "            <div  style=\"line-height:18px; \">\n" +
-    "                <div class=\"text-center\">{{item.quantity_on_hand}}</div>\n" +
+    "                <div class=\"text-center\">{{item.quantity_on_hand.quantity}}</div>\n" +
     "                <div class=\"text-center\" style=\"font-size:12px;\"  >{{momentFromApi(item.updated_at).fromNow()}}</div>\n" +
     "            </div>\n" +
     "        </td>\n" +
@@ -1839,7 +1949,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                Usage Not Set\n" +
     "            </div>\n" +
     "            <div ng-if=\"item.usage_per_thousand > 0\">\n" +
-    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "                {{item.adjusted_quantity_on_hand.quantity}}\n" +
     "            </div>\n" +
     "        </td>\n" +
     "        <td class=\"text-center\">\n" +
@@ -1849,13 +1959,22 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "               popover-trigger=\"mouseenter\" popover-title=\"Dynamic Par Calculation\" type=\"button\"\n" +
     "               ng-if=\"item.par_type == 'dynamic'\"\n" +
     "               class=\"glyphicon glyphicon-flash pull-left\"></i>\n" +
+    "            <div ng-if=\"!item.par_value\">\n" +
+    "                0\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"item.par_value >0\">\n" +
     "            {{item.calculated_par.par}}\n" +
+    "                </div>\n" +
     "\n" +
     "        </td>\n" +
     "        <td class=\"center-block\">\n" +
     "            <div class=\"background-secondary\" style=\"padding:10px; \">\n" +
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
-    "                <div class=\"text-center col-sm-8\"><b>{{item.orderQuantity | zeroFloor }}</b></div>\n" +
+    "                <div class=\"text-center col-sm-8\">\n" +
+    "\n" +
+    "                    <b>{{item.orderQuantity | zeroFloor }}</b>\n" +
+    "\n" +
+    "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +
     "            </div>\n" +
