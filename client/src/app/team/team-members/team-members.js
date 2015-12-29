@@ -17,7 +17,6 @@ angular.module('team-members', ['resources.users'])
 
 angular.module('team-members').controller('TeamMembersController', function($scope,user) {
 
-
     $scope.users = [];
 
     $scope.status = {value:1, title:'Active'};

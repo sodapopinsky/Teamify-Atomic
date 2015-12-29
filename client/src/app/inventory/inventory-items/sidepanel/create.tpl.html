@@ -1,0 +1,57 @@
+
+
+<div class="cd-panel-content">
+
+    <div class="cd-panel-nav">
+
+
+        <div class=" navbar-brand">Create Inventory Item</div>
+
+    </div>
+
+    <form>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="name">Item Name</label>
+                <input type="text" class="form-control" id="name" ng-model="item.name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="measurement">Measurement (ex: "Case")</label>
+                <input type="text" class="form-control" id="measurement" ng-model="item.measurement">
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="quantity_on_hand">Quantity On Hand</label>
+                <input type="text" class="form-control" id="quantity_on_hand" ng-model="item.quantity_on_hand">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="par">Par</label>
+                <input type="text" class="form-control" id="par" ng-model="item.par">
+            </div>
+        </div>
+
+
+
+
+
+
+    </form>
+
+
+
+
+    <div class="cd-panel-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="createItem()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelCreateItem()">Cancel</button>
+    </div>
+
+</div>
+
+

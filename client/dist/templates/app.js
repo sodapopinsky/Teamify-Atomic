@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -79,6 +79,362 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
 
 angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("inventory/inventory-items/inventory-items.tpl.html",
+    "\n" +
+    "<div>\n" +
+    "\n" +
+    "    <div class=\"btn btn-primary  pull-right\"  ng-click=\"goCreateItem()\">New Item</div>\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-sm-4\">\n" +
+    "            <div class=\"form-group has-feedback \" style=\"margin:0px; \" >\n" +
+    "                <input class=\"tmf-form-control\" type=\"text\" placeholder=\"Search List\" ng-model=\"searchText\">\n" +
+    "                <span class=\"glyphicon glyphicon-search form-control-feedback\" style=\"margin-right:10px;\"></span>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <hr class=\"voffset3\">\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"col-sm-4\">Item</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Last Updated</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Quantity On Hand <br>(Last Updated)</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Quantity On Hand<br> (Usage Adjusted)</th>\n" +
+    "\n" +
+    "            <th></th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"item in inventory | filter:searchText\" ui-sref=\"app.inventory.items.edit({id: item._id})\">\n" +
+    "            <td class=\"col-sm-4\" style=\"line-height:5px;\">\n" +
+    "                <div><h5>{{item.name}}</h5></div>\n" +
+    "                <div class=\"text-secondary\" style=\"font-size:12px;\">{{item.measurement}}</div>\n" +
+    "            </td>\n" +
+    "            <td class=\"col-sm-3 text-center\"  >\n" +
+    "                {{printDate(item.quantity_on_hand.updated_at)}}\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td class=\"col-sm-3 text-secondary text-center\"  >\n" +
+    "                {{item.quantity_on_hand.quantity}}\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td class=\"col-sm-3 text-center\"  >\n" +
+    "                <div ng-if=\"item.usage_per_thousand == 0\">\n" +
+    "                    Usage Not Set\n" +
+    "                </div>\n" +
+    "                <div ng-if=\"item.usage_per_thousand > 0\">\n" +
+    "                    {{item.adjusted_quantity_on_hand}}\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td ><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"cd-panel from-right\" id=\"editInventoryItemPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ui-view=\"editInventoryItemPanel\"></div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("inventory/inventory-items/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/sidepanel/create.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Inventory Item</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Item Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"item.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"measurement\">Measurement (ex: \"Case\")</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"measurement\" ng-model=\"item.measurement\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"par\">Par</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"par\" ng-model=\"item.par\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createItem()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreateItem()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/sidepanel/edit.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative;  right:10px;\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"deleteItem(item._id)\">\n" +
+    "                <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "            </button>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">{{item.name}}</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Item Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"item.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"measurement\">Measurement (ex: \"Case\")</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"measurement\" ng-model=\"item.measurement\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand.quantity\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"usage_per_thousand\">Usage Per Thousand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"usage_per_thousand\" ng-model=\"item.usage_per_thousand\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"par_type\">Par</label>\n" +
+    "                <div  id=\"par_type\">\n" +
+    "                <ul class=\"nav navbar-nav\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                            aria-expanded=\"false\">{{parType}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul  class=\"dropdown-menu\" >\n" +
+    "\n" +
+    "\n" +
+    "                            <li ng-click=\"selectParType('Simple')\">\n" +
+    "                                <a >Simple</a>\n" +
+    "                            </li>\n" +
+    "                            <li ng-click=\"selectParType('Dynamic')\">\n" +
+    "                                <a >Dynamic</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "                </div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "        <input type=\"text\"> <span ng-if=\"parType=='Dynamic'\">Days</span><span ng-if=\"parType=='Simple'\">Units</span>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateItem()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelEditItem()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-ordering/inventory-ordering.tpl.html",
+    "<nav class=\"navbar\">\n" +
+    "    <ul class=\"nav navbar-nav\">\n" +
+    "        <li class=\"tmf-dropdown\">\n" +
+    "            <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                aria-expanded=\"false\">{{selectedOrderForm.name}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "            <ul  class=\"dropdown-menu\" >\n" +
+    "                <li ng-repeat=\"orderForm in orderForms\">\n" +
+    "                    <a ng-click=\"selectOrderForm(orderForm)\">{{orderForm.name}}</a>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "\n" +
+    "    <button type=\"button\" ng-click=\"goCreateOrderForm()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "            style=\"margin-right:5px;\">New Order Form</button>\n" +
+    "\n" +
+    "    <button type=\"button\" ng-click=\"openModal()\" class=\"btn btn-default  navbar-right navbar-btn\"\n" +
+    "            style=\"margin-right:5px;\">Edit Form</button>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</nav>\n" +
+    "<hr>\n" +
+    "\n" +
+    "\n" +
+    "<table class=\"table\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th class=\"col-sm-3\">Item</th>\n" +
+    "        <th class=\"col-sm-2 text-center\">Quantity On Hand <br > (Last Updated)</th>\n" +
+    "        <th class=\"col-sm-2  text-center\">Current Quantity <br > (Usage Adjusted)</th>\n" +
+    "        <th class=\"col-sm-1  text-center\">Par</th>\n" +
+    "        <th class=\"col-sm-2 text-center\">Order Quantity</th>\n" +
+    "        <th class=\"col-sm-2\">Lasts Until</th>\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tbody>\n" +
+    "    <tr ng-repeat=\"item in inventory | inArray:selectedOrderForm.items\" >\n" +
+    "        <td  >\n" +
+    "            <div  style=\"line-height:18px; \">\n" +
+    "                <div>{{item.name}}</div>\n" +
+    "                <div class=\"text-secondary\" style=\"font-size:12px;\">{{item.measurement}}</div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-secondary text-center\"  >\n" +
+    "            <div  style=\"line-height:18px; \">\n" +
+    "                <div class=\"text-center\">{{item.quantity_on_hand}}</div>\n" +
+    "                <div class=\"text-center\" style=\"font-size:12px;\"  >{{momentFromApi(item.updated_at).fromNow()}}</div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\"  >\n" +
+    "            <div ng-if=\"item.usage_per_thousand == 0\">\n" +
+    "                Usage Not Set\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"item.usage_per_thousand > 0\">\n" +
+    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "\n" +
+    "\n" +
+    "            <i style=\"cursor:pointer\" popover-placement=\"bottom\" uib-popover-template=\"item.popover.templateUrl\"\n" +
+    "               popover-trigger=\"mouseenter\" popover-title=\"Dynamic Par Calculation\" type=\"button\"\n" +
+    "               ng-if=\"item.par_type == 'dynamic'\"\n" +
+    "               class=\"glyphicon glyphicon-flash pull-left\"></i>\n" +
+    "            {{item.calculated_par.par}}\n" +
+    "\n" +
+    "        </td>\n" +
+    "        <td class=\"center-block\">\n" +
+    "            <div class=\"background-secondary\" style=\"padding:10px; \">\n" +
+    "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
+    "                <div class=\"text-center col-sm-8\"><b>{{item.orderQuantity | zeroFloor }}</b></div>\n" +
+    "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
+    "                <div class=\"clearfix\"></div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td>{{item.calculated_par.lasts_until}}</td>\n" +
+    "    </tr>\n" +
+    "    </tbody>\n" +
+    "</table>\n" +
+    "\n" +
+    "<script type=\"text/ng-template\" id=\"salesCalculationPopover.html\">\n" +
+    "    <div style=\"line-height:30px;\">\n" +
+    "        <div>Par Level (days): <b class=\"pull-right\">{{item.par_value}}</b></div>\n" +
+    "        <div>Usage Per $1,000: <b class=\"pull-right\">{{item.usage_per_thousand}} units =</b></div>\n" +
+    "        <div>Sales (Next {{item.par_value}} days): <b class=\"pull-right\">{{item.calculated_par.sales | currency}}</b></div>\n" +
+    "        <div class=\"text-center voffset2\">Par Level (Units)</div>\n" +
+    "        <div class=\"text-center text-secondary\">(Usage Per $1,000 / 1,000) * Projected Sales</div>\n" +
+    "        <hr>\n" +
+    "        <div class=\"text-center\"><h3>{{item.calculated_par.par}} units</h3></div>\n" +
+    "    </div>\n" +
+    "</script>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "");
 }]);
 

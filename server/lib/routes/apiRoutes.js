@@ -1,4 +1,5 @@
 var User   = require('../models/user');
+var Inventory   = require('../models/inventory');
 
 exports.addRoutes = function(apiRoutes) {
 
@@ -57,6 +58,75 @@ exports.addRoutes = function(apiRoutes) {
             });
         });
 
+
+
+    // ---------------------------------------------------- Inventory
+    apiRoutes.route('/inventory')
+
+        .get(function(req, res) {
+            Inventory.find({}, function(err, inventory) {
+                res.json(inventory);
+            });
+        })
+
+        .post(function(req, res) {
+
+            var inventory = new Inventory();
+            inventory.name = req.body.name;
+            inventory.measurement = req.body.measurement;
+            inventory.quantity_on_hand.quantity = req.body.quantity_on_hand;
+            inventory.quantity_on_hand.updated_at = Date.now();
+            inventory.par_type = 'simple';
+            inventory.par_value = req.body.par;
+
+            inventory.save(function(err) {
+                if (err)
+                    res.send(err);
+                    res.json({ message: 'Inventory item created!', item: inventory });
+            });
+
+        });
+
+    apiRoutes.route('/inventory/:inventory_id')
+        .delete(function(req, res) {
+
+            Inventory.remove({ _id: req.params.inventory_id }, function(err) {
+                if (!err) {
+                    res.json({ message: 'Inventory item deleted!'});
+                }
+                else {
+                    res.send(err);
+                }
+            });
+        })
+        .put(function(req, res) {
+
+
+            Inventory.findById(req.params.inventory_id, function(err, inventory) {
+
+                if (err){
+                    console.log("error");
+                    res.send(err);
+                }
+
+
+                inventory.name = req.body.name;
+                inventory.measurement = req.body.measurement;
+                if(inventory.quantity_on_hand.quantity != req.body.quantity_on_hand)
+                    inventory.quantity_on_hand.updated_at = Date.now();
+                inventory.quantity_on_hand.quantity = req.body.quantity_on_hand.quantity;
+                inventory.par_type = 'simple';
+                inventory.par_value = req.body.par;
+
+                inventory.save(function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Item updated!' });
+                });
+
+            });
+        });
 
 
 };

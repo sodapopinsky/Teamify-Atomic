@@ -9,6 +9,8 @@ angular.module('app', [
     'team',
     'inventory',
     'directives.uiSrefActiveIf',
+    'filters',
+    'utils',
     'templates.app']);
 
 angular.module('app').run(function($rootScope, $state) {
@@ -225,7 +227,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
     });
 
-angular.module('inventory-items',[])
+angular.module('inventory-items',['resources.inventory'])
     .config(function($stateProvider) {
         $stateProvider
             .state('app.inventory.items', {
@@ -236,6 +238,163 @@ angular.module('inventory-items',[])
                         templateUrl:"inventory/inventory-items/inventory-items.tpl.html"
                     }
                 }
+            })
+            .state('app.inventory.items.create', {
+                url: "/create",
+                views: {
+                    "panelContent@app.inventory": {
+                        controller: "InventoryItems_CreateController",
+                        templateUrl: "inventory/inventory-items/sidepanel/create.tpl.html"
+                    }
+                }
+
+            })
+            .state('app.inventory.items.edit', {
+                url: "/:id",
+                views: {
+                    "editInventoryItemPanel": {
+                        controller: "InventoryItems_EditController",
+                        templateUrl: "inventory/inventory-items/sidepanel/edit.tpl.html"
+                    }
+                }
+            });
+
+    });
+
+angular.module('inventory-items').controller('InventoryItemsController', function($scope,$state) {
+
+    $scope.printDate = function(dateFromApi){
+        var d = new Date(dateFromApi);
+        return moment(d).fromNow();
+    };
+
+    $scope.goCreateItem = function(){
+        $state.go('app.inventory.items.create');
+    }
+
+});
+
+angular.module('inventory-items').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
+
+    $('#addInventoryItemPanel').addClass('is-visible');
+    $scope.item = {};
+
+    $scope.cancelCreateItem = function(){
+        $state.go('app.inventory.items');
+        $('#addInventoryItemPanel').removeClass('is-visible');
+
+    }
+
+
+
+    $scope.createItem = function(){
+
+        try {
+            inventory.isValid($scope.item)
+        }
+        catch (error) {
+         //   Crash.notificate.error(error);
+            return;
+        }
+
+        inventory.createItem($scope.item).$promise.then(function (response) {
+            var toInsert = response.created;
+        //    toInsert.updated_at_from_now = moment(toInsert.updated_at).fromNow();
+            inventory.inventory.push(toInsert);
+            $state.go('app.inventory.items');
+          //  Crash.notificate.success("Item Saved");
+            $('#addInventoryItemPanel').removeClass('is-visible');
+        }, function (error) {
+          //  Crash.notificate.error("There was an error with your request.  Please Try Again.");
+        });
+
+
+
+    }
+
+
+});
+
+
+angular.module('inventory-items').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
+
+
+
+
+
+
+    $scope.item = utils.getObjectById($stateParams.id,$scope.inventory);
+    if(!$scope.inventory || !$scope.item) {
+        $state.go("app.inventory.items");
+        return;
+    }
+    var original =  JSON.parse(JSON.stringify($scope.item));
+
+    $('#editInventoryItemPanel').addClass('is-visible');
+
+    $scope.cancelEditItem = function(){
+        $state.go('app.inventory.items');
+        var index = utils.indexOf($scope.item,$scope.inventory);
+        $scope.inventory[index] = JSON.parse(JSON.stringify(original));
+        $('#editInventoryItemPanel').removeClass('is-visible');
+    }
+
+    $scope.parType = 'Simple';
+    $scope.selectParType = function(type){
+        $scope.parType = type;
+    }
+
+    //DELETE ITEM
+    $scope.deleteItem = function(id){
+
+        swal({   title: "Are you sure?",
+            text: "This Item will be permanently removed",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true }, function(){
+
+            inventory.deleteItem(id).$promise.then(function() {
+                var index = utils.indexOf($scope.item,$scope.inventory);
+                $scope.inventory.splice(index,1);
+              //  utils.notificate.success("Item Deleted Successfully");
+                $('#editInventoryItemPanel').removeClass('is-visible');
+                $state.go('app.inventory.items');
+
+            }, function(error) {
+                console.log(error);
+            });
+        });
+    };
+
+    $scope.updateItem = function(){
+        if(!inventory.isValid($scope.item)){
+            return;
+        }
+        inventory.updateItem($scope.item).$promise.then(function (response) {
+            original = JSON.parse(JSON.stringify($scope.item));
+          //  Crash.notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
+        }, function (error) {
+            console.log(error);
+        });
+
+    }
+
+});
+
+
+angular.module('inventory-ordering',['resources.orderforms'])
+    .config(function($stateProvider) {
+        $stateProvider
+            .state('app.inventory.ordering', {
+                url: '/inventory/ordering',
+                views: {
+                    "content": {
+                        controller: 'InventoryOrderingController',
+                        templateUrl:"inventory/inventory-ordering/inventory-ordering.tpl.html"
+                    }
+                }
             });
 
     });
@@ -243,12 +402,63 @@ angular.module('inventory-items',[])
 
 
 
-angular.module('inventory-items').controller('InventoryItemsController', function($scope) {
+angular.module('inventory-ordering').controller('InventoryOrderingController', function($scope,orderforms) {
 
 
+    $scope.selectedOrderForm = {};
+
+    $scope.orderForms = orderforms.orderforms;
+    $scope.selectedOrderForm =  $scope.orderForms[0];
+
+    orderforms.all().$promise.then(function(response)
+    {
+        $scope.orderForms = response;
+
+
+        $scope.selectedOrderForm = response[0];
+    }, function (error) {
+        console.log(error);
+    });
+
+    $scope.selectOrderForm = function(orderForm){
+        $scope.selectedOrderForm = orderForm;
+    }
+
+
+    $scope.goCreateOrderForm = function() {
+        $ocModal.open({
+            id: 'createOrderForm',
+            url: 'views/inventory/ordering/modals/createForm.html',
+            controller: 'Inventory_Ordering_CreateFormController',
+            init: {
+                inventory: $scope.inventory,
+                orderForms: $scope.orderForms,
+                selectedOrderForm: $scope.selectedOrderForm
+            },
+            onClose: function(orderForm) {
+                if(orderForm)
+                    $scope.selectedOrderForm = orderForm;
+            }
+        });
+    }
+
+    $scope.openModal = function() {
+        $ocModal.open({
+            url: 'views/inventory/ordering/modal.html',
+            controller: 'Inventory_Ordering_ModalController',
+            init: {
+                inventory: $scope.inventory,
+                orderForm: $scope.selectedOrderForm
+            }
+        });
+    }
 
 });
-angular.module('inventory', ['inventory-items'])
+angular.module('inventory',
+    ['inventory-items',
+    'inventory-ordering',
+        'resources.inventory',
+    'resources.sales'])
 
     .config(function($stateProvider){
         $stateProvider
@@ -256,11 +466,203 @@ angular.module('inventory', ['inventory-items'])
                 abstract: true,
                 views: {
                     "content@app": {
+                        controller: "InventoryController",
                         templateUrl: "inventory/inventory.tpl.html"
                     }
                 }
             });
     });
+
+
+
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
+
+    $scope.projections = [
+        {"projection":1000},
+        {"projection":1000},
+        {"projection":1000},
+        {"projection":1000},
+        {"projection":1000},
+        {"projection":1000},
+        {"projection":1000}
+
+    ];
+
+    $scope.inventory = [];
+    $scope.fetchInventory = function(){
+
+        inventory.all().$promise.then(function(response)
+        {
+            inventory.inventory = response;
+            setAdditionalInventoryProperties();
+            $scope.inventory = inventory.inventory;
+
+        }, function (error) {
+            console.log(error);
+        });
+
+    }
+
+    sales.weeklyProjections().then(function (response) {
+      //  $scope.projections = response;
+        $scope.fetchInventory(); //keep in here to avoid calling  functions on undefined projections
+    }, function (error) {
+        console.log(error);
+    });
+
+    function setAdditionalInventoryProperties(){
+
+        for(var i = 0; i < inventory.inventory.length; i++){
+            inventory.inventory[i].adjusted_quantity_on_hand = adjustedQuantityOnHand(inventory.inventory[i]);
+
+            inventory.inventory[i].calculated_par = calculatedPar(inventory.inventory[i]);
+
+            inventory.inventory[i].popover = {templateUrl: "salesCalculationPopover.html"}
+
+            inventory.inventory[i].orderQuantity = inventory.inventory[i].calculated_par.par - inventory.inventory[i].adjusted_quantity_on_hand;
+        }
+    }
+
+
+    $scope.incrementOrderQuantity = function(item){
+        item.orderQuantity++;
+        if(item.usage_per_thousand) {
+            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+        }
+    }
+
+    $scope.decrementOrderQuantity = function(item){
+
+        item.orderQuantity--;
+        if(item.orderQuantity < 0)
+            item.orderQuantity = 0;
+
+        if(item.usage_per_thousand) {
+            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+        }
+    }
+
+
+
+    function calculatedPar(item) {
+        response = {};
+
+        if(item.par_type == 'simple'){
+            response.par = item.par_value;
+
+            if(item.usage_per_thousand){
+
+                response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
+            }
+
+            return response;
+        }
+
+
+        else {
+            var days = item.par_value;
+            var lastsUntil = moment().add(days,'days');
+            sales = salesProjections(moment().add(1,'days'),lastsUntil); //does not include todays sales. should it?
+
+            var par = (item.usage_per_thousand / 1000) * sales;
+
+            response.sales = sales;
+            response.par = par;
+            if(item.usage_per_thousand) {
+                response.lasts_until = calculateLastsUntil(response.par, item.usage_per_thousand);
+            }
+            return response;
+        }
+
+    }
+
+
+
+    function calculateLastsUntil(par,usage){
+        var day = moment();
+        var quantity = par;
+        var i = 0;
+
+        while(i < 31) {
+
+            quantity = quantity - (usage / 1000) * $scope.projections[day.day()].projection;
+
+            if(quantity <= 0){
+                return day.format("ddd, MM/DD");;
+            }
+            day.add(1,'days');
+            i++;
+        }
+
+        return "> 1 Month";
+    }
+
+    function salesProjections(start,end) { //includes start and end date amounts
+
+        var i = 0;
+        var salesProjection = 0;
+        while (i < 100) {
+            if (end.isBefore(start, 'day')) {
+                break;
+            }
+
+            salesProjection = salesProjection + $scope.projections[end.day()].projection;
+            end.subtract(1, 'days');
+        }
+        return salesProjection;
+    }
+
+
+    function adjustedQuantityOnHand(item){
+
+      //  var lastUpdatedMoment =  $scope.momentFromApi(item.updated_at);  //this needs to be a separate field so it does not update for things like name change...
+        var lastUpdatedMoment = Date.now();
+        var adjustedQuantity = item.quantity_on_hand.quantity;
+
+
+
+
+        var dayPointer = moment();
+        var i = 0;
+
+        var done = false;
+        while(done == false){
+
+            if(dayPointer.isSame(lastUpdatedMoment,'day')){
+
+                done = true;
+                break;
+
+            }
+
+
+            var dayProjection = $scope.projections[dayPointer.day()];
+            var adjustment = (item.usage_per_thousand / 1000) * dayProjection.projection;
+
+            adjustedQuantity = adjustedQuantity - adjustment;
+
+
+            i++;
+            dayPointer.subtract(1, 'days');
+
+            if(adjustedQuantity <= 0){
+                adjustedQuantity = 0;
+                done = true;
+            }
+
+            if(i > 100)
+                done = true;
+
+        }
+
+
+        return adjustedQuantity;
+    }
+
+
+});
+
+
 
 
 
@@ -282,7 +684,6 @@ angular.module('team-members', ['resources.users'])
 
 
 angular.module('team-members').controller('TeamMembersController', function($scope,user) {
-
 
     $scope.users = [];
 
@@ -491,6 +892,228 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
 
 
 
+var mod = angular.module('filters',[]);
+
+mod.filter('inArray', function() {
+    return function(array,items) {
+        return array.filter(function(item) {
+            if(items) {
+                if (items.indexOf(item.id) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    };
+});
+
+mod.filter('zeroFloor', function() {
+    return function(input) {
+        if(input < 0)
+            return 0;
+        return input;
+
+    };
+});
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.inventory',['ngResource'])
+        .factory('inventory', inventory);
+
+    function inventory($resource) {
+
+        var inventory =  [];
+
+        // ngResource call to our static data
+        var Inventory = $resource('api/inventory/:id', {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+
+        function createItem(data) {
+            return Inventory.save(data);
+        }
+
+        function deleteItem(id) {
+            return Inventory.delete({id:id});
+        }
+
+
+        function updateItem(data) {
+
+            return Inventory.update({id:data._id}, data);
+        }
+
+        function all() {
+
+
+            return Inventory.query();
+        }
+
+
+
+        function isValid(data){
+            if(!data.name) {
+                throw "Item Name is Required";
+            }
+            if(data.quantity_on_hand.quantity) {
+                if(isNaN(data.quantity_on_hand.quantity)) {
+                    throw "Quantity on hand must be a Number";
+
+                }
+            }
+            if(data.par) {
+                if (isNaN(data.par)) {
+                    throw "Par must be a Number";
+
+                }
+            }
+
+            return true;
+        }
+        return {
+            all: all,
+            createItem: createItem,
+            updateItem: updateItem,
+            deleteItem: deleteItem,
+            isValid: isValid,
+
+            inventory: inventory
+        };
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.orderforms',[])
+        .factory('orderforms', orderforms);
+
+    function orderforms($resource) {
+
+
+        var orderforms = [
+            {"id":1,"name":"Schneider","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
+                [9,8]
+            }
+            ,
+            {"id":2,"name":"Restaurant Depot","created_at":"2015-11-29 19:08:42","updated_at":"2015-11-29 19:08:42","items":
+                [8,9]
+            }
+
+        ];
+        // ngResource call to our static data
+
+        var Orderform = $resource("api/orderforms/:id", {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+
+
+        function updateItem(data) {
+
+            return Orderform.update({id:data.id}, data);
+        }
+        function deleteItem(id) {
+            return Orderform.delete({id:id});
+        }
+
+        function createItem(data) {
+            return Orderform.save(data);
+        }
+
+        function isValid(data){
+            if(!data.name) {
+
+                return false;
+            }
+
+
+            return true;
+        }
+        function all() {
+            return Orderform.query();
+        }
+
+        return {
+            all: all,
+            createItem: createItem,
+            isValid: isValid,
+            updateItem: updateItem,
+            deleteItem: deleteItem,
+            orderforms: orderforms
+        }
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.sales',[])
+        .factory('sales', sales);
+
+    function sales($resource) {
+
+
+
+        // ngResource call to our static data
+        var Sales = $resource('api/sales/:id', {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+
+        function dailySalesForPeriod() {
+            return Sales.query();
+        }
+
+
+        function weeklyProjections(){
+
+
+
+            return $resource('api/sales/projections.json', {}, {}).query().$promise.then(function (response) {
+                return  [
+                    {"projection":1000},
+                    {"projection":1000},
+                    {"projection":1000},
+                    {"projection":1000},
+                    {"projection":1000},
+                    {"projection":1000},
+                    {"projection":1000}
+
+                ];
+                return response;
+            }, function (error) {
+                console.log(error);
+            });
+
+        }
+
+
+        return {
+            dailySalesForPeriod: dailySalesForPeriod,
+            weeklyProjections: weeklyProjections
+        }
+    }
+
+})();
+
 (function() {
 
     'use strict';
@@ -559,6 +1182,50 @@ angular.module('directives.uiSrefActiveIf',[]).directive('uiSrefActiveIf', ['$st
     }
 
 })();
+
+angular.module('utils',[])
+
+.factory('utils', function() {
+
+        var factory = {};
+
+        factory.getTimestampFromComponents = function(date,time){
+            var d = moment(date).startOf('day');
+            var t = moment(time);
+            d.hour(t.hour()).minute(t.minute());
+
+            return d;
+        }
+
+
+
+        factory.getObjectById = function(id,array){
+            var item;
+            angular.forEach(array,function(value,index){
+                if(id == value._id) {
+                    item = value;
+                }
+            });
+            return item;
+        }
+
+        factory.inArray = function(item,array) {
+            if($.inArray(item, array) == -1)
+                return false;
+
+            return true;
+        }
+
+        factory.indexOf = function(item,array) {
+            return $.inArray(item, array);
+        }
+
+        factory.copy =   function(item){
+            return JSON.parse(JSON.stringify(item));
+        }
+
+        return factory;
+});
 angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CONFIG','$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
 
   function MongolabResourceFactory(collectionName) {
@@ -662,7 +1329,7 @@ angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CO
   return MongolabResourceFactory;
 }]);
 
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -743,6 +1410,362 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
 
 angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("inventory/inventory-items/inventory-items.tpl.html",
+    "\n" +
+    "<div>\n" +
+    "\n" +
+    "    <div class=\"btn btn-primary  pull-right\"  ng-click=\"goCreateItem()\">New Item</div>\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-sm-4\">\n" +
+    "            <div class=\"form-group has-feedback \" style=\"margin:0px; \" >\n" +
+    "                <input class=\"tmf-form-control\" type=\"text\" placeholder=\"Search List\" ng-model=\"searchText\">\n" +
+    "                <span class=\"glyphicon glyphicon-search form-control-feedback\" style=\"margin-right:10px;\"></span>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <hr class=\"voffset3\">\n" +
+    "\n" +
+    "\n" +
+    "    <table class=\"table table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"col-sm-4\">Item</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Last Updated</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Quantity On Hand <br>(Last Updated)</th>\n" +
+    "            <th class=\"col-sm-2 text-center\">Quantity On Hand<br> (Usage Adjusted)</th>\n" +
+    "\n" +
+    "            <th></th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"item in inventory | filter:searchText\" ui-sref=\"app.inventory.items.edit({id: item._id})\">\n" +
+    "            <td class=\"col-sm-4\" style=\"line-height:5px;\">\n" +
+    "                <div><h5>{{item.name}}</h5></div>\n" +
+    "                <div class=\"text-secondary\" style=\"font-size:12px;\">{{item.measurement}}</div>\n" +
+    "            </td>\n" +
+    "            <td class=\"col-sm-3 text-center\"  >\n" +
+    "                {{printDate(item.quantity_on_hand.updated_at)}}\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td class=\"col-sm-3 text-secondary text-center\"  >\n" +
+    "                {{item.quantity_on_hand.quantity}}\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td class=\"col-sm-3 text-center\"  >\n" +
+    "                <div ng-if=\"item.usage_per_thousand == 0\">\n" +
+    "                    Usage Not Set\n" +
+    "                </div>\n" +
+    "                <div ng-if=\"item.usage_per_thousand > 0\">\n" +
+    "                    {{item.adjusted_quantity_on_hand}}\n" +
+    "                </div>\n" +
+    "            </td>\n" +
+    "\n" +
+    "            <td ><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"cd-panel from-right\" id=\"editInventoryItemPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ui-view=\"editInventoryItemPanel\"></div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("inventory/inventory-items/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/sidepanel/create.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Inventory Item</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Item Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"item.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"measurement\">Measurement (ex: \"Case\")</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"measurement\" ng-model=\"item.measurement\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"par\">Par</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"par\" ng-model=\"item.par\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createItem()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreateItem()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-items/sidepanel/edit.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative;  right:10px;\">\n" +
+    "            <button type=\"button\" class=\"btn btn-default\" ng-click=\"deleteItem(item._id)\">\n" +
+    "                <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "            </button>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">{{item.name}}</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Item Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"item.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"measurement\">Measurement (ex: \"Case\")</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"measurement\" ng-model=\"item.measurement\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand.quantity\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"usage_per_thousand\">Usage Per Thousand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"usage_per_thousand\" ng-model=\"item.usage_per_thousand\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"par_type\">Par</label>\n" +
+    "                <div  id=\"par_type\">\n" +
+    "                <ul class=\"nav navbar-nav\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                            aria-expanded=\"false\">{{parType}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul  class=\"dropdown-menu\" >\n" +
+    "\n" +
+    "\n" +
+    "                            <li ng-click=\"selectParType('Simple')\">\n" +
+    "                                <a >Simple</a>\n" +
+    "                            </li>\n" +
+    "                            <li ng-click=\"selectParType('Dynamic')\">\n" +
+    "                                <a >Dynamic</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "                </div>\n" +
+    "\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "        <input type=\"text\"> <span ng-if=\"parType=='Dynamic'\">Days</span><span ng-if=\"parType=='Simple'\">Units</span>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateItem()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelEditItem()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("inventory/inventory-ordering/inventory-ordering.tpl.html",
+    "<nav class=\"navbar\">\n" +
+    "    <ul class=\"nav navbar-nav\">\n" +
+    "        <li class=\"tmf-dropdown\">\n" +
+    "            <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                aria-expanded=\"false\">{{selectedOrderForm.name}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "            <ul  class=\"dropdown-menu\" >\n" +
+    "                <li ng-repeat=\"orderForm in orderForms\">\n" +
+    "                    <a ng-click=\"selectOrderForm(orderForm)\">{{orderForm.name}}</a>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "\n" +
+    "    <button type=\"button\" ng-click=\"goCreateOrderForm()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "            style=\"margin-right:5px;\">New Order Form</button>\n" +
+    "\n" +
+    "    <button type=\"button\" ng-click=\"openModal()\" class=\"btn btn-default  navbar-right navbar-btn\"\n" +
+    "            style=\"margin-right:5px;\">Edit Form</button>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "</nav>\n" +
+    "<hr>\n" +
+    "\n" +
+    "\n" +
+    "<table class=\"table\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th class=\"col-sm-3\">Item</th>\n" +
+    "        <th class=\"col-sm-2 text-center\">Quantity On Hand <br > (Last Updated)</th>\n" +
+    "        <th class=\"col-sm-2  text-center\">Current Quantity <br > (Usage Adjusted)</th>\n" +
+    "        <th class=\"col-sm-1  text-center\">Par</th>\n" +
+    "        <th class=\"col-sm-2 text-center\">Order Quantity</th>\n" +
+    "        <th class=\"col-sm-2\">Lasts Until</th>\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tbody>\n" +
+    "    <tr ng-repeat=\"item in inventory | inArray:selectedOrderForm.items\" >\n" +
+    "        <td  >\n" +
+    "            <div  style=\"line-height:18px; \">\n" +
+    "                <div>{{item.name}}</div>\n" +
+    "                <div class=\"text-secondary\" style=\"font-size:12px;\">{{item.measurement}}</div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-secondary text-center\"  >\n" +
+    "            <div  style=\"line-height:18px; \">\n" +
+    "                <div class=\"text-center\">{{item.quantity_on_hand}}</div>\n" +
+    "                <div class=\"text-center\" style=\"font-size:12px;\"  >{{momentFromApi(item.updated_at).fromNow()}}</div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\"  >\n" +
+    "            <div ng-if=\"item.usage_per_thousand == 0\">\n" +
+    "                Usage Not Set\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"item.usage_per_thousand > 0\">\n" +
+    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td class=\"text-center\">\n" +
+    "\n" +
+    "\n" +
+    "            <i style=\"cursor:pointer\" popover-placement=\"bottom\" uib-popover-template=\"item.popover.templateUrl\"\n" +
+    "               popover-trigger=\"mouseenter\" popover-title=\"Dynamic Par Calculation\" type=\"button\"\n" +
+    "               ng-if=\"item.par_type == 'dynamic'\"\n" +
+    "               class=\"glyphicon glyphicon-flash pull-left\"></i>\n" +
+    "            {{item.calculated_par.par}}\n" +
+    "\n" +
+    "        </td>\n" +
+    "        <td class=\"center-block\">\n" +
+    "            <div class=\"background-secondary\" style=\"padding:10px; \">\n" +
+    "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
+    "                <div class=\"text-center col-sm-8\"><b>{{item.orderQuantity | zeroFloor }}</b></div>\n" +
+    "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
+    "                <div class=\"clearfix\"></div>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "        <td>{{item.calculated_par.lasts_until}}</td>\n" +
+    "    </tr>\n" +
+    "    </tbody>\n" +
+    "</table>\n" +
+    "\n" +
+    "<script type=\"text/ng-template\" id=\"salesCalculationPopover.html\">\n" +
+    "    <div style=\"line-height:30px;\">\n" +
+    "        <div>Par Level (days): <b class=\"pull-right\">{{item.par_value}}</b></div>\n" +
+    "        <div>Usage Per $1,000: <b class=\"pull-right\">{{item.usage_per_thousand}} units =</b></div>\n" +
+    "        <div>Sales (Next {{item.par_value}} days): <b class=\"pull-right\">{{item.calculated_par.sales | currency}}</b></div>\n" +
+    "        <div class=\"text-center voffset2\">Par Level (Units)</div>\n" +
+    "        <div class=\"text-center text-secondary\">(Usage Per $1,000 / 1,000) * Projected Sales</div>\n" +
+    "        <hr>\n" +
+    "        <div class=\"text-center\"><h3>{{item.calculated_par.par}} units</h3></div>\n" +
+    "    </div>\n" +
+    "</script>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "");
 }]);
 

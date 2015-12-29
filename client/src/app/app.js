@@ -5,6 +5,8 @@ angular.module('app', [
     'team',
     'inventory',
     'directives.uiSrefActiveIf',
+    'filters',
+    'utils',
     'templates.app']);
 
 angular.module('app').run(function($rootScope, $state) {

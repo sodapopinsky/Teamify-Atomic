@@ -10,7 +10,7 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
-
+var Inventory   = require('./lib/models/inventory');
 
 
 mongoose.connect(config.databaseURI(process.env.MONGOLAB_URI));
@@ -62,6 +62,28 @@ app.get('/setup', function(req, res) {
         res.json({ success: true });
     });
 });
+
+app.get('/setup/inventory', function(req, res) {
+
+    // create a sample user
+    var inv = new Inventory({
+        name: 'test2',
+        measurement: '1 case',
+        quantity_on_hand: 25,
+        usage_per_thousand:.5,
+        par_type: 'simple',
+        par_value: 22
+    });
+
+    // save the sample user
+    inv.save(function(err) {
+        if (err) throw err;
+
+        console.log('Inventory saved successfully');
+        res.json({ success: true });
+    });
+});
+
 
 var apiRoutes = express.Router();
 

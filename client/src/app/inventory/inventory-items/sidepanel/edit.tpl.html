@@ -1,0 +1,105 @@
+
+
+<div class="cd-panel-content">
+
+
+    <div class="cd-panel-nav">
+        <div class="pull-right" style="position:relative;  right:10px;">
+            <button type="button" class="btn btn-default" ng-click="deleteItem(item._id)">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+        </div>
+
+
+        <div class=" navbar-brand">{{item.name}}</div>
+
+    </div>
+
+
+
+    <form>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="name">Item Name</label>
+                <input type="text" class="form-control" id="name" ng-model="item.name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="measurement">Measurement (ex: "Case")</label>
+                <input type="text" class="form-control" id="measurement" ng-model="item.measurement">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="quantity_on_hand">Quantity On Hand</label>
+                <input type="text" class="form-control" id="quantity_on_hand" ng-model="item.quantity_on_hand.quantity">
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="usage_per_thousand">Usage Per Thousand</label>
+                <input type="text" class="form-control" id="usage_per_thousand" ng-model="item.usage_per_thousand">
+            </div>
+
+        </div>
+
+
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="par_type">Par</label>
+                <div  id="par_type">
+                <ul class="nav navbar-nav">
+                    <li class="tmf-dropdown">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false">{{parType}}<span class="glyphicon glyphicon-menu-down"></span></a>
+                        <ul  class="dropdown-menu" >
+
+
+                            <li ng-click="selectParType('Simple')">
+                                <a >Simple</a>
+                            </li>
+                            <li ng-click="selectParType('Dynamic')">
+                                <a >Dynamic</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+        <input type="text"> <span ng-if="parType=='Dynamic'">Days</span><span ng-if="parType=='Simple'">Units</span>
+                </div>
+            </div>
+
+
+
+
+
+
+
+    </form>
+
+
+
+    <div class="cd-panel-notification" id="cd-panel-notification"></div>
+    <div class="cd-panel-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="updateItem()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelEditItem()">Cancel</button>
+    </div>
+
+</div>
+
+
+

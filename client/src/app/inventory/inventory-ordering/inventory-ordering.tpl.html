@@ -1,0 +1,113 @@
+<nav class="navbar">
+    <ul class="nav navbar-nav">
+        <li class="tmf-dropdown">
+            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                aria-expanded="false">{{selectedOrderForm.name}}<span class="glyphicon glyphicon-menu-down"></span></a>
+            <ul  class="dropdown-menu" >
+                <li ng-repeat="orderForm in orderForms">
+                    <a ng-click="selectOrderForm(orderForm)">{{orderForm.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <button type="button" ng-click="goCreateOrderForm()" class="btn btn-primary  navbar-right navbar-btn"
+            style="margin-right:5px;">New Order Form</button>
+
+    <button type="button" ng-click="openModal()" class="btn btn-default  navbar-right navbar-btn"
+            style="margin-right:5px;">Edit Form</button>
+
+
+
+
+
+
+</nav>
+<hr>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="col-sm-3">Item</th>
+        <th class="col-sm-2 text-center">Quantity On Hand <br > (Last Updated)</th>
+        <th class="col-sm-2  text-center">Current Quantity <br > (Usage Adjusted)</th>
+        <th class="col-sm-1  text-center">Par</th>
+        <th class="col-sm-2 text-center">Order Quantity</th>
+        <th class="col-sm-2">Lasts Until</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in inventory | inArray:selectedOrderForm.items" >
+        <td  >
+            <div  style="line-height:18px; ">
+                <div>{{item.name}}</div>
+                <div class="text-secondary" style="font-size:12px;">{{item.measurement}}</div>
+            </div>
+        </td>
+        <td class="text-secondary text-center"  >
+            <div  style="line-height:18px; ">
+                <div class="text-center">{{item.quantity_on_hand}}</div>
+                <div class="text-center" style="font-size:12px;"  >{{momentFromApi(item.updated_at).fromNow()}}</div>
+            </div>
+        </td>
+        <td class="text-center"  >
+            <div ng-if="item.usage_per_thousand == 0">
+                Usage Not Set
+            </div>
+            <div ng-if="item.usage_per_thousand > 0">
+                {{item.adjusted_quantity_on_hand}}
+            </div>
+        </td>
+        <td class="text-center">
+
+
+            <i style="cursor:pointer" popover-placement="bottom" uib-popover-template="item.popover.templateUrl"
+               popover-trigger="mouseenter" popover-title="Dynamic Par Calculation" type="button"
+               ng-if="item.par_type == 'dynamic'"
+               class="glyphicon glyphicon-flash pull-left"></i>
+            {{item.calculated_par.par}}
+
+        </td>
+        <td class="center-block">
+            <div class="background-secondary" style="padding:10px; ">
+                <div ng-click="decrementOrderQuantity(item)"  class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-minus"></i></div>
+                <div class="text-center col-sm-8"><b>{{item.orderQuantity | zeroFloor }}</b></div>
+                <div ng-click="incrementOrderQuantity(item)" class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-plus"></i></div>
+                <div class="clearfix"></div>
+            </div>
+        </td>
+        <td>{{item.calculated_par.lasts_until}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<script type="text/ng-template" id="salesCalculationPopover.html">
+    <div style="line-height:30px;">
+        <div>Par Level (days): <b class="pull-right">{{item.par_value}}</b></div>
+        <div>Usage Per $1,000: <b class="pull-right">{{item.usage_per_thousand}} units =</b></div>
+        <div>Sales (Next {{item.par_value}} days): <b class="pull-right">{{item.calculated_par.sales | currency}}</b></div>
+        <div class="text-center voffset2">Par Level (Units)</div>
+        <div class="text-center text-secondary">(Usage Per $1,000 / 1,000) * Projected Sales</div>
+        <hr>
+        <div class="text-center"><h3>{{item.calculated_par.par}} units</h3></div>
+    </div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+
+<div>
+
+    <div class="btn btn-primary  pull-right"  ng-click="goCreateItem()">New Item</div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group has-feedback " style="margin:0px; " >
+                <input class="tmf-form-control" type="text" placeholder="Search List" ng-model="searchText">
+                <span class="glyphicon glyphicon-search form-control-feedback" style="margin-right:10px;"></span>
+            </div>
+
+        </div>
+
+    </div>
+    <hr class="voffset3">
+
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="col-sm-4">Item</th>
+            <th class="col-sm-2 text-center">Last Updated</th>
+            <th class="col-sm-2 text-center">Quantity On Hand <br>(Last Updated)</th>
+            <th class="col-sm-2 text-center">Quantity On Hand<br> (Usage Adjusted)</th>
+
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in inventory | filter:searchText" ui-sref="app.inventory.items.edit({id: item._id})">
+            <td class="col-sm-4" style="line-height:5px;">
+                <div><h5>{{item.name}}</h5></div>
+                <div class="text-secondary" style="font-size:12px;">{{item.measurement}}</div>
+            </td>
+            <td class="col-sm-3 text-center"  >
+                {{printDate(item.quantity_on_hand.updated_at)}}
+            </td>
+
+            <td class="col-sm-3 text-secondary text-center"  >
+                {{item.quantity_on_hand.quantity}}
+            </td>
+
+            <td class="col-sm-3 text-center"  >
+                <div ng-if="item.usage_per_thousand == 0">
+                    Usage Not Set
+                </div>
+                <div ng-if="item.usage_per_thousand > 0">
+                    {{item.adjusted_quantity_on_hand}}
+                </div>
+            </td>
+
+            <td ><span class="glyphicon glyphicon-menu-right pull-right"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+<div class="cd-panel from-right" id="editInventoryItemPanel">
+    <div class="cd-panel-container">
+        <div ui-view="editInventoryItemPanel"></div>
+
+    </div>
+</div>
