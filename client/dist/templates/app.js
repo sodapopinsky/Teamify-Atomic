@@ -383,7 +383,7 @@ angular.module("inventory/inventory-ordering/createForm.tpl.html", []).run(["$te
     "        <div class=\"container-fluid\">\n" +
     "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
     "            <div class=\"navbar-header col-sm-8\" >\n" +
-    "                <input type=\"text\" class=\"form-control  \" style=\"background:none; border:none; margin-top:10px; \" placeholder=\"Order Form Name\" ng-model=\"orderFormEditing.name\">\n" +
+    "                <input type=\"text\" class=\"form-control  \" style=\" margin-top:10px; \" placeholder=\"Order Form Name\" ng-model=\"orderFormEditing.name\">\n" +
     "            </div>\n" +
     "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
     "                    style=\"margin-right:5px;\">Save</button>\n" +

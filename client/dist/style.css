@@ -6025,6 +6025,8 @@ h1 {
   padding: 10px;
   height: 70px;
   margin-bottom: 0px; }
+  .tmf-nav .navbar-brand, .tmf-subnav .navbar-brand {
+    color: #656A72; }
   .tmf-nav .navbar-nav, .tmf-subnav .navbar-nav {
     list-style: none;
     font-size: 14px; }
@@ -6144,10 +6146,12 @@ h1 {
   font-weight: 300; }
 
 h2 {
-  font-size: 30px; }
+  font-size: 30px;
+  color: #656A72; }
 
 h3 {
-  font-size: 24px; }
+  font-size: 24px;
+  color: #656A72; }
 
 h4 {
   font-size: 18px; }

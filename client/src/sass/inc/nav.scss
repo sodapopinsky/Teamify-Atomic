@@ -10,7 +10,9 @@
   height:70px;
   margin-bottom:0px;
   
-
+  .navbar-brand{
+    color: $brand-navy;
+  }
   .navbar-nav {
 
       list-style: none;
