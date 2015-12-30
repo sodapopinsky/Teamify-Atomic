@@ -1,5 +1,17 @@
 // server.js
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        next();
+    }
+};
 // set up ========================
 var express  = require('express');
 var app      = express();                               // create our app w/ express
@@ -12,6 +24,7 @@ var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
 var Inventory   = require('./lib/models/inventory');
 
+app.use(allowCrossDomain);
 
 mongoose.connect(config.databaseURI(process.env.MONGOLAB_URI));
 
