@@ -2078,7 +2078,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "    <tr>\n" +
     "        <th class=\"col-sm-3\">Item</th>\n" +
     "        <th class=\"col-sm-2  text-center\">Last Updated<br>Quantity</th>\n" +
-    "        <th class=\"col-sm-2  text-center\">Usage Adjustment</th>\n" +
+    "        <th class=\"col-sm-2  text-center\">Usage Adjusted<br> Quantity</th>\n" +
     "        <th class=\"col-sm-1  text-center\">Par</th>\n" +
     "\n" +
     "        <th class=\"col-sm-2 text-center\">Order Quantity</th>\n" +
@@ -2105,7 +2105,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "\n" +
     "\n" +
     "            <div ng-if=\"item.usage_per_thousand !== undefined\">\n" +
-    "                {{item.adjusted_quantity_on_hand - item.quantity_on_hand.quantity}}\n" +
+    "                {{item.adjusted_quantity_on_hand}}\n" +
     "            </div>\n" +
     "            <div ng-show=\"{{item.usage_per_thousand === undefined}}\">\n" +
     "                <div class=\"text-danger\" style=\"font-size:12px\">Usage Not Set </div>\n" +

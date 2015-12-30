@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" afterPath="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory.js" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/teamify.js" afterPath="$PROJECT_DIR$/client/dist/teamify.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html" />
     </list>
     <ignored path="Website.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,10 +32,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.5655957">
       <split-first>
         <leaf>
-          <file leaf-file-name="inventory-items.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="inventory-items.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.76856315" vertical-offset="1513" max-vertical-offset="2550">
+                <state vertical-scroll-proportion="-29.518518" vertical-offset="1513" max-vertical-offset="2550">
                   <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="34" />
                   <folding />
                 </state>
@@ -91,6 +87,16 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="inventory-items.tpl.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.tpl.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="1035">
+                  <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="nav.scss" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/sass/inc/nav.scss">
               <provider selected="true" editor-type-id="text-editor">
@@ -111,15 +117,12 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/dist/style.css">
+          <file leaf-file-name="inventory-ordering.tpl.html" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="59526" max-vertical-offset="100575">
-                  <caret line="3992" column="38" selection-start-line="3992" selection-start-column="38" selection-end-line="3992" selection-end-column="38" />
-                  <folding>
-                    <marker date="1451503019000" expanded="true" signature="166804:166841" placeholder="{...}" />
-                    <marker date="1451503019000" expanded="true" signature="166849:166886" placeholder="{...}" />
-                  </folding>
+                <state vertical-scroll-proportion="0.1298077" vertical-offset="375" max-vertical-offset="2145">
+                  <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -129,16 +132,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-38.125" vertical-offset="0" max-vertical-offset="1695">
                   <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="edit.tpl.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/sidepanel/edit.tpl.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-33.333332" vertical-offset="760" max-vertical-offset="1800">
-                  <caret line="104" column="1" selection-start-line="104" selection-start-column="1" selection-end-line="104" selection-end-column="72" />
                   <folding />
                 </state>
               </provider>
@@ -209,13 +202,11 @@
         <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/client/src/app/app.js" />
         <option value="$PROJECT_DIR$/client/src/app/team/team.tpl.html" />
-        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/app/index.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/sass/inc/sidebar.scss" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/editForm.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/common/utils.js" />
         <option value="$PROJECT_DIR$/client/src/common/resources/orderform.js" />
-        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/common/directives/loading.js" />
         <option value="$PROJECT_DIR$/client/src/sass/inc/sidepanel.scss" />
         <option value="$PROJECT_DIR$/client/src/common/resources/inventory.js" />
@@ -229,6 +220,8 @@
         <option value="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory.js" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" />
+        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.tpl.html" />
+        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html" />
       </list>
     </option>
   </component>
@@ -781,36 +774,36 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="11835">
           <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
           <folding>
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503107000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -889,34 +882,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.0" vertical-offset="465" max-vertical-offset="2145">
-          <caret line="47" column="14" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#i#0;n#td#3;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/lib/models/inventory.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
           <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.tpl.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5686274" vertical-offset="22" max-vertical-offset="1035">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -949,8 +919,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="59526" max-vertical-offset="100575">
           <caret line="3992" column="38" selection-start-line="3992" selection-start-column="38" selection-end-line="3992" selection-end-column="38" />
           <folding>
-            <marker date="1451503019000" expanded="true" signature="166804:166841" placeholder="{...}" />
-            <marker date="1451503019000" expanded="true" signature="166849:166886" placeholder="{...}" />
+            <marker date="1451503109000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1451503109000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1034,8 +1004,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76856315" vertical-offset="1513" max-vertical-offset="2550">
+        <state vertical-scroll-proportion="-29.518518" vertical-offset="1513" max-vertical-offset="2550">
           <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.tpl.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="1035">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1298077" vertical-offset="375" max-vertical-offset="2145">
+          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
           <folding />
         </state>
       </provider>
