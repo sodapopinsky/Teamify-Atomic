@@ -18,24 +18,74 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-sm-12">
+            <div class="form-group col-sm-6">
                 <label for="measurement">Measurement (ex: "Case")</label>
                 <input type="text" class="form-control" id="measurement" ng-model="item.measurement">
             </div>
+            <div class="form-group col-sm-6">
+                <label for="quantity_on_hand">Quantity On Hand</label>
+                <input type="text" class="form-control" id="quantity_on_hand" ng-model="item.quantity_on_hand.quantity">
+            </div>
         </div>
+
+
 
 
 
         <div class="row">
             <div class="form-group col-sm-6">
-                <label for="quantity_on_hand">Quantity On Hand</label>
-                <input type="text" class="form-control" id="quantity_on_hand" ng-model="item.quantity_on_hand">
+                <label for="usage_per_thousand">Usage Per Thousand</label>
+                <input type="text" class="form-control" id="usage_per_thousand" ng-model="item.usage_per_thousand">
             </div>
-            <div class="form-group col-sm-6">
-                <label for="par_value">Par</label>
+
+        </div>
+
+
+
+        <div class="row">
+            <div class="form-group col-sm-3">
+
+
+                <label for="par_type">Par Type</label>
+                <div  id="par_type">
+                    <ul class="nav navbar-nav">
+                        <li class="tmf-dropdown">
+                            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                aria-expanded="false">{{item.par_type}}<span class="glyphicon glyphicon-menu-down"></span></a>
+                            <ul  class="dropdown-menu" >
+
+
+                                <li ng-click="selectParType(item,'simple')">
+                                    <a >Simple</a>
+                                </li>
+                                <li ng-click="selectParType(item,'dynamic')">
+                                    <a >Dynamic</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label for="par_value">Par Value</label>
                 <input type="text" class="form-control" id="par_value" ng-model="item.par_value">
             </div>
+            <div class="form-group col-sm-6 voffset4">
+
+                <div ng-if="item.par_type == 'simple'">Units</div>
+                <div ng-if="item.par_type  == 'dynamic'">Days</div>
+            </div>
+
         </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -45,7 +95,7 @@
     </form>
 
 
-
+    <div class="cd-panel-notification" id="cd-panel-notification"></div>
 
     <div class="cd-panel-footer">
         <button type="submit" class="btn btn-primary pull-right" ng-click="createItem()">Save</button>

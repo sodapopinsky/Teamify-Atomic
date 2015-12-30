@@ -45,9 +45,22 @@
             if(!data.name) {
                 throw "Item Name is Required";
             }
+            if(!data.measurement) {
+                throw "Measurement Required";
+            }
+            if(!data.quantity_on_hand.quantity) {
+                throw "Quantity Required";
+            }
+
             if(data.quantity_on_hand.quantity) {
                 if(isNaN(data.quantity_on_hand.quantity)) {
                     throw "Quantity on hand must be a Number";
+
+                }
+            }
+            if(data.usage_per_thousand) {
+                if(isNaN(data.usage_per_thousand)) {
+                    throw "Usage Per Thousand must be a Number";
 
                 }
             }

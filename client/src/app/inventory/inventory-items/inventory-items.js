@@ -46,30 +46,34 @@ angular.module('inventory').controller('InventoryItemsController', function($sco
 angular.module('inventory').controller('InventoryItems_CreateController', function($scope,$state,$auth,notificate, $rootScope,inventory) {
 
     $('#addInventoryItemPanel').addClass('is-visible');
-    $scope.item = {};
-
+    $scope.item = {
+        par_type: 'simple'
+    };
     $scope.cancelCreateItem = function(){
         $state.go('app.inventory.items');
         $('#addInventoryItemPanel').removeClass('is-visible');
 
     }
 
+    $scope.selectParType = function(item,type){
+        $scope.item.par_type = type;
 
+    }
 
     $scope.createItem = function(){
-console.log($scope.item);
+
         try {
             inventory.isValid($scope.item)
         }
         catch (error) {
-
-            notificate.error(error);
+            notificate.error(error,"#cd-panel-notification");
             return;
         }
 
         inventory.createItem($scope.item).$promise.then(function (response) {
-            var toInsert = response.created;
-        //    toInsert.updated_at_from_now = moment(toInsert.updated_at).fromNow();
+
+            var toInsert = response.item;
+            toInsert.updated_at_from_now = moment(toInsert.updated_at).fromNow();
             inventory.inventory.push(toInsert);
             $state.go('app.inventory.items');
           notificate.success("Item Saved");
@@ -138,7 +142,11 @@ angular.module('inventory').controller('InventoryItems_EditController', function
     };
 
     $scope.updateItem = function(){
-        if(!inventory.isValid($scope.item)){
+        try {
+            inventory.isValid($scope.item)
+        }
+        catch (error) {
+            notificate.error(error,"#cd-panel-notification");
             return;
         }
         inventory.updateItem($scope.item).$promise.then(function (response) {

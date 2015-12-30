@@ -6394,6 +6394,7 @@ html, body {
   bottom: 0px;
   height: 70px;
   width: 100%;
+  background-color: #F2F4F5;
   border-top: 1px solid rgba(101, 106, 114, 0.12); }
   .cd-panel-footer .btn {
     margin-right: 15px;

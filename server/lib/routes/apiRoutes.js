@@ -65,7 +65,6 @@ exports.addRoutes = function(apiRoutes) {
     apiRoutes.route('/inventory')
 
         .get(function(req, res) {
-            console.log("error");
             Inventory.find({}, function(err, inventory) {
                 res.json(inventory);
             });
@@ -80,11 +79,13 @@ exports.addRoutes = function(apiRoutes) {
             inventory.quantity_on_hand.updated_at = Date.now();
             inventory.par_type = 'simple';
             inventory.par_value = req.body.par_value;
-
+            inventory.updated_at = Date.now();
+            inventory.created_at = Date.now();
             inventory.save(function(err) {
                 if (err)
                     res.send(err);
-                    res.json({ message: 'Inventory item created!', item: inventory });
+
+                res.json({ message: 'Inventory item created!', item: inventory });
             });
 
         });
@@ -114,6 +115,7 @@ exports.addRoutes = function(apiRoutes) {
 
                 inventory.name = req.body.name;
                 inventory.measurement = req.body.measurement;
+                inventory.updated_at = Date.now();
                 if(inventory.quantity_on_hand.quantity != req.body.quantity_on_hand)
                     inventory.quantity_on_hand.updated_at = Date.now();
                 inventory.quantity_on_hand.quantity = req.body.quantity_on_hand.quantity;

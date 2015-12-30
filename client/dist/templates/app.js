@@ -167,24 +167,74 @@ angular.module("inventory/inventory-items/sidepanel/create.tpl.html", []).run(["
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"row\">\n" +
-    "            <div class=\"form-group col-sm-12\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
     "                <label for=\"measurement\">Measurement (ex: \"Case\")</label>\n" +
     "                <input type=\"text\" class=\"form-control\" id=\"measurement\" ng-model=\"item.measurement\">\n" +
     "            </div>\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand.quantity\">\n" +
+    "            </div>\n" +
     "        </div>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"form-group col-sm-6\">\n" +
-    "                <label for=\"quantity_on_hand\">Quantity On Hand</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand\">\n" +
+    "                <label for=\"usage_per_thousand\">Usage Per Thousand</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"usage_per_thousand\" ng-model=\"item.usage_per_thousand\">\n" +
     "            </div>\n" +
-    "            <div class=\"form-group col-sm-6\">\n" +
-    "                <label for=\"par_value\">Par</label>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-3\">\n" +
+    "\n" +
+    "\n" +
+    "                <label for=\"par_type\">Par Type</label>\n" +
+    "                <div  id=\"par_type\">\n" +
+    "                    <ul class=\"nav navbar-nav\">\n" +
+    "                        <li class=\"tmf-dropdown\">\n" +
+    "                            <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                                aria-expanded=\"false\">{{item.par_type}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                            <ul  class=\"dropdown-menu\" >\n" +
+    "\n" +
+    "\n" +
+    "                                <li ng-click=\"selectParType(item,'simple')\">\n" +
+    "                                    <a >Simple</a>\n" +
+    "                                </li>\n" +
+    "                                <li ng-click=\"selectParType(item,'dynamic')\">\n" +
+    "                                    <a >Dynamic</a>\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"form-group col-sm-3\">\n" +
+    "                <label for=\"par_value\">Par Value</label>\n" +
     "                <input type=\"text\" class=\"form-control\" id=\"par_value\" ng-model=\"item.par_value\">\n" +
     "            </div>\n" +
+    "            <div class=\"form-group col-sm-6 voffset4\">\n" +
+    "\n" +
+    "                <div ng-if=\"item.par_type == 'simple'\">Units</div>\n" +
+    "                <div ng-if=\"item.par_type  == 'dynamic'\">Days</div>\n" +
+    "            </div>\n" +
+    "\n" +
     "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -194,7 +244,7 @@ angular.module("inventory/inventory-items/sidepanel/create.tpl.html", []).run(["
     "    </form>\n" +
     "\n" +
     "\n" +
-    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
     "\n" +
     "    <div class=\"cd-panel-footer\">\n" +
     "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createItem()\">Save</button>\n" +
@@ -259,42 +309,46 @@ angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$t
     "\n" +
     "        </div>\n" +
     "\n" +
+    "\n" +
+    "\n" +
     "        <div class=\"row\">\n" +
-    "            <div class=\"form-group col-sm-6\">\n" +
-    "                <label for=\"par_value\">Par</label>\n" +
+    "            <div class=\"form-group col-sm-3\">\n" +
+    "\n" +
+    "\n" +
+    "                <label for=\"par_type\">Par Type</label>\n" +
+    "                <div  id=\"par_type\">\n" +
+    "                    <ul class=\"nav navbar-nav\">\n" +
+    "                        <li class=\"tmf-dropdown\">\n" +
+    "                            <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                                aria-expanded=\"false\">{{item.par_type}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                            <ul  class=\"dropdown-menu\" >\n" +
+    "\n" +
+    "\n" +
+    "                                <li ng-click=\"selectParType(item,'simple')\">\n" +
+    "                                    <a >Simple</a>\n" +
+    "                                </li>\n" +
+    "                                <li ng-click=\"selectParType(item,'dynamic')\">\n" +
+    "                                    <a >Dynamic</a>\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "                        </li>\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "             </div>\n" +
+    "\n" +
+    "            <div class=\"form-group col-sm-3\">\n" +
+    "                <label for=\"par_value\">Par Value</label>\n" +
     "                <input type=\"text\" class=\"form-control\" id=\"par_value\" ng-model=\"item.par_value\">\n" +
     "            </div>\n" +
+    "            <div class=\"form-group col-sm-6 voffset4\">\n" +
     "\n" +
-    "        </div>\n" +
-    "\n" +
-    "\n" +
-    "        <div class=\"row\">\n" +
-    "            <div class=\"form-group col-sm-6\">\n" +
-    "                <label for=\"par_type\">Par</label>\n" +
-    "                <div  id=\"par_type\">\n" +
-    "                <ul class=\"nav navbar-nav\">\n" +
-    "                    <li class=\"tmf-dropdown\">\n" +
-    "                        <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
-    "                            aria-expanded=\"false\">{{item.par_type}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
-    "                        <ul  class=\"dropdown-menu\" >\n" +
-    "\n" +
-    "\n" +
-    "                            <li ng-click=\"selectParType(item,'simple')\">\n" +
-    "                                <a >Simple</a>\n" +
-    "                            </li>\n" +
-    "                            <li ng-click=\"selectParType(item,'dynamic')\">\n" +
-    "                                <a >Dynamic</a>\n" +
-    "                            </li>\n" +
-    "                        </ul>\n" +
-    "                    </li>\n" +
-    "                </ul>\n" +
-    "\n" +
-    "                </div>\n" +
-    "\n" +
+    "              <div ng-if=\"item.par_type == 'simple'\">Units</div>\n" +
+    "                <div ng-if=\"item.par_type  == 'dynamic'\">Days</div>\n" +
     "            </div>\n" +
     "\n" +
-    "\n" +
     "        </div>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
