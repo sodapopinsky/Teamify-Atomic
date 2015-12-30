@@ -96,14 +96,14 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
         var newForm = utils.copy($scope.orderFormEditing);
 
         orderforms.createItem(newForm).$promise.then(function (response) {
-            $scope.orderForms.push(response);
-            $state.go('app.inventory.items');
-            notificate.success("Item Saved");
+            $scope.orderForms.push(response.orderform);
+
+            $ocModal.close(response.orderform);
             $('#addInventoryItemPanel').removeClass('is-visible');
         }, function (error) {
             notificate.error("There was an error with your request.  Please Try Again.");
         });
-        $ocModal.close(newForm);
+
     }
 
 
