@@ -15,6 +15,23 @@ angular.module('utils',[])
 
 
 
+        factory.getObjectByAttributeValue = function(array, attributeName, attributeValue){
+
+            var obj = null;
+            angular.forEach(array,function(value, index){
+                console.log(index);
+                var property = 'value.' + attributeName;
+
+                if(attributeValue == eval(property)){
+                    obj = value;
+                    return;
+                }
+            });
+            return obj;
+        }
+
+
+        //redundant from above
         factory.getObjectById = function(id,array){
             var item;
             angular.forEach(array,function(value,index){
@@ -23,6 +40,21 @@ angular.module('utils',[])
                 }
             });
             return item;
+        }
+
+        factory.getIndexByAttributeValue = function(array, attributeName, attributeValue){
+
+            var i = null;
+          angular.forEach(array,function(value, index){
+                console.log(index);
+                var property = 'value.' + attributeName;
+
+                if(attributeValue == eval(property)){
+                    i = index;
+                    return;
+                }
+            });
+            return i;
         }
 
         factory.inArray = function(item,array) {
@@ -35,6 +67,8 @@ angular.module('utils',[])
         factory.indexOf = function(item,array) {
             return $.inArray(item, array);
         }
+
+
 
         factory.copy =   function(item){
             return JSON.parse(JSON.stringify(item));

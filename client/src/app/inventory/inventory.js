@@ -28,47 +28,57 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
     ];
 
     $scope.inventory = [];
-    $scope.fetchInventory = function(){
 
+    $scope.fetchInventory = function(){
+        $scope.loading = true;
         inventory.all().$promise.then(function(response)
         {
+            $scope.loading = false;
+
             inventory.inventory = response;
             setAdditionalInventoryProperties();
             $scope.inventory = inventory.inventory;
 
         }, function (error) {
-            console.log(error);
+            $scope.loading = false;
+
         });
 
     }
     $scope.fetchInventory();
-    /*
-    sales.weeklyProjections().then(function (response) {
-      //  $scope.projections = response;
-        $scope.fetchInventory(); //keep in here to avoid calling  functions on undefined projections
-    }, function (error) {
-        console.log(error);
-    });
-*/
+
+
     function setAdditionalInventoryProperties(){
 
         for(var i = 0; i < inventory.inventory.length; i++){
-            inventory.inventory[i].adjusted_quantity_on_hand = adjustedQuantityOnHand(inventory.inventory[i]);
+            var item = inventory.inventory[i];
 
-            inventory.inventory[i].calculated_par = calculatedPar(inventory.inventory[i]);
+            item.adjusted_quantity_on_hand = adjustedQuantityOnHand(item);
 
-            inventory.inventory[i].popover = {templateUrl: "salesCalculationPopover.html"}
+            item.calculated_par = calculatedPar(item);
 
-            inventory.inventory[i].orderQuantity = inventory.inventory[i].calculated_par.par - inventory.inventory[i].adjusted_quantity_on_hand;
-       console.log(inventory.inventory[i]);
+            item.popover = {templateUrl: "salesCalculationPopover.html"}
+
+            item.orderQuantity = item.calculated_par.par - item.adjusted_quantity_on_hand;
+
+            if(item.orderQuantity < 0)
+                item.orderQuantity = 0;
+
+            if(item.usage_per_thousand)
+                item.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand, item.usage_per_thousand);
+
         }
     }
 
+    $scope.printDate = function(dateFromApi){
+        var d = new Date(dateFromApi);
+        return moment(d).fromNow();
+    };
 
     $scope.incrementOrderQuantity = function(item){
         item.orderQuantity++;
         if(item.usage_per_thousand) {
-            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity+ item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+            item.lasts_until = calculateLastsUntil(item.orderQuantity+ item.adjusted_quantity_on_hand  , item.usage_per_thousand);
         }
     }
 
@@ -79,7 +89,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
             item.orderQuantity = 0;
 
         if(item.usage_per_thousand) {
-            item.calculated_par.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
+            item.lasts_until = calculateLastsUntil(item.orderQuantity + item.adjusted_quantity_on_hand  , item.usage_per_thousand);
         }
     }
 
@@ -89,18 +99,11 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         response = {};
         if(!item.par_value){
             response.par = item.quantity_on_hand.quantity;
-            if(item.usage_per_thousand){
-                response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
-            }
-        return response;
+             return response;
         }
 
         if(item.par_type == 'simple'){
             response.par = item.par_value;
-
-            if(item.usage_per_thousand){
-                response.lasts_until = calculateLastsUntil(response.par,item.usage_per_thousand);
-            }
 
             return response;
         }
@@ -115,9 +118,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
 
             response.sales = sales;
             response.par = par;
-            if(item.usage_per_thousand) {
-                response.lasts_until = calculateLastsUntil(response.par, item.usage_per_thousand);
-            }
+
             return response;
         }
 

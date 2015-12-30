@@ -5,6 +5,7 @@ angular.module('app', [
     'team',
     'inventory',
     'directives.uiSrefActiveIf',
+    'directives.loading',
     'filters',
     'utils',
     'notificate',

@@ -38,7 +38,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
   $templateCache.put("index.tpl.html",
     "<div id=\"sidebar-wrapper\">\n" +
     "    <div id=\"sidebar-user\">\n" +
-    "        <span class=\"glyphicon glyphicon-comment\"></span>\n" +
+    "       <!-- <span class=\"glyphicon glyphicon-comment\"></span> -->\n" +
     "        <!-- Collect the nav links, forms, and other content for toggling -->\n" +
     "        <div class=\"collapse navbar-collapse pull-left\" id=\"bs-example-navbar-collapse-1\">\n" +
     "\n" +
@@ -123,12 +123,8 @@ angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$
     "            </td>\n" +
     "\n" +
     "            <td class=\"col-sm-3 text-center\"  >\n" +
-    "                <div ng-if=\"item.usage_per_thousand == 0\">\n" +
-    "                    Usage Not Set\n" +
-    "                </div>\n" +
-    "                <div ng-if=\"item.usage_per_thousand > 0\">\n" +
-    "                    {{item.adjusted_quantity_on_hand}}\n" +
-    "                </div>\n" +
+    "                <div>{{item.usage_per_thousand > 0 ? item.adjusted_quantity_on_hand : 'Usage Not Set'}}</div>\n" +
+    "\n" +
     "            </td>\n" +
     "\n" +
     "            <td ><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
@@ -139,6 +135,7 @@ angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$
     "\n" +
     "\n" +
     "</div>\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
     "\n" +
     "<div class=\"cd-panel from-right\" id=\"editInventoryItemPanel\">\n" +
     "    <div class=\"cd-panel-container\">\n" +
@@ -184,8 +181,8 @@ angular.module("inventory/inventory-items/sidepanel/create.tpl.html", []).run(["
     "                <input type=\"text\" class=\"form-control\" id=\"quantity_on_hand\" ng-model=\"item.quantity_on_hand\">\n" +
     "            </div>\n" +
     "            <div class=\"form-group col-sm-6\">\n" +
-    "                <label for=\"par\">Par</label>\n" +
-    "                <input type=\"text\" class=\"form-control\" id=\"par\" ng-model=\"item.par\">\n" +
+    "                <label for=\"par_value\">Par</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"par_value\" ng-model=\"item.par_value\">\n" +
     "            </div>\n" +
     "        </div>\n" +
     "\n" +
@@ -262,6 +259,13 @@ angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$t
     "\n" +
     "        </div>\n" +
     "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <label for=\"par_value\">Par</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"par_value\" ng-model=\"item.par_value\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
     "\n" +
     "\n" +
     "        <div class=\"row\">\n" +
@@ -271,14 +275,14 @@ angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$t
     "                <ul class=\"nav navbar-nav\">\n" +
     "                    <li class=\"tmf-dropdown\">\n" +
     "                        <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
-    "                            aria-expanded=\"false\">{{parType}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                            aria-expanded=\"false\">{{item.par_type}}<span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
     "                        <ul  class=\"dropdown-menu\" >\n" +
     "\n" +
     "\n" +
-    "                            <li ng-click=\"selectParType('Simple')\">\n" +
+    "                            <li ng-click=\"selectParType(item,'simple')\">\n" +
     "                                <a >Simple</a>\n" +
     "                            </li>\n" +
-    "                            <li ng-click=\"selectParType('Dynamic')\">\n" +
+    "                            <li ng-click=\"selectParType(item,'dynamic')\">\n" +
     "                                <a >Dynamic</a>\n" +
     "                            </li>\n" +
     "                        </ul>\n" +
@@ -291,11 +295,9 @@ angular.module("inventory/inventory-items/sidepanel/edit.tpl.html", []).run(["$t
     "\n" +
     "\n" +
     "        </div>\n" +
-    "        <div class=\"row\">\n" +
-    "            <div class=\"form-group col-sm-6\">\n" +
-    "        <input type=\"text\"> <span ng-if=\"parType=='Dynamic'\">Days</span><span ng-if=\"parType=='Simple'\">Units</span>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -376,12 +378,18 @@ angular.module("inventory/inventory-ordering/createForm.tpl.html", []).run(["$te
 angular.module("inventory/inventory-ordering/editForm.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("inventory/inventory-ordering/editForm.tpl.html",
     "<div style=\"height:400px; \">\n" +
+    "\n" +
     "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
     "        <div class=\"container-fluid\">\n" +
     "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
     "            <div class=\"navbar-header\">\n" +
     "                <a class=\"navbar-brand\" >{{orderFormEditing.name}}</a>\n" +
     "            </div>\n" +
+    "            <button type=\"button\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\" ng-click=\"deleteForm()\">\n" +
+    "                <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+    "            </button>\n" +
+    "\n" +
     "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
     "                    style=\"margin-right:5px;\">Save</button>\n" +
     "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
@@ -464,9 +472,10 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "    <thead>\n" +
     "    <tr>\n" +
     "        <th class=\"col-sm-3\">Item</th>\n" +
-    "        <th class=\"col-sm-2 text-center\">Quantity On Hand <br > (Last Updated)</th>\n" +
-    "        <th class=\"col-sm-2  text-center\">Current Quantity <br > (Usage Adjusted)</th>\n" +
+    "        <th class=\"col-sm-2  text-center\">Last Updated<br>Quantity</th>\n" +
+    "        <th class=\"col-sm-2  text-center\">Usage Adjustment</th>\n" +
     "        <th class=\"col-sm-1  text-center\">Par</th>\n" +
+    "\n" +
     "        <th class=\"col-sm-2 text-center\">Order Quantity</th>\n" +
     "        <th class=\"col-sm-2\">Lasts Until</th>\n" +
     "    </tr>\n" +
@@ -479,20 +488,25 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                <div class=\"text-secondary\" style=\"font-size:12px;\">{{item.measurement}}</div>\n" +
     "            </div>\n" +
     "        </td>\n" +
-    "        <td class=\"text-secondary text-center\"  >\n" +
-    "            <div  style=\"line-height:18px; \">\n" +
-    "                <div class=\"text-center\">{{item.quantity_on_hand.quantity}}</div>\n" +
-    "                <div class=\"text-center\" style=\"font-size:12px;\"  >{{momentFromApi(item.updated_at).fromNow()}}</div>\n" +
-    "            </div>\n" +
+    "        <td class=\"text-center\">\n" +
+    "        <div >\n" +
+    "            <div>{{item.quantity_on_hand.quantity}}</div>\n" +
+    "            <div class=\"text-secondary\" style=\"font-size:12px;\">{{printDate(item.quantity_on_hand.updated_at)}}</div>\n" +
+    "        </div>\n" +
     "        </td>\n" +
+    "\n" +
+    "\n" +
     "        <td class=\"text-center\"  >\n" +
-    "            <div ng-if=\"item.usage_per_thousand == 0\">\n" +
-    "                Usage Not Set\n" +
+    "\n" +
+    "\n" +
+    "            <div ng-if=\"item.usage_per_thousand !== undefined\">\n" +
+    "                {{item.adjusted_quantity_on_hand - item.quantity_on_hand.quantity}}\n" +
     "            </div>\n" +
-    "            <div ng-if=\"item.usage_per_thousand > 0\">\n" +
-    "                {{item.adjusted_quantity_on_hand.quantity}}\n" +
+    "            <div ng-show=\"{{item.usage_per_thousand === undefined}}\">\n" +
+    "                <div class=\"text-danger\" style=\"font-size:12px\">Usage Not Set </div>\n" +
     "            </div>\n" +
     "        </td>\n" +
+    "\n" +
     "        <td class=\"text-center\">\n" +
     "\n" +
     "\n" +
@@ -500,27 +514,36 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "               popover-trigger=\"mouseenter\" popover-title=\"Dynamic Par Calculation\" type=\"button\"\n" +
     "               ng-if=\"item.par_type == 'dynamic'\"\n" +
     "               class=\"glyphicon glyphicon-flash pull-left\"></i>\n" +
+    "\n" +
     "            <div ng-if=\"!item.par_value\">\n" +
     "                0\n" +
     "            </div>\n" +
     "            <div ng-if=\"item.par_value >0\">\n" +
-    "            {{item.calculated_par.par}}\n" +
-    "                </div>\n" +
+    "                {{item.calculated_par.par}}\n" +
+    "            </div>\n" +
     "\n" +
     "        </td>\n" +
+    "\n" +
     "        <td class=\"center-block\">\n" +
     "            <div class=\"background-secondary\" style=\"padding:10px; \">\n" +
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
     "                <div class=\"text-center col-sm-8\">\n" +
     "\n" +
     "                    <b>{{item.orderQuantity | zeroFloor }}</b>\n" +
-    "\n" +
     "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +
     "            </div>\n" +
     "        </td>\n" +
-    "        <td>{{item.calculated_par.lasts_until}}</td>\n" +
+    "        <td>\n" +
+    "            <div ng-if=\"item.lasts_until === undefined\" class=\"text-danger\" style=\"font-size:12px;\">\n" +
+    "               Usage Not Set\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"item.lasts_until !== undefined\">\n" +
+    "            {{item.lasts_until}}\n" +
+    "            </div>\n" +
+    "\n" +
+    "           </td>\n" +
     "    </tr>\n" +
     "    </tbody>\n" +
     "</table>\n" +
@@ -761,8 +784,8 @@ angular.module("team/team.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "    <ul class=\"navbar-nav navbar-right\">\n" +
     "        <li ui-sref-active-if=\"app.team.members\" ui-sref=\"app.team.members\">Members</li>\n" +
-    "        <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
-    "\n" +
+    "      <!--  <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
+    "-->\n" +
     "    </ul>\n" +
     "\n" +
     "    <!-- Brand and toggle get grouped for better mobile display -->\n" +

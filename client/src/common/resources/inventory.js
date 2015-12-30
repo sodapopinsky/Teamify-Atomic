@@ -51,8 +51,8 @@
 
                 }
             }
-            if(data.par) {
-                if (isNaN(data.par)) {
+            if(data.par_value) {
+                if (isNaN(data.par_value)) {
                     throw "Par must be a Number";
 
                 }

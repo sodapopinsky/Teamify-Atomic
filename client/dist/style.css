@@ -5915,9 +5915,7 @@ h1 {
     #sidebar-user .glyphicon-comment:hover {
       color: #656A72; }
   #sidebar-user .navbar-nav .avatar {
-    position: relative;
-    background-color: #E4E4E4;
-    color: #656A72; }
+    position: relative; }
   #sidebar-user .navbar-nav span {
     position: relative;
     top: 3px;

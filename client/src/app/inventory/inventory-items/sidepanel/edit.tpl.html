@@ -48,6 +48,13 @@
 
         </div>
 
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="par_value">Par</label>
+                <input type="text" class="form-control" id="par_value" ng-model="item.par_value">
+            </div>
+
+        </div>
 
 
         <div class="row">
@@ -57,14 +64,14 @@
                 <ul class="nav navbar-nav">
                     <li class="tmf-dropdown">
                         <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                            aria-expanded="false">{{parType}}<span class="glyphicon glyphicon-menu-down"></span></a>
+                            aria-expanded="false">{{item.par_type}}<span class="glyphicon glyphicon-menu-down"></span></a>
                         <ul  class="dropdown-menu" >
 
 
-                            <li ng-click="selectParType('Simple')">
+                            <li ng-click="selectParType(item,'simple')">
                                 <a >Simple</a>
                             </li>
-                            <li ng-click="selectParType('Dynamic')">
+                            <li ng-click="selectParType(item,'dynamic')">
                                 <a >Dynamic</a>
                             </li>
                         </ul>
@@ -77,11 +84,9 @@
 
 
         </div>
-        <div class="row">
-            <div class="form-group col-sm-6">
-        <input type="text"> <span ng-if="parType=='Dynamic'">Days</span><span ng-if="parType=='Simple'">Units</span>
-                </div>
-            </div>
+
+
+
 
 
 

@@ -35,10 +35,7 @@ angular.module('inventory')
 
 angular.module('inventory').controller('InventoryItemsController', function($scope,$state) {
 
-    $scope.printDate = function(dateFromApi){
-        var d = new Date(dateFromApi);
-        return moment(d).fromNow();
-    };
+
 
     $scope.goCreateItem = function(){
         $state.go('app.inventory.items.create');
@@ -46,7 +43,7 @@ angular.module('inventory').controller('InventoryItemsController', function($sco
 
 });
 
-angular.module('inventory').controller('InventoryItems_CreateController', function($scope,$state,$auth, $rootScope,inventory) {
+angular.module('inventory').controller('InventoryItems_CreateController', function($scope,$state,$auth,notificate, $rootScope,inventory) {
 
     $('#addInventoryItemPanel').addClass('is-visible');
     $scope.item = {};
@@ -60,13 +57,13 @@ angular.module('inventory').controller('InventoryItems_CreateController', functi
 
 
     $scope.createItem = function(){
-
+console.log($scope.item);
         try {
             inventory.isValid($scope.item)
         }
         catch (error) {
 
-         //   Crash.notificate.error(error);
+            notificate.error(error);
             return;
         }
 
@@ -75,10 +72,10 @@ angular.module('inventory').controller('InventoryItems_CreateController', functi
         //    toInsert.updated_at_from_now = moment(toInsert.updated_at).fromNow();
             inventory.inventory.push(toInsert);
             $state.go('app.inventory.items');
-          //  Crash.notificate.success("Item Saved");
+          notificate.success("Item Saved");
             $('#addInventoryItemPanel').removeClass('is-visible');
         }, function (error) {
-          //  Crash.notificate.error("There was an error with your request.  Please Try Again.");
+         notificate.error("There was an error with your request.  Please Try Again.");
         });
 
 
@@ -89,7 +86,7 @@ angular.module('inventory').controller('InventoryItems_CreateController', functi
 });
 
 
-angular.module('inventory').controller('InventoryItems_EditController', function($scope,$state,$stateParams,$auth, $rootScope,inventory,utils) {
+angular.module('inventory').controller('InventoryItems_EditController', function($scope,notificate, $state,$stateParams,$auth, $rootScope,inventory,utils) {
 
 
 
@@ -110,12 +107,13 @@ angular.module('inventory').controller('InventoryItems_EditController', function
         $('#editInventoryItemPanel').removeClass('is-visible');
     }
 
-    $scope.parType = 'Simple';
-    $scope.selectParType = function(type){
-        $scope.parType = type;
+    $scope.parType = 'simple';
+    $scope.selectParType = function(item,type){
+        $scope.item.par_type = type;
+
     }
 
-    //DELETE ITEM
+    //DELETE ITEMs
     $scope.deleteItem = function(id){
 
         swal({   title: "Are you sure?",
@@ -129,7 +127,7 @@ angular.module('inventory').controller('InventoryItems_EditController', function
             inventory.deleteItem(id).$promise.then(function() {
                 var index = utils.indexOf($scope.item,$scope.inventory);
                 $scope.inventory.splice(index,1);
-              //  utils.notificate.success("Item Deleted Successfully");
+                notificate.success("Item Deleted Successfully");
                 $('#editInventoryItemPanel').removeClass('is-visible');
                 $state.go('app.inventory.items');
 
@@ -145,7 +143,7 @@ angular.module('inventory').controller('InventoryItems_EditController', function
         }
         inventory.updateItem($scope.item).$promise.then(function (response) {
             original = JSON.parse(JSON.stringify($scope.item));
-          //  Crash.notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
+           notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
         }, function (error) {
             console.log(error);
         });

@@ -1,6 +1,7 @@
 var User   = require('../models/user');
 var Inventory   = require('../models/inventory');
 var OrderForm   = require('../models/orderform');
+var morgan = require('morgan');
 exports.addRoutes = function(apiRoutes) {
 
 
@@ -64,6 +65,7 @@ exports.addRoutes = function(apiRoutes) {
     apiRoutes.route('/inventory')
 
         .get(function(req, res) {
+            console.log("error");
             Inventory.find({}, function(err, inventory) {
                 res.json(inventory);
             });
@@ -74,10 +76,10 @@ exports.addRoutes = function(apiRoutes) {
             var inventory = new Inventory();
             inventory.name = req.body.name;
             inventory.measurement = req.body.measurement;
-            inventory.quantity_on_hand.quantity = req.body.quantity_on_hand;
+            inventory.quantity_on_hand.quantity = req.body.quantity_on_hand.quantity;
             inventory.quantity_on_hand.updated_at = Date.now();
             inventory.par_type = 'simple';
-            inventory.par_value = req.body.par;
+            inventory.par_value = req.body.par_value;
 
             inventory.save(function(err) {
                 if (err)
@@ -115,9 +117,10 @@ exports.addRoutes = function(apiRoutes) {
                 if(inventory.quantity_on_hand.quantity != req.body.quantity_on_hand)
                     inventory.quantity_on_hand.updated_at = Date.now();
                 inventory.quantity_on_hand.quantity = req.body.quantity_on_hand.quantity;
-                inventory.par_type = 'simple';
-                inventory.par_value = req.body.par;
-
+                inventory.par_type = req.body.par_type;
+                inventory.par_value = parseFloat(req.body.par_value);
+                if(req.body.usage_per_thousand)
+                inventory.usage_per_thousand = parseFloat(req.body.usage_per_thousand);
                 inventory.save(function(err) {
                     if (err)
                         res.send(err);
@@ -151,27 +154,41 @@ exports.addRoutes = function(apiRoutes) {
                 res.json({ message: 'Order Form created!', orderform: orderform });
             });
 
+        });
+
+
+    apiRoutes.route('/orderforms/:id')
+        .delete(function(req, res) {
+
+           OrderForm.remove({ _id: req.params.id }, function(err) {
+                if (!err) {
+                    res.json({ message: 'Order Form deleted!'});
+                }
+                else {
+                    res.send(err);
+                }
+            });
         })
         .put(function(req, res) {
 
-            // use our bear model to find the bear we want
-            OrderForm.findById(req.params._id, function(err, orderform) {
+        // use our bear model to find the bear we want
+        OrderForm.findById(req.params.id, function(err, orderform) {
 
+            if (err)
+                res.send(err);
+
+              orderform.items = req.body.items;
+
+
+            orderform.save(function(err) {
                 if (err)
                     res.send(err);
 
-                orderform.items = req.body.items;
-
-
-                orderform.save(function(err) {
-                    if (err)
-                        res.send(err);
-
-                    res.json({ message: 'Orderform updated!' });
-                });
-
+                res.json({ message: 'Orderform updated!', orderform: orderform });
             });
+
         });
+    });
 
 
 };

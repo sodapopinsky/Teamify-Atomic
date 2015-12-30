@@ -51,6 +51,7 @@ angular.module('inventory').controller('InventoryOrderingController', function($
                 selectedOrderForm: $scope.selectedOrderForm
             },
             onClose: function(orderForm) {
+
                 if(orderForm)
                     $scope.selectedOrderForm = orderForm;
             }
@@ -62,8 +63,13 @@ angular.module('inventory').controller('InventoryOrderingController', function($
             url: 'inventory/inventory-ordering/editForm.tpl.html',
             controller: 'InventoryOrdering_EditController',
             init: {
+                orderForms: $scope.orderForms,
                 inventory: $scope.inventory,
                 orderForm: $scope.selectedOrderForm
+            },
+            onClose: function(orderForm) {
+                if(orderForm)
+                    $scope.selectedOrderForm = orderForm;
             }
         });
     }
@@ -82,6 +88,11 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
            notificate.error("Please Enter a name for the form","#createOrderFormModal");
             return;
         }
+        try {orderforms.isValid($scope.orderFormEditing)}
+        catch (error) {
+            notificate.error(error);
+            return;
+        }
         var newForm = utils.copy($scope.orderFormEditing);
 
         orderforms.createItem(newForm).$promise.then(function (response) {
@@ -94,6 +105,7 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
         });
         $ocModal.close(newForm);
     }
+
 
     $scope.cancelChanges = function(){
         $ocModal.close();
@@ -117,28 +129,53 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 });
 
 angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
-
+console.log("forms" + $scope.orderForms);
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
-
+    console.log("forms" + $scope.orderForms);
     $scope.saveChanges = function(){
-        /*
-        if(!orderforms.isValid($scope.item)){
+
+        try {orderforms.isValid($scope.orderFormEditing)}
+        catch (error) {
+            notificate.error(error);
             return;
         }
-        */
-        if(!$scope.orderFormEditing.name) {
-            notificate.error("Please Enter a name for the form","#createOrderFormModal");
-            return;
-        }
+
+
         orderforms.updateItem($scope.orderFormEditing).$promise.then(function (response) {
-          //  original = JSON.parse(JSON.stringify($scope.item));
-            notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
+            $ocModal.close(response.orderform);
         }, function (error) {
-            console.log(error);
+            notificate.error("There was an error with your request","#cd-panel-notification");
         });
         var newForm = utils.copy($scope.orderFormEditing);
+
+    }
+
+    $scope.deleteForm = function(){
+        swal({   title: "Are you sure?",
+            text: "This Item will be permanently removed",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true }, function(){
+
+
+
+
+
+
+            orderforms.deleteItem($scope.orderFormEditing._id).$promise.then(function() {
+                var index = utils.getIndexByAttributeValue($scope.orderForms,'_id',$scope.orderFormEditing._id);
+                $scope.orderForms.splice(index,1);
+                $ocModal.close($scope.orderForms[0]);
+                $('#editInventoryItemPanel').removeClass('is-visible');
+
+            }, function(error) {
+                notificate.error("There was an error with your request.");
+            });
+        });
 
     }
 

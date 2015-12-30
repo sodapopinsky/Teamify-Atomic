@@ -42,12 +42,8 @@
             </td>
 
             <td class="col-sm-3 text-center"  >
-                <div ng-if="item.usage_per_thousand == 0">
-                    Usage Not Set
-                </div>
-                <div ng-if="item.usage_per_thousand > 0">
-                    {{item.adjusted_quantity_on_hand}}
-                </div>
+                <div>{{item.usage_per_thousand > 0 ? item.adjusted_quantity_on_hand : 'Usage Not Set'}}</div>
+
             </td>
 
             <td ><span class="glyphicon glyphicon-menu-right pull-right"></span></td>
@@ -58,6 +54,7 @@
 
 
 </div>
+<loading class="voffset8"></loading>
 
 <div class="cd-panel from-right" id="editInventoryItemPanel">
     <div class="cd-panel-container">

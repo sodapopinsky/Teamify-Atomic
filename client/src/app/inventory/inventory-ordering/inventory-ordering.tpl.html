@@ -31,9 +31,10 @@
     <thead>
     <tr>
         <th class="col-sm-3">Item</th>
-        <th class="col-sm-2 text-center">Quantity On Hand <br > (Last Updated)</th>
-        <th class="col-sm-2  text-center">Current Quantity <br > (Usage Adjusted)</th>
+        <th class="col-sm-2  text-center">Last Updated<br>Quantity</th>
+        <th class="col-sm-2  text-center">Usage Adjustment</th>
         <th class="col-sm-1  text-center">Par</th>
+
         <th class="col-sm-2 text-center">Order Quantity</th>
         <th class="col-sm-2">Lasts Until</th>
     </tr>
@@ -46,20 +47,25 @@
                 <div class="text-secondary" style="font-size:12px;">{{item.measurement}}</div>
             </div>
         </td>
-        <td class="text-secondary text-center"  >
-            <div  style="line-height:18px; ">
-                <div class="text-center">{{item.quantity_on_hand.quantity}}</div>
-                <div class="text-center" style="font-size:12px;"  >{{momentFromApi(item.updated_at).fromNow()}}</div>
-            </div>
+        <td class="text-center">
+        <div >
+            <div>{{item.quantity_on_hand.quantity}}</div>
+            <div class="text-secondary" style="font-size:12px;">{{printDate(item.quantity_on_hand.updated_at)}}</div>
+        </div>
         </td>
+
+
         <td class="text-center"  >
-            <div ng-if="item.usage_per_thousand == 0">
-                Usage Not Set
+
+
+            <div ng-if="item.usage_per_thousand !== undefined">
+                {{item.adjusted_quantity_on_hand - item.quantity_on_hand.quantity}}
             </div>
-            <div ng-if="item.usage_per_thousand > 0">
-                {{item.adjusted_quantity_on_hand.quantity}}
+            <div ng-show="{{item.usage_per_thousand === undefined}}">
+                <div class="text-danger" style="font-size:12px">Usage Not Set </div>
             </div>
         </td>
+
         <td class="text-center">
 
 
@@ -67,27 +73,36 @@
                popover-trigger="mouseenter" popover-title="Dynamic Par Calculation" type="button"
                ng-if="item.par_type == 'dynamic'"
                class="glyphicon glyphicon-flash pull-left"></i>
+
             <div ng-if="!item.par_value">
                 0
             </div>
             <div ng-if="item.par_value >0">
-            {{item.calculated_par.par}}
-                </div>
+                {{item.calculated_par.par}}
+            </div>
 
         </td>
+
         <td class="center-block">
             <div class="background-secondary" style="padding:10px; ">
                 <div ng-click="decrementOrderQuantity(item)"  class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-minus"></i></div>
                 <div class="text-center col-sm-8">
 
                     <b>{{item.orderQuantity | zeroFloor }}</b>
-
                 </div>
                 <div ng-click="incrementOrderQuantity(item)" class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-plus"></i></div>
                 <div class="clearfix"></div>
             </div>
         </td>
-        <td>{{item.calculated_par.lasts_until}}</td>
+        <td>
+            <div ng-if="item.lasts_until === undefined" class="text-danger" style="font-size:12px;">
+               Usage Not Set
+            </div>
+            <div ng-if="item.lasts_until !== undefined">
+            {{item.lasts_until}}
+            </div>
+
+           </td>
     </tr>
     </tbody>
 </table>

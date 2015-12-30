@@ -32,15 +32,13 @@
             return Orderform.save(data);
         }
 
-        function isValid(data){
-            if(!data.name) {
+        function isValid(data) {
+            if (!data.name)
+                throw "Order Form Name is required";
 
-                return false;
-            }
-
-
-            return true;
         }
+
+
         function all() {
             return Orderform.query();
         }
