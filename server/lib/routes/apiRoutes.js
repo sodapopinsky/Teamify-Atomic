@@ -120,6 +120,7 @@ exports.addRoutes = function(apiRoutes) {
                     inventory.quantity_on_hand.updated_at = Date.now();
                 inventory.quantity_on_hand.quantity = req.body.quantity_on_hand.quantity;
                 inventory.par_type = req.body.par_type;
+                if(req.body.par_value)
                 inventory.par_value = parseFloat(req.body.par_value);
                 if(req.body.usage_per_thousand)
                 inventory.usage_per_thousand = parseFloat(req.body.usage_per_thousand);
@@ -127,7 +128,7 @@ exports.addRoutes = function(apiRoutes) {
                     if (err)
                         res.send(err);
 
-                    res.json({ message: 'Item updated!' });
+                    res.json({ message: 'Item updated!', item:inventory });
                 });
 
             });

@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a66fef3b-303f-4c26-8028-9e78a333c983" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/.sass-cache/891570af6ea5da11e077dfc9a79d7de3e7042871/base.scssc" afterPath="$PROJECT_DIR$/client/.sass-cache/891570af6ea5da11e077dfc9a79d7de3e7042871/base.scssc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/.sass-cache/891570af6ea5da11e077dfc9a79d7de3e7042871/nav.scssc" afterPath="$PROJECT_DIR$/client/.sass-cache/891570af6ea5da11e077dfc9a79d7de3e7042871/nav.scssc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/sass/inc/base.scss" afterPath="$PROJECT_DIR$/client/src/sass/inc/base.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/createForm.tpl.html" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/createForm.tpl.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/sass/inc/nav.scss" afterPath="$PROJECT_DIR$/client/src/sass/inc/nav.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/style.css.map" afterPath="$PROJECT_DIR$/client/dist/style.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/style.css" afterPath="$PROJECT_DIR$/client/dist/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" afterPath="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/app/inventory/inventory.js" afterPath="$PROJECT_DIR$/client/src/app/inventory/inventory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/dist/teamify.js" afterPath="$PROJECT_DIR$/client/dist/teamify.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Website.iws" />
@@ -39,11 +36,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5655957">
       <split-first>
         <leaf>
-          <file leaf-file-name="inventory-items.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="inventory-items.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-14.518518" vertical-offset="613" max-vertical-offset="2505">
-                  <caret line="67" column="23" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="23" />
+                <state vertical-scroll-proportion="0.76856315" vertical-offset="1513" max-vertical-offset="2550">
+                  <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="34" />
                   <folding />
                 </state>
               </provider>
@@ -52,7 +49,7 @@
           <file leaf-file-name="inventory-ordering.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="916" max-vertical-offset="3060">
+                <state vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="3060">
                   <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
                   <folding />
                 </state>
@@ -79,11 +76,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="createForm.tpl.html" pinned="false" current-in-tab="true">
+          <file leaf-file-name="createForm.tpl.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/createForm.tpl.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.072115384" vertical-offset="0" max-vertical-offset="1040">
-                  <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+                <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="810">
+                  <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
                   <folding>
                     <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
@@ -104,14 +101,24 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="inventory.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="2011" max-vertical-offset="3300">
+                  <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/dist/style.css">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0" vertical-offset="59526" max-vertical-offset="100575">
                   <caret line="3992" column="38" selection-start-line="3992" selection-start-column="38" selection-end-line="3992" selection-end-column="38" />
                   <folding>
-                    <marker date="1451501841000" expanded="true" signature="166804:166841" placeholder="{...}" />
-                    <marker date="1451501841000" expanded="true" signature="166849:166886" placeholder="{...}" />
+                    <marker date="1451503019000" expanded="true" signature="166804:166841" placeholder="{...}" />
+                    <marker date="1451503019000" expanded="true" signature="166849:166886" placeholder="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -122,16 +129,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-38.125" vertical-offset="0" max-vertical-offset="1695">
                   <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="editForm.tpl.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/editForm.tpl.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="945">
-                  <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
                   <folding />
                 </state>
               </provider>
@@ -151,20 +148,20 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="apiRoutes.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="apiRoutes.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server/lib/routes/apiRoutes.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1006" max-vertical-offset="3015">
-                  <caret line="101" column="17" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
+                <state vertical-scroll-proportion="0.6052632" vertical-offset="1186" max-vertical-offset="3030">
+                  <caret line="122" column="37" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="inventory.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="inventory.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/client/src/common/resources/inventory.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.7180451" vertical-offset="121" max-vertical-offset="1380">
+                <state vertical-scroll-proportion="0.0" vertical-offset="121" max-vertical-offset="1380">
                   <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
                   <folding />
                 </state>
@@ -218,20 +215,20 @@
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/editForm.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/common/utils.js" />
         <option value="$PROJECT_DIR$/client/src/common/resources/orderform.js" />
-        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory.js" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/common/directives/loading.js" />
-        <option value="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" />
         <option value="$PROJECT_DIR$/client/src/sass/inc/sidepanel.scss" />
         <option value="$PROJECT_DIR$/client/src/common/resources/inventory.js" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/sidepanel/edit.tpl.html" />
-        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/sidepanel/create.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.js" />
         <option value="$PROJECT_DIR$/client/src/sass/inc/base.scss" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory.tpl.html" />
         <option value="$PROJECT_DIR$/client/src/sass/inc/nav.scss" />
         <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/createForm.tpl.html" />
+        <option value="$PROJECT_DIR$/server/lib/routes/apiRoutes.js" />
+        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory.js" />
+        <option value="$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js" />
       </list>
     </option>
   </component>
@@ -296,82 +293,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -391,128 +312,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="inc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="directives" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -621,80 +420,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="inventory-items" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="inventory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="inventory-items" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sidepanel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="img" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1056,36 +781,36 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="11835">
           <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
           <folding>
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1451501840000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1451503016000" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1142,14 +867,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
           <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.074074" vertical-offset="2278" max-vertical-offset="3315">
-          <caret line="179" column="0" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1211,34 +928,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lib/routes/apiRoutes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1006" max-vertical-offset="3015">
-          <caret line="101" column="17" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/common/resources/inventory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7180451" vertical-offset="121" max-vertical-offset="1380">
-          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/editForm.tpl.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="945">
           <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.518518" vertical-offset="613" max-vertical-offset="2505">
-          <caret line="67" column="23" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1251,21 +944,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="916" max-vertical-offset="3060">
-          <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/dist/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="59526" max-vertical-offset="100575">
           <caret line="3992" column="38" selection-start-line="3992" selection-start-column="38" selection-end-line="3992" selection-end-column="38" />
           <folding>
-            <marker date="1451501841000" expanded="true" signature="166804:166841" placeholder="{...}" />
-            <marker date="1451501841000" expanded="true" signature="166849:166886" placeholder="{...}" />
+            <marker date="1451503019000" expanded="true" signature="166804:166841" placeholder="{...}" />
+            <marker date="1451503019000" expanded="true" signature="166849:166886" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1304,14 +989,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/createForm.tpl.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.072115384" vertical-offset="0" max-vertical-offset="1040">
-          <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+        <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="810">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#nav#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/common/resources/inventory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="121" max-vertical-offset="1380">
+          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/routes/apiRoutes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6052632" vertical-offset="1186" max-vertical-offset="3030">
+          <caret line="122" column="37" selection-start-line="122" selection-start-column="37" selection-end-line="122" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-ordering/inventory-ordering.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="916" max-vertical-offset="3060">
+          <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2011" max-vertical-offset="3300">
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app/inventory/inventory-items/inventory-items.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76856315" vertical-offset="1513" max-vertical-offset="2550">
+          <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="154" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>

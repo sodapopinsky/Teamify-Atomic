@@ -36,7 +36,7 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
             $scope.loading = false;
 
             inventory.inventory = response;
-            setAdditionalInventoryProperties();
+            $scope.setAdditionalInventoryProperties();
             $scope.inventory = inventory.inventory;
 
         }, function (error) {
@@ -47,9 +47,8 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
     }
     $scope.fetchInventory();
 
-
-    function setAdditionalInventoryProperties(){
-
+$scope.setAdditionalInventoryProperties = function(){
+console.log("here");
         for(var i = 0; i < inventory.inventory.length; i++){
             var item = inventory.inventory[i];
 

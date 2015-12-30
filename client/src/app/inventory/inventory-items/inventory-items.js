@@ -150,7 +150,10 @@ angular.module('inventory').controller('InventoryItems_EditController', function
             return;
         }
         inventory.updateItem($scope.item).$promise.then(function (response) {
-            original = JSON.parse(JSON.stringify($scope.item));
+
+            original = utils.copy(response.item);
+            console.log(original);
+            $scope.setAdditionalInventoryProperties();
            notificate.success("Your Changes Have Been Saved","#cd-panel-notification");
         }, function (error) {
             console.log(error);
