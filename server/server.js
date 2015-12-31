@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
 
 app.get('/setup', function(req, res) {
 
-    // create a sample user
+    // create a sample user test
     var nick = new User({
         first_name: 'Joe',
         last_name: 'Spitale',
