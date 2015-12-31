@@ -1,0 +1,36 @@
+.color-primary{
+  color: $brand-primary;
+  .faded {
+   color: transparentize($brand-primary,.5);
+  }
+}
+
+.background-primary{
+  background-color: $brand-primary;
+  .faded {
+    background-color: transparentize($brand-primary,.5);
+  }
+}
+
+.background-secondary{
+  background-color: $brand-secondary;
+}
+
+.background-gray{
+  background-color: $brand-gray;
+}
+
+.text-secondary{
+ color: $secondary-on-light;
+}
+.text-disabled{
+  color: $disabled-on-light;
+}
+
+.text-red{
+  color: $brand-red;
+}
+
+.faded {
+  opacity: 0.7;
+}

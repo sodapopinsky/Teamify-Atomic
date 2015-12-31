@@ -1,0 +1,27 @@
+label{
+  color:$secondary-on-light;
+}
+.form-group{
+  .glyphicon-search{
+    position: absolute;
+    top:3px;
+    right:5px;
+    color:$disabled-on-light;
+  }
+}
+.tmf-form-control {
+  @extend .form-control;
+  font-size:13px;
+  color: $primary-on-light;
+  border-radius: 20px;
+  height:40px;
+  padding: 5px 20px;
+  border: 1px solid $divider-on-light;
+  font-weight:500;
+  &[type="text"] {
+
+  }
+
+
+}
+

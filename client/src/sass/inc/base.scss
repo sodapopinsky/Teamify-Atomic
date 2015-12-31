@@ -1,0 +1,143 @@
+.container{
+  //padding-right:0px;
+  //padding-left:0px;
+}
+
+html,
+body {
+  height: 100%;
+  margin:0px; padding:0px;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+hr{
+  border-top:1px solid $divider-on-light !important;
+  margin:0px;
+}
+.notificate {
+  position: absolute;
+  z-index:5001;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+
+  text-align: center;
+  line-height: 68px;
+  height:70px;
+  overflow: hidden;
+
+  font-weight:400;
+  font-size:$font-size-h5;
+  letter-spacing: 1.05px;
+
+  border-bottom: 1px solid $divider-on-light;
+}
+.notificate-success{
+
+  background: $brand-green;
+  color:#158745;
+}
+.notificate-error{
+  border-top:2px solid $divider-on-light;
+  background: $brand-red;
+  color:#FFF;
+}
+
+.cd-panel-notification{
+  z-index:5000;
+  position:absolute;
+  bottom:70px;
+  left:0;
+  right:0;
+  height:70px;
+}
+
+#wrap {
+  min-height: 100% !important;
+  height: auto !important;
+  /* Negative indent footer by its height */
+  margin: 0 auto -260px !important;
+  /* Pad bottom by footer height */
+  padding: 0 0 260px !important;
+}
+
+body{
+
+  color: $primary-on-light; //"Muli"
+  font-family:"Muli","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+h1{
+  font-size:$font-size-h1;
+  font-weight:300;
+}
+h2{
+  font-size:$font-size-h2;
+  color: $brand-navy;
+}
+h3{
+  font-size:$font-size-h3;
+  color: $brand-navy;
+}
+h4{
+  font-size:$font-size-h4;
+}
+label{
+  color:$secondary-on-light;
+  font-weight:500;
+  font-size:13px;
+}
+
+
+ul.tmfDropdown{
+  padding:0px;
+  margin:0px;
+  >li {
+    padding: 8px;
+    margin:0px;
+    border-bottom: 1px solid #CCC;
+    > a{
+      padding:0px;
+    }
+    &:last-of-type {
+      border: none;
+    }
+
+  }
+  > li:hover {
+    cursor:pointer;
+
+  }
+}
+
+.modal-content{
+  padding:0px !important;
+  margin:0px;
+}
+.avatar{
+  background-color:$brand-navy;
+  color:$primary-on-dark;
+  width:46px;
+  height:46px;
+  text-align:center;
+  line-height:46px;
+  border-radius: 23px;
+  font-size: 18px;
+  font-weight:300;
+
+}
+
+
+
+//Marging and Padding
+.voffset  { margin-top: 2px; }
+.voffset1 { margin-top: 5px; }
+.voffset2 { margin-top: 10px; }
+.voffset3 { margin-top: 15px; }
+.voffset4 { margin-top: 30px; }
+.voffset5 { margin-top: 40px; }
+.voffset6 { margin-top: 60px; }
+.voffset7 { margin-top: 80px; }
+.voffset8 { margin-top: 100px; }
+.voffset9 { margin-top: 150px; }
+

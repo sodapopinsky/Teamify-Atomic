@@ -1,0 +1,62 @@
+
+
+<!--
+<nav class="tmf-nav-sidepanel">
+    <div class="navbar-header" style="width:100%">
+        <div class="pull-right" style="position:relative; top:5px; right:10px;">
+            <button ng-if="activeUser.status == 1" class="btn btn-default pull-right cd-btn-status" type="submit" ng-click="terminateUser(activeUser)" >Terminate</button>
+            <button ng-if="activeUser.status == 0" class="btn btn-default pull-right cd-btn-status" type="submit" ng-click="reactivateUser()" >Re-Activate</button>
+        </div>
+       <div class="avatar pull-left" style="position:relative; top:5px; left:10px;">JS</div>
+            <div class=" navbar-brand pull-left">{{activeUser.first_name}} {{activeUser.last_name}}
+
+
+    </div>
+</div>
+</nav>
+-->
+<div class="cd-panel-content">
+
+    <div class="cd-panel-nav">
+        <div class="pull-right" style="position:relative;  right:10px;">
+            <button ng-if="activeUser.status == 1" class="btn btn-default" type="submit" ng-click="terminateUser(activeUser)" >Terminate</button>
+            <button ng-if="activeUser.status == 0" class="btn btn-default" type="submit" ng-click="reactivateUser()" >Re-Activate</button>
+        </div>
+        <div class="avatar">{{activeUser.first_name.slice(0,1)}}{{activeUser.last_name.slice(0,1)}}</div>
+        <div class=" navbar-brand">{{activeUser.first_name}} {{activeUser.last_name}}</div>
+
+    </div>
+
+
+    <form>
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" ng-model="activeUser.first_name">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="lastName">Last Name</label>
+                <input ng-model="activeUser.last_name" type="text" class="form-control" id="lastName">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="pin">Workstation PIN</label>
+                <input type="text" ng-model="activeUser.pin"  class="form-control" id="pin" placeholder="Optional">
+            </div>
+
+        </div>
+
+
+
+
+
+    </form>
+
+    <div class="cd-panel-footer background-secondary">
+
+        <button type="submit" class="btn btn-primary pull-right" ng-click="updateUser()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelChanges()">Cancel</button>
+    </div>
+</div> <!-- cd-panel-content -->

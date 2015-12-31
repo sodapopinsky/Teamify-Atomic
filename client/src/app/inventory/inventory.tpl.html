@@ -1,0 +1,26 @@
+
+<nav class="tmf-nav">
+
+
+    <ul class="navbar-nav navbar-right">
+        <li ui-sref-active-if="app.inventory.items" ui-sref="app.inventory.items">Items</li>
+        <li ui-sref-active-if="app.inventory.ordering" ui-sref="app.inventory.ordering">Ordering</li>
+
+    </ul>
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <a class="navbar-brand" >Inventory</a>
+    </div>
+
+</nav>
+
+<div ui-view="content" style="margin:20px;"></div>
+
+<!-- SIDE PANEL -->
+<div class="cd-panel from-right"   id="addInventoryItemPanel">
+    <div class="cd-panel-container">
+        <div ui-view="panelContent"></div>
+    </div>
+    <!-- cd-panel-container -->
+</div> <!-- cd-panels -->
