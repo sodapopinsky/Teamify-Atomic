@@ -13,7 +13,7 @@ mod.filter('inArray', function() {
         });
     };
 });
-//test
+
 mod.filter('zeroFloor', function() {
     return function(input) {
         if(input < 0)
