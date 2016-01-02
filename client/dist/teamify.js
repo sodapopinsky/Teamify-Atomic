@@ -1,5 +1,5 @@
-/*! teamify - v0.0.1 - 2015-12-30
- * Copyright (c) 2015 Nick Spitale;
+/*! teamify - v0.0.1 - 2016-01-02
+ * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
 angular.module('app', [
@@ -8,19 +8,20 @@ angular.module('app', [
     'satellizer',
     'team',
     'inventory',
+    'home',
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
     'notificate',
-    'oc.modal',
+    'oc.modal', //fd
     'templates.app']);
 
 
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
-         'ui.bootstrap',
+         'ui.bootstrap', //f
         'resources.sales']);
 
 angular.module('app').run(function($rootScope, $state) {
@@ -116,7 +117,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
 
 
     // Redirect to the auth state if any other states
-    // are requested other than users
+    // are requested other than usersff fdfd
     $urlRouterProvider.otherwise('/auth');
 
 
@@ -236,6 +237,117 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 
     });
+angular.module('home', [])
+
+    .config(function($stateProvider){
+
+        $stateProvider
+            .state('app.home', {
+                abstract: true,
+                views: {
+                    "content@app": {
+                        templateUrl: "home/home.tpl.html"
+                    }
+                }
+            });
+    });
+angular.module('home')
+    .config(function($stateProvider) {
+        $stateProvider
+            .state('app.home.sales', {
+                url: '/home/sales',
+                views: {
+                    "content": {
+                        controller: 'Home_SalesController',
+                        templateUrl:"home/sales/sales.tpl.html"
+                    }
+                }
+            });
+
+    });
+
+
+
+angular.module('home').controller('Home_SalesController', function($scope,user) {
+
+    $scope.day = moment();
+
+});
+
+
+
+
+angular.module('home').
+    directive("calendar", function() {
+    return {
+        restrict: "E",
+        templateUrl: "home/sales/calendar.tpl.html",
+        scope: {
+            selected: "="
+        },
+        link: function(scope) {
+            scope.selected = _removeTime(scope.selected || moment());
+            scope.month = scope.selected.clone();
+
+            var start = scope.selected.clone();
+            start.date(1);
+            _removeTime(start.day(0));
+
+            _buildMonth(scope, start, scope.month);
+
+            scope.select = function(day) {
+                scope.selected = day.date;
+            };
+
+            scope.next = function() {
+                var next = scope.month.clone();
+                _removeTime(next.month(next.month()+1).date(1));
+                scope.month.month(scope.month.month()+1);
+                _buildMonth(scope, next, scope.month);
+            };
+
+            scope.previous = function() {
+                var previous = scope.month.clone();
+                _removeTime(previous.month(previous.month()-1).date(1));
+                scope.month.month(scope.month.month()-1);
+                _buildMonth(scope, previous, scope.month);
+            };
+        }
+    };
+
+        function _removeTime(date) {
+            return date.day(0).hour(0).minute(0).second(0).millisecond(0);
+        }
+
+        function _buildMonth(scope, start, month) {
+            scope.weeks = [];
+            var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
+            while (!done) {
+                scope.weeks.push({ days: _buildWeek(date.clone(), month) });
+                date.add(1, "w");
+                done = count++ > 2 && monthIndex !== date.month();
+                monthIndex = date.month();
+            }
+        }
+
+        function _buildWeek(date, month) {
+            var days = [];
+            for (var i = 0; i < 7; i++) {
+                days.push({
+                    name: date.format("dd").substring(0, 1),
+                    number: date.date(),
+                    isCurrentMonth: date.month() === month.month(),
+                    isToday: date.isSame(new Date(), "day"),
+                    date: date
+                });
+                date = date.clone();
+                date.add(1, "d");
+            }
+            return days;
+        }
+
+
+});
 
 angular.module('inventory')
     .config(function($stateProvider) {
@@ -1446,110 +1558,7 @@ angular.module('utils',[])
 
         return factory;
 });
-angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CONFIG','$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
-
-  function MongolabResourceFactory(collectionName) {
-
-    var url = MONGOLAB_CONFIG.baseUrl + MONGOLAB_CONFIG.dbName + '/collections/' + collectionName;
-    var defaultParams = {};
-    if (MONGOLAB_CONFIG.apiKey) {
-      defaultParams.apiKey = MONGOLAB_CONFIG.apiKey;
-    }
-    
-    var thenFactoryMethod = function (httpPromise, successcb, errorcb, isArray) {
-      var scb = successcb || angular.noop;
-      var ecb = errorcb || angular.noop;
-
-      return httpPromise.then(function (response) {
-        var result;
-        if (isArray) {
-          result = [];
-          for (var i = 0; i < response.data.length; i++) {
-            result.push(new Resource(response.data[i]));
-          }
-        } else {
-          //MongoLab has rather peculiar way of reporting not-found items, I would expect 404 HTTP response status...
-          if (response.data === " null "){
-            return $q.reject({
-              code:'resource.notfound',
-              collection:collectionName
-            });
-          } else {
-            result = new Resource(response.data);
-          }
-        }
-        scb(result, response.status, response.headers, response.config);
-        return result;
-      }, function (response) {
-        ecb(undefined, response.status, response.headers, response.config);
-        return undefined;
-      });
-    };
-
-    var Resource = function (data) {
-      angular.extend(this, data);
-    };
-
-    Resource.all = function (cb, errorcb) {
-      return Resource.query({}, cb, errorcb);
-    };
-
-    Resource.query = function (queryJson, successcb, errorcb) {
-      var params = angular.isObject(queryJson) ? {q:JSON.stringify(queryJson)} : {};
-      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
-      return thenFactoryMethod(httpPromise, successcb, errorcb, true);
-    };
-
-    Resource.getById = function (id, successcb, errorcb) {
-      var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.getByIds = function (ids, successcb, errorcb) {
-      var qin = [];
-      angular.forEach(ids, function (id) {
-         qin.push({$oid: id});
-      });
-      return Resource.query({_id:{$in:qin}}, successcb, errorcb);
-    };
-
-    //instance methods
-
-    Resource.prototype.$id = function () {
-      if (this._id && this._id.$oid) {
-        return this._id.$oid;
-      }
-    };
-
-    Resource.prototype.$save = function (successcb, errorcb) {
-      var httpPromise = $http.post(url, this, {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$update = function (successcb, errorcb) {
-      var httpPromise = $http.put(url + "/" + this.$id(), angular.extend({}, this, {_id:undefined}), {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$remove = function (successcb, errorcb) {
-      var httpPromise = $http['delete'](url + "/" + this.$id(), {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$saveOrUpdate = function (savecb, updatecb, errorSavecb, errorUpdatecb) {
-      if (this.$id()) {
-        return this.$update(updatecb, errorUpdatecb);
-      } else {
-        return this.$save(savecb, errorSavecb);
-      }
-    };
-
-    return Resource;
-  }
-  return MongolabResourceFactory;
-}]);
-
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1585,6 +1594,59 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
+angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/home.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.home.sales\" ui-sref=\"app.home.sales\">Sales</li>\n" +
+    "        <!--  <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
+    "  -->\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Atomic Burger</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
+    "");
+}]);
+
+angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/calendar.tpl.html",
+    "<div class=\"row\">\n" +
+    "\n" +
+    "    <div class=\"header\">\n" +
+    "    <i class=\"glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\"></i>\n" +
+    "    <i class=\"glyphicon glyphicon-chevron-right pull-right\" ng-click=\"next()\"></i>\n" +
+    "        <div>{{month.format(\"MMMM, YYYY\")}}</div>\n" +
+    "</div>\n" +
+    "<div class=\"week names\">\n" +
+    "    <span class=\"day\">Sun</span>\n" +
+    "    <span class=\"day\">Mon</span>\n" +
+    "    <span class=\"day\">Tue</span>\n" +
+    "    <span class=\"day\">Wed</span>\n" +
+    "    <span class=\"day\">Thu</span>\n" +
+    "    <span class=\"day\">Fri</span>\n" +
+    "    <span class=\"day\">Sat</span>\n" +
+    "</div>\n" +
+    "<div class=\"week\" ng-repeat=\"week in weeks\">\n" +
+    "    <span class=\"day\" ng-class=\"{ today: day.isToday, 'different-month': !day.isCurrentMonth,\n" +
+    "    selected: day.date.isSame(selected) }\" ng-click=\"select(day)\" ng-repeat=\"day in week.days\">{{day.number}}</span>\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("home/sales/sales.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/sales.tpl.html",
+    "<calendar selected=\"day\"></calendar>");
+}]);
+
 angular.module("index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("index.tpl.html",
     "<div id=\"sidebar-wrapper\">\n" +
@@ -1608,6 +1670,10 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "    </div>\n" +
     "    <ul class=\"sidebar-nav\">\n" +
+    "        <li>\n" +
+    "            <a  ui-sref-active-if=\"app.home\" ui-sref=\"app.home.sales\">\n" +
+    "                <span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><p>ATOMIC BURGER</p></a>\n" +
+    "        </li>\n" +
     "        <li>\n" +
     "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.members\">\n" +
     "                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span><p>TEAM</p></a>\n" +

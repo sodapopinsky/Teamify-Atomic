@@ -1,6 +1,7 @@
 @import "bootstrap";
 
 @import 'inc/variables';
+@import 'inc/calendar';
 @import 'inc/colors';
 @import 'inc/sidebar';
 @import 'inc/nav';
@@ -14,6 +15,7 @@
 
 .time-numbers > *, .time-entry > * {
   display: inline-block;
+
 }
 
 .timepicker {
@@ -22,7 +24,7 @@
 
 @media (min-width: 546px) {
   .time-entry-comment {
-    position: relative;
+    position: relative; //
     top: 60px;
   }
 }

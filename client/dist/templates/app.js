@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -34,6 +34,59 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
+angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/home.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.home.sales\" ui-sref=\"app.home.sales\">Sales</li>\n" +
+    "        <!--  <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
+    "  -->\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Atomic Burger</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
+    "");
+}]);
+
+angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/calendar.tpl.html",
+    "<div class=\"row\">\n" +
+    "\n" +
+    "    <div class=\"header\">\n" +
+    "    <i class=\"glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\"></i>\n" +
+    "    <i class=\"glyphicon glyphicon-chevron-right pull-right\" ng-click=\"next()\"></i>\n" +
+    "        <div>{{month.format(\"MMMM, YYYY\")}}</div>\n" +
+    "</div>\n" +
+    "<div class=\"week names\">\n" +
+    "    <span class=\"day\">Sun</span>\n" +
+    "    <span class=\"day\">Mon</span>\n" +
+    "    <span class=\"day\">Tue</span>\n" +
+    "    <span class=\"day\">Wed</span>\n" +
+    "    <span class=\"day\">Thu</span>\n" +
+    "    <span class=\"day\">Fri</span>\n" +
+    "    <span class=\"day\">Sat</span>\n" +
+    "</div>\n" +
+    "<div class=\"week\" ng-repeat=\"week in weeks\">\n" +
+    "    <span class=\"day\" ng-class=\"{ today: day.isToday, 'different-month': !day.isCurrentMonth,\n" +
+    "    selected: day.date.isSame(selected) }\" ng-click=\"select(day)\" ng-repeat=\"day in week.days\">{{day.number}}</span>\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("home/sales/sales.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/sales.tpl.html",
+    "<calendar selected=\"day\"></calendar>");
+}]);
+
 angular.module("index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("index.tpl.html",
     "<div id=\"sidebar-wrapper\">\n" +
@@ -57,6 +110,10 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "    </div>\n" +
     "    <ul class=\"sidebar-nav\">\n" +
+    "        <li>\n" +
+    "            <a  ui-sref-active-if=\"app.home\" ui-sref=\"app.home.sales\">\n" +
+    "                <span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><p>ATOMIC BURGER</p></a>\n" +
+    "        </li>\n" +
     "        <li>\n" +
     "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.members\">\n" +
     "                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span><p>TEAM</p></a>\n" +

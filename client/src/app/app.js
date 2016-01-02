@@ -4,19 +4,20 @@ angular.module('app', [
     'satellizer',
     'team',
     'inventory',
+    'home',
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
     'notificate',
-    'oc.modal',
+    'oc.modal', //fd
     'templates.app']);
 
 
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
-         'ui.bootstrap',
+         'ui.bootstrap', //f
         'resources.sales']);
 
 angular.module('app').run(function($rootScope, $state) {
@@ -112,7 +113,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
 
 
     // Redirect to the auth state if any other states
-    // are requested other than users
+    // are requested other than usersff fdfd
     $urlRouterProvider.otherwise('/auth');
 
 

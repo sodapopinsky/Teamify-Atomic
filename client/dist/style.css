@@ -5843,6 +5843,52 @@ h1 {
   h1 div {
     color: #000; }
 
+calendar {
+  display: block;
+  background: white;
+  width: 100%;
+  border: solid 1px #CCC;
+  margin-bottom: 10px; }
+  calendar .header {
+    width: 100%;
+    background: #ccc;
+    height: 40px;
+    color: #656A72;
+    text-align: center; }
+    calendar .header > span {
+      width: 100%;
+      background-color: #FFF;
+      text-align: center; }
+  calendar .week {
+    float: left;
+    width: 100%;
+    background-color: #000;
+    border-top: solid 1px #CCC; }
+    calendar .week:first-child {
+      border-top: none; }
+    calendar .week > .day {
+      float: left;
+      width: calc(100%/7);
+      height: 70px;
+      border-left: solid 1px #CCC;
+      font-size: 0.75em;
+      text-align: center;
+      background: white;
+      cursor: pointer;
+      color: black; }
+      calendar .week > .day:first-child {
+        border-left: none; }
+      calendar .week > .day.today {
+        background: #E3F2FF; }
+      calendar .week > .day.different-month {
+        color: #C0C0C0; }
+      calendar .week > .day.selected {
+        background: #000;
+        color: white; }
+    calendar .week .names {
+      color: #000066;
+      font-weight: bold; }
+
 .color-primary {
   color: #4E8EF7; }
   .color-primary .faded {
