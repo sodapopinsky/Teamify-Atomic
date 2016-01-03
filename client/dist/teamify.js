@@ -1,5 +1,5 @@
-/*! teamify - v0.0.1 - 2015-12-30
- * Copyright (c) 2015 Nick Spitale;
+/*! teamify - v0.0.1 - 2016-01-03
+ * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
 angular.module('app', [
