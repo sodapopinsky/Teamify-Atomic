@@ -23,7 +23,8 @@ var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
 var Inventory   = require('./lib/models/inventory');
-
+var Organization   = require('./lib/models/organization');
+var Projection   = require('./lib/models/projection');
 app.use(allowCrossDomain);
 
 mongoose.connect(config.databaseURI(process.env.MONGOLAB_URI));
@@ -75,6 +76,25 @@ app.get('/setup', function(req, res) {
         res.json({ success: true });
     });
 });
+
+app.get('/setup/organization', function(req, res) {
+
+    // create a sample user test
+    var org = new Organization({
+        name: 'Atomic Burger',
+        default_projections: [1000,2000,3000,4000,5000,6000,7000]
+    });
+
+    // save the sample user
+    org.save(function(err) {
+        if (err) throw err;
+
+        console.log('saved successfully');
+        res.json({ success: true });
+    });
+});
+
+
 
 app.get('/setup/inventory', function(req, res) {
 

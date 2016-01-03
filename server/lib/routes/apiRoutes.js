@@ -1,7 +1,10 @@
 var User   = require('../models/user');
 var Inventory   = require('../models/inventory');
 var OrderForm   = require('../models/orderform');
+var Organization   = require('../models/organization');
+var Projection   = require('../models/projection');
 var morgan = require('morgan');
+var moment = require('moment');
 exports.addRoutes = function(apiRoutes) {
 
 
@@ -192,6 +195,79 @@ exports.addRoutes = function(apiRoutes) {
 
         });
     });
+
+
+
+    ///////ORGANIZATION
+    apiRoutes.route('/organization/:id')
+        .get(function(req, res) {
+            Organization.find({}, function(err, organization) {
+                res.json(organization);
+            });
+        })
+
+    ///////Projection
+    apiRoutes.route('/projections')
+        .post(function(req, res) {
+
+            var projection = new Projection();
+            projection.date = moment(req.body.date).toDate();
+            projection.organization = req.body.organization;
+            projection.projection = req.body.projection;
+
+
+            projection.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Created!', projection:projection });
+            });
+
+        });
+
+    apiRoutes.route('/projections/:id')
+        .get(function(req, res) {
+
+
+            var start = moment(req.query.start).startOf('day');
+            var end = moment(req.query.end).endOf('day');
+
+            Projection.find({
+                date: {
+                    $gte: start.toDate(),
+                    $lte: end.toDate()
+                }
+            }, function(err, projection) {
+
+                res.json(projection);
+            });
+
+        });
+
+    apiRoutes.route('/projections/update_default')
+        .put(function(req, res) {
+
+
+            Organization.findById(req.body.organization,function(err, organization) {
+                if (err)
+                    res.send(err);
+
+                var arr = organization.default_projections;
+                arr[req.body.day] = req.body.projection;
+                organization.update({default_projections: arr }, null, function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: ' updated'});
+                });
+
+
+
+
+            });
+
+        })
+
+
 
 
 };
