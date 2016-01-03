@@ -232,3 +232,4 @@ $scope.setAdditionalInventoryProperties = function(){
 
 
 
+

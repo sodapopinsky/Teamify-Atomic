@@ -1013,6 +1013,7 @@ $scope.setAdditionalInventoryProperties = function(){
 
 
 
+
 angular.module('team-members', ['resources.users'])
 .config(function($stateProvider) {
     $stateProvider
