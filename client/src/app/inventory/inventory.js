@@ -182,7 +182,7 @@ $scope.setAdditionalInventoryProperties = function(){
 
     function adjustedQuantityOnHand(item){
 
-        var lastUpdatedMoment = moment(item.quantity_on_hand.updated_at).subtract(5,'days');
+        var lastUpdatedMoment = moment(item.quantity_on_hand.updated_at);
 
         var adjustedQuantity = item.quantity_on_hand.quantity;
 
