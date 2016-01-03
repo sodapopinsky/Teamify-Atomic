@@ -23,14 +23,10 @@
         });
 
         factory.getById = function(id){
-            factory.data.loading = true;
-            return Organization.query({id:id}).$promise.then(function(response){
 
-                factory.data.organization = response[0];
+            return Organization.query({id:id});
 
-                factory.data.loading = true;
 
-            });
         }
 
 

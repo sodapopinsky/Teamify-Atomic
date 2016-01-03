@@ -276,11 +276,18 @@ angular.module('home')
 
 angular.module('home').controller('Home_SalesController', function ($scope, organization, projection, $ocModal) {
 
-    organization.getById(1);
-
     $scope.organizationData = organization.data;
 
-    $scope.organization = organization.data.organization;
+    organization.getById(1).$promise.then(function(response){ // @tmf fix id
+        organization.data.organization = response[0];
+
+        $scope.getProjections();
+
+    });
+
+
+
+   // $scope.organization = organization.data.organization;
 
     $scope.projection = projection.data;
 
@@ -293,7 +300,7 @@ angular.module('home').controller('Home_SalesController', function ($scope, orga
             });
     };
 
-    $scope.getProjections();
+
 
     $scope.day = moment();
 
@@ -502,7 +509,7 @@ angular.module('inventory').controller('InventoryItems_CreateController', functi
 angular.module('inventory').controller('InventoryItems_EditController', function($scope,notificate, $state,$stateParams,$auth, $rootScope,inventory,utils) {
 
 
-
+    //@tmf update for quantity needs to be separated from item infromation edit so that updated field is reliable
 
     $scope.item = utils.getObjectById($stateParams.id,$scope.inventory);
     if(!$scope.inventory || !$scope.item) {
@@ -703,11 +710,11 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 });
 
 angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
-console.log("forms" + $scope.orderForms);
+
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
-    console.log("forms" + $scope.orderForms);
+
     $scope.saveChanges = function(){
 
         try {orderforms.isValid($scope.orderFormEditing)}
@@ -787,27 +794,34 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth,organization, $rootScope,projection, inventory) {
 
-    $scope.projections = [
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000}
 
-    ];
 
+    $scope.organizationData = organization.data;
+    $scope.projections = projection.data;
     $scope.inventory = [];
+
+    organization.getById(1).$promise.then(function(response){ // @tmf fix id
+        organization.data.organization = response[0];
+
+        projection.getProjectionsForDateRange(start.utc().format(),end.utc().format()).$promise.then(function (response) {
+            projection.data.projections = response;
+
+            $scope.fetchInventory();
+
+        });
+
+    });
+
+
 
     $scope.fetchInventory = function(){
         $scope.loading = true;
         inventory.all().$promise.then(function(response)
         {
             $scope.loading = false;
-
+//
             inventory.inventory = response;
             $scope.setAdditionalInventoryProperties();
             $scope.inventory = inventory.inventory;
@@ -818,10 +832,20 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         });
 
     }
-    $scope.fetchInventory();
+
+
+
+    var start = moment().subtract(60,'days');
+    var end = moment().add(60,'days');
+
+
+
+
+
+
 
 $scope.setAdditionalInventoryProperties = function(){
-console.log("here");
+
         for(var i = 0; i < inventory.inventory.length; i++){
             var item = inventory.inventory[i];
 
@@ -898,6 +922,7 @@ console.log("here");
 
 
 
+
     function calculateLastsUntil(par,usage){
         var day = moment();
         var quantity = par;
@@ -905,7 +930,9 @@ console.log("here");
 
         while(i < 31) {
 
-            quantity = quantity - (usage / 1000) * $scope.projections[day.day()].projection;
+
+            var proj = projection.projectionForDate(day);
+            quantity = quantity - (usage / 1000) * proj;
 
             if(quantity <= 0){
                 return day.format("ddd, MM/DD");;
@@ -926,7 +953,7 @@ console.log("here");
                 break;
             }
 
-            salesProjection = salesProjection + $scope.projections[end.day()].projection;
+            salesProjection = salesProjection + projection.projectionForDate(end);
             end.subtract(1, 'days');
         }
         return salesProjection;
@@ -935,8 +962,8 @@ console.log("here");
 
     function adjustedQuantityOnHand(item){
 
-      //  var lastUpdatedMoment =  $scope.momentFromApi(item.updated_at);  //this needs to be a separate field so it does not update for things like name change...
-        var lastUpdatedMoment = Date.now();
+        var lastUpdatedMoment = moment(item.quantity_on_hand.updated_at).subtract(5,'days');
+
         var adjustedQuantity = item.quantity_on_hand.quantity;
 
 
@@ -956,8 +983,8 @@ console.log("here");
             }
 
 
-            var dayProjection = $scope.projections[dayPointer.day()];
-            var adjustment = (item.usage_per_thousand / 1000) * dayProjection.projection;
+            var dayProjection = projection.projectionForDate(dayPointer);
+            var adjustment = (item.usage_per_thousand / 1000) * dayProjection;
 
             adjustedQuantity = adjustedQuantity - adjustment;
 
@@ -1556,14 +1583,10 @@ angular.module('notificate',[])
         });
 
         factory.getById = function(id){
-            factory.data.loading = true;
-            return Organization.query({id:id}).$promise.then(function(response){
 
-                factory.data.organization = response[0];
+            return Organization.query({id:id});
 
-                factory.data.loading = true;
 
-            });
         }
 
 
@@ -1580,7 +1603,7 @@ angular.module('notificate',[])
         .module('resources.projection',[])
         .factory('projection', projection);
 
-    function projection($resource,user) {
+    function projection($resource,user,organization) {
 
 
     var userData = user.data;
@@ -1605,6 +1628,24 @@ angular.module('notificate',[])
         });
 
 
+        factory.projectionForDate = function (date) {
+
+            var x = 1;
+            var i = -1;
+            var organizationData = organization.data;
+            angular.forEach(factory.data.projections, function (value, index) {
+                if (moment(value.date).isSame(date, 'day'))
+                    i = index;
+                x = 2;
+            });
+
+            if (i > -1)
+               return factory.data.projections[i].projection;
+                 //@tmf this is dumb, default projections should be in this factory, not organization
+               return organizationData.organization.default_projections[date.weekday()];
+
+
+        }
 
         factory.getProjectionsForDateRange  = function(start,end){
 
@@ -2083,11 +2124,11 @@ angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$
     "            </td>\n" +
     "\n" +
     "            <td class=\"col-sm-3 text-secondary text-center\"  >\n" +
-    "                {{item.quantity_on_hand.quantity}}\n" +
+    "                {{item.quantity_on_hand.quantity | number:1}}\n" +
     "            </td>\n" +
     "\n" +
     "            <td class=\"col-sm-3 text-center\"  >\n" +
-    "                <div>{{item.usage_per_thousand > 0 ? item.adjusted_quantity_on_hand : 'Usage Not Set'}}</div>\n" +
+    "                <div>{{item.usage_per_thousand > 0 ? (item.adjusted_quantity_on_hand | number:1) : 'Usage Not Set'}}</div>\n" +
     "\n" +
     "            </td>\n" +
     "\n" +
@@ -2518,7 +2559,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "\n" +
     "\n" +
     "            <div ng-if=\"item.usage_per_thousand !== undefined\">\n" +
-    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "                {{item.adjusted_quantity_on_hand | number:1}}\n" +
     "            </div>\n" +
     "            <div ng-show=\"{{item.usage_per_thousand === undefined}}\">\n" +
     "                <div class=\"text-danger\" style=\"font-size:12px\">Usage Not Set </div>\n" +
@@ -2537,7 +2578,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                0\n" +
     "            </div>\n" +
     "            <div ng-if=\"item.par_value >0\">\n" +
-    "                {{item.calculated_par.par}}\n" +
+    "                {{item.calculated_par.par | number:1}}\n" +
     "            </div>\n" +
     "\n" +
     "        </td>\n" +
@@ -2547,7 +2588,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
     "                <div class=\"text-center col-sm-8\">\n" +
     "\n" +
-    "                    <b>{{item.orderQuantity | zeroFloor }}</b>\n" +
+    "                    <b>{{item.orderQuantity | zeroFloor | number:1 }}</b>\n" +
     "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +

@@ -14,27 +14,34 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth,organization, $rootScope,projection, inventory) {
 
-    $scope.projections = [
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000}
 
-    ];
 
+    $scope.organizationData = organization.data;
+    $scope.projections = projection.data;
     $scope.inventory = [];
+
+    organization.getById(1).$promise.then(function(response){ // @tmf fix id
+        organization.data.organization = response[0];
+
+        projection.getProjectionsForDateRange(start.utc().format(),end.utc().format()).$promise.then(function (response) {
+            projection.data.projections = response;
+
+            $scope.fetchInventory();
+
+        });
+
+    });
+
+
 
     $scope.fetchInventory = function(){
         $scope.loading = true;
         inventory.all().$promise.then(function(response)
         {
             $scope.loading = false;
-
+//
             inventory.inventory = response;
             $scope.setAdditionalInventoryProperties();
             $scope.inventory = inventory.inventory;
@@ -45,10 +52,20 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         });
 
     }
-    $scope.fetchInventory();
+
+
+
+    var start = moment().subtract(60,'days');
+    var end = moment().add(60,'days');
+
+
+
+
+
+
 
 $scope.setAdditionalInventoryProperties = function(){
-console.log("here");
+
         for(var i = 0; i < inventory.inventory.length; i++){
             var item = inventory.inventory[i];
 
@@ -125,6 +142,7 @@ console.log("here");
 
 
 
+
     function calculateLastsUntil(par,usage){
         var day = moment();
         var quantity = par;
@@ -132,7 +150,9 @@ console.log("here");
 
         while(i < 31) {
 
-            quantity = quantity - (usage / 1000) * $scope.projections[day.day()].projection;
+
+            var proj = projection.projectionForDate(day);
+            quantity = quantity - (usage / 1000) * proj;
 
             if(quantity <= 0){
                 return day.format("ddd, MM/DD");;
@@ -153,7 +173,7 @@ console.log("here");
                 break;
             }
 
-            salesProjection = salesProjection + $scope.projections[end.day()].projection;
+            salesProjection = salesProjection + projection.projectionForDate(end);
             end.subtract(1, 'days');
         }
         return salesProjection;
@@ -162,8 +182,8 @@ console.log("here");
 
     function adjustedQuantityOnHand(item){
 
-      //  var lastUpdatedMoment =  $scope.momentFromApi(item.updated_at);  //this needs to be a separate field so it does not update for things like name change...
-        var lastUpdatedMoment = Date.now();
+        var lastUpdatedMoment = moment(item.quantity_on_hand.updated_at).subtract(5,'days');
+
         var adjustedQuantity = item.quantity_on_hand.quantity;
 
 
@@ -183,8 +203,8 @@ console.log("here");
             }
 
 
-            var dayProjection = $scope.projections[dayPointer.day()];
-            var adjustment = (item.usage_per_thousand / 1000) * dayProjection.projection;
+            var dayProjection = projection.projectionForDate(dayPointer);
+            var adjustment = (item.usage_per_thousand / 1000) * dayProjection;
 
             adjustedQuantity = adjustedQuantity - adjustment;
 
