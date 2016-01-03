@@ -12,7 +12,8 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['jshint','build','karma:unit']);
-    grunt.registerTask('build', ['clean','html2js','concat','sass','copy:assets']);
+    grunt.registerTask('buildsass', ['sass']);
+    grunt.registerTask('build', ['html2js','concat','copy:assets']);
     grunt.registerTask('release', ['clean','html2js','uglify','karma:unit','concat:index', 'recess:min','copy:assets']);
     grunt.registerTask('test-watch', ['karma:watch']); //'jshint'
     grunt.loadNpmTasks('grunt-contrib-sass');
@@ -114,22 +115,16 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
             },
+            vendor_css: {
+                src:['bower_components/components-font-awesome/css/font-awesome.min.css',
+                    'bower_components/sweetalert/dist/sweetalert.css',
+                    'bower_components/ocModal/dist/css/ocModal.light.min.css',
+                    'bower_components/ocModal/dist/css/ocModal.animations.min.css'],
+                dest: '<%= distdir %>/vendor.css'
+            },
             angular: {
                 src:['bower_components/angular/angular.js','bower_components/angular-ui-router/release/angular-ui-router.min.js'],
                 dest: '<%= distdir %>/angular.js'
-            },
-            sweetalert: {
-                src:['bower_components/sweetalert/dist/sweetalert.css'],
-                dest: '<%= distdir %>/sweetalert.css'
-            },
-            ocModal: {
-                src:['bower_components/ocModal/dist/css/ocModal.light.min.css',
-                    'bower_components/ocModal/dist/css/ocModal.animations.min.css'],
-                dest: '<%= distdir %>/ocModal.css'
-            },
-            mongo: {
-                src:['src/vendor/mongolab-resource.js'],
-                dest: '<%= distdir %>/mongolab.js'
             },
             jquery: {
                 src:['vendor/jquery/*.js'],
@@ -180,15 +175,30 @@ module.exports = function (grunt) {
             }
         },
         watch:{
-            all: {
-                files:['<%= src.js %>', '<%= src.specs %>',  '<%= src.sassWatch %>','<%= src.lessWatch %>', '<%= src.tpl.app %>', '<%= src.tpl.common %>', '<%= src.html %>'],
-                tasks:['default','timestamp']
+            main: {
+                files:['<%= src.js %>', '<%= src.specs %>', '<%= src.tpl.app %>', '<%= src.tpl.common %>', '<%= src.html %>'],
+                tasks:['build','timestamp'],
+
+                options: {
+                    livereload: true
+                }
+            },
+            sass:{
+                files:['<%= src.sassWatch %>'],
+                tasks:['buildsass','timestamp'],
+                options: {
+                    livereload: true
+                }
             },
             build: {
-                files:['<%= src.js %>', '<%= src.specs %>', '<%= src.sassWatch %>', '<%= src.lessWatch %>', '<%= src.tpl.app %>', '<%= src.tpl.common %>', '<%= src.html %>'],
-                tasks:['build','timestamp']
+                files:['<%= src.js %>', '<%= src.specs %>', '<%= src.tpl.app %>', '<%= src.tpl.common %>', '<%= src.html %>'],
+                tasks:['build','timestamp'],
+                options: {
+                    livereload: true
+                }
             }
         },
+
         jshint:{
             files:['gruntFile.js', '<%= src.js %>', '<%= src.jsTpl %>', '<%= src.specs %>', '<%= src.scenarios %>'],
             options:{

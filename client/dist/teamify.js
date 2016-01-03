@@ -1,5 +1,5 @@
-/*! teamify - v0.0.1 - 2015-12-30
- * Copyright (c) 2015 Nick Spitale;
+/*! teamify - v0.0.1 - 2016-01-03
+ * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
 angular.module('app', [
@@ -8,10 +8,13 @@ angular.module('app', [
     'satellizer',
     'team',
     'inventory',
+    'home',
+
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
+    'resources.organization',
     'notificate',
     'oc.modal',
     'templates.app']);
@@ -20,8 +23,8 @@ angular.module('app', [
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
-         'ui.bootstrap',
-        'resources.sales']);
+         'ui.bootstrap', //f
+        'resources.projection']);
 
 angular.module('app').run(function($rootScope, $state) {
 
@@ -116,7 +119,7 @@ angular.module('app').config(function($stateProvider, $locationProvider,$urlRout
 
 
     // Redirect to the auth state if any other states
-    // are requested other than users
+    // are requested other than usersff fdfd
     $urlRouterProvider.otherwise('/auth');
 
 
@@ -162,7 +165,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
     .state('logout', {
             url: '/logout',
 
-            controller: function($scope,$auth,$rootScope,$state) {
+            controller: function($scope,$auth,$rootScope,$state,user) {
 
                 $auth.logout().then(function() {
 
@@ -174,6 +177,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                     $rootScope.authenticated = false;
 
                     // Remove the current user info from rootscope
+                    user.data.currentUser = null;
                     $rootScope.currentUser = null;
 
                     $state.go('auth');
@@ -183,12 +187,14 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 })
 
-.controller('AuthController', function($auth, $state, $http, $rootScope) {
+.controller('AuthController', function($auth, $state, $http, $rootScope,user) {
 
 
             var vm = this;
             vm.email = "joe@theatomicburger.com";
             vm.password = "password";
+
+        vm.userData = user.data;
 
             vm.login = function() {
 
@@ -220,6 +226,8 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                        // us to access it anywhere across the app
                        $rootScope.currentUser = response.data.user;
 
+                          vm.userData.currentUser = response.data.user;
+
                        // Everything worked out so we can now redirect to
                        // the users state to view the data
                          $state.go('app.team.members');
@@ -236,6 +244,169 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 
     });
+angular.module('home', ['directives.calendar'])
+
+    .config(function($stateProvider){
+
+        $stateProvider
+            .state('app.home', {
+                abstract: true,
+                views: {
+                    "content@app": {
+                        templateUrl: "home/home.tpl.html"
+                    }
+                }
+            });
+    });
+angular.module('home')
+    .config(function ($stateProvider) {
+        $stateProvider
+            .state('app.home.sales', {
+                url: '/home/sales',
+                views: {
+                    "content": {
+                        controller: 'Home_SalesController',
+                        templateUrl: "home/sales/sales.tpl.html"
+                    }
+                }
+            });
+
+    });
+
+
+angular.module('home').controller('Home_SalesController', function ($scope, organization, projection, $ocModal) {
+
+    organization.getById(1);
+
+    $scope.organizationData = organization.data;
+
+    $scope.organization = organization.data.organization;
+
+    $scope.projection = projection.data;
+
+    $scope.currentMonth = moment();
+    $scope.getProjections = function () {
+        projection.getProjectionsForDateRange($scope.currentMonth.startOf('month').utc().format(),
+            $scope.currentMonth.endOf('month').utc().format()).$promise.then(function (response) {
+                projection.data.projections = response;
+
+            });
+    };
+
+    $scope.getProjections();
+
+    $scope.day = moment();
+
+    $scope.selectDay = function (day) {
+        console.log(day);
+    }
+
+    $scope.customProjection = function (day) {
+        $ocModal.open({
+            id: 'editCustomProjection',
+            url: 'home/sales/editCustomProjection.tpl.html', //
+            controller: 'EditCustomProjectionController',
+            init: {
+                date: day.date,
+                projection: $scope.projectionForDay(day)
+            },
+            onClose: function (needsRefresh) {
+                if (needsRefresh) {
+                    $scope.getProjections(); //@tmf shouldnt need to hit server for this.  save from response.
+                }
+            }
+        });
+    }
+
+    $scope.projectionForWeek = function (week) {
+
+        var total = 0;
+        angular.forEach(week.days, function (value) {
+
+              total = total + parseInt(value.projection);
+        });
+
+        return total;
+
+    }
+
+    $scope.projectionForDay = function (day) {
+
+        var x = 1;
+        var i = -1;
+
+        angular.forEach($scope.projection.projections, function (value, index) {
+            if (moment(value.date).isSame(day.date, 'day'))
+                i = index;
+            x = 2;
+        });
+
+        if (i > -1)
+            day.projection =  $scope.projection.projections[i].projection
+        else
+              day.projection =   $scope.organizationData.organization.default_projections[day.date.weekday()];
+
+        return day.projection;
+    }
+
+    $scope.editDefaultProjection = function (day) {
+
+        $ocModal.open({
+            id: 'editDefaultProjection',
+            url: 'home/sales/editDefaultProjection.tpl.html',
+            controller: 'EditDefaultProjectionController',
+            init: {
+                day: day,
+                projection: $scope.organizationData.organization.default_projections[day]
+            }
+
+        });
+    }
+
+});
+
+angular.module('home').controller('EditDefaultProjectionController',
+    function ($scope, $state, $ocModal, projection, organization, user) {
+
+
+        $scope.userData = user.data;
+        $scope.saveChanges = function () {
+            $scope.loading = true;
+            projection.updateDefaultProjections($scope.day, $scope.projection).$promise.then(function (response) {
+                $scope.loading = false;
+
+                $ocModal.close(true);
+            });
+
+        }
+
+
+    });
+
+
+angular.module('home').controller('EditCustomProjectionController',
+    function ($scope, $state, $ocModal, projection, organization, user) {
+
+        $scope.userData = user.data;
+        $scope.loading = true;
+        $scope.saveChanges = function () {
+            projection.save({
+                organization: $scope.userData.currentUser.organization,
+                date: $scope.date.utc().format(),
+                projection: $scope.projection
+            }).$promise.then(function (response) {
+                    $scope.loading = false;
+                    $ocModal.close(true);
+                });
+
+        }
+
+
+    });
+
+
+
+
 
 angular.module('inventory')
     .config(function($stateProvider) {
@@ -616,7 +787,7 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
 
     $scope.projections = [
         {"projection":1000},
@@ -1003,6 +1174,123 @@ angular.module('team', ['team-members'])
         });
     });
 
+angular.module('directives.calendar',[]).
+    directive("calendar", function(projection) {
+        return {
+            restrict: "E",
+            templateUrl: "home/sales/calendar.tpl.html",
+            scope: false,
+            link: function (scope) {
+                scope.selected = _removeTime(scope.selected || moment());
+                scope.month = scope.selected.clone();
+                scope.loading = false;
+                var start = scope.selected.clone();
+                start.date(1);
+                _removeTime(start.day(0));
+
+                _buildMonth(scope, start, scope.month);
+
+
+                scope.next = function () {
+
+                    scope.loading = true;
+                    var from = scope.month.clone();
+                    var to = from.clone().add(1, 'month');
+                    var start = to.clone().startOf('month').utc().format();
+                    var end = to.clone().endOf('month').utc().format();
+                    scope.currentMonth = to.clone();
+                    projection.getProjectionsForDateRange(start, end).$promise.then(function (response) {
+
+                        projection.data.projections = response;
+                        var next = scope.month.clone();
+
+                        _removeTime(next.month(next.month() + 1).date(1));
+                        scope.month.month(scope.month.month() + 1);
+                        _buildMonth(scope, next, scope.month);
+                        scope.loading = false;
+                    });
+
+
+
+                };
+
+                scope.goCustomProjection = function(day) {
+
+
+                    if (!day.date.isSame(scope.month, 'month'))
+                        return;
+
+                    scope.customProjection(day);
+
+                }; //
+
+                scope.previous = function () {
+
+                    scope.loading = true;
+                    var previous = scope.month.clone();
+                    var current = previous.clone().subtract(1, 'month');
+                    var start = current.clone().startOf('month').utc().format();
+                    var end = current.clone().endOf('month').utc().format();
+                    scope.currentMonth = current.clone();
+                    projection.getProjectionsForDateRange(start, end).$promise.then(function (response) {
+
+                        projection.data.projections = response;
+                        console.log(previous.month() - 1);
+
+                        _removeTime(previous.month(previous.month() - 1).date(1));
+                        scope.month.month(scope.month.month() - 1);
+                        _buildMonth(scope, previous, scope.month);
+                        scope.loading = false;
+                    });
+
+
+                };
+            }
+        };
+
+
+
+        function _removeTime(date) {
+            return date.day(0).hour(0).minute(0).second(0).millisecond(0);
+        }
+
+        function _buildMonth(scope, start, month) {
+            scope.weeks = [];
+            var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
+
+            while (!done) {
+                scope.weeks.push({ days: _buildWeek(date.clone(), month) });
+                date.add(1, "w");
+                done = count++ > 2 && monthIndex !== date.month();
+                monthIndex = date.month();
+            }
+        }
+
+        function _buildWeek(date, month) {
+            var days = [];
+
+
+            for (var i = 0; i < 7; i++) {
+
+                    days.push({
+                        name: date.format("dd").substring(0, 1),
+                        number: date.date(),
+                        isCurrentMonth: date.month() === month.month(),
+                        isToday: date.isSame(new Date(), "day"),
+                        date: date
+                    });
+
+
+                date = date.clone();
+                date.add(1, "d");
+            }
+
+            return days;
+        }
+
+
+    });
+
 
 angular.module('directives.loading',[]).directive('loading', function () {
         return {
@@ -1249,6 +1537,107 @@ angular.module('notificate',[])
     'use strict';
 
     angular
+        .module('resources.organization',[])
+        .factory('organization', organization);
+
+    function organization($resource) {
+
+
+        var factory = {};
+        factory.data={organization:{},loading:false};
+            factory.data.loading=false;
+
+
+        // ngResource call to our static data
+        var Organization = $resource('api/organization/:id', {}, {
+            update: {
+                method: 'PUT'//
+            }
+        });
+
+        factory.getById = function(id){
+            factory.data.loading = true;
+            return Organization.query({id:id}).$promise.then(function(response){
+
+                factory.data.organization = response[0];
+
+                factory.data.loading = true;
+
+            });
+        }
+
+
+        return factory;
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.projection',[])
+        .factory('projection', projection);
+
+    function projection($resource,user) {
+
+
+    var userData = user.data;
+
+        var factory = {};
+        factory.data={projections:[],loading:false};
+        factory.data.loading=false;
+
+        // ngResource call to our static data
+        var Projection = $resource('api/projections/:id', {start: '@start', end:'@end'}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+        var r = $resource('api/projections/update_default', {organization: '@id',
+            day: '@day',
+            projection: '@projection'}, {
+            'update': {
+                method: 'PUT'
+            }
+        });
+
+
+
+        factory.getProjectionsForDateRange  = function(start,end){
+
+            return Projection.query({id:1,start:start,end:end});
+        }
+
+
+        factory.save = function(data){
+            return Projection.save(data);
+        }
+
+        factory.updateDefaultProjections = function(day,projection) {
+
+
+            return r.update(
+                {organization:userData.currentUser.organization,
+                    day: day,
+                    projection: projection
+
+                });
+        }
+
+        return factory;
+
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
         .module('resources.sales',[])
         .factory('sales', sales);
 
@@ -1256,46 +1645,23 @@ angular.module('notificate',[])
 
 
 
+        var factory = {};
+        factory.data={projections:[],loading:false};
+        factory.data.loading=false;
+
         // ngResource call to our static data
-        var Sales = $resource('api/sales/:id', {}, {
+        var Sales = $resource('api/sales/:id', {start: '@start', end:'@end'}, {
             update: {
                 method: 'PUT'
             }
         });
 
 
-        function dailySalesForPeriod() {
-            return Sales.query();
-        }
-
-
-        function weeklyProjections(){
 
 
 
-            return $resource('api/sales/projections.json', {}, {}).query().$promise.then(function (response) {
-                return  [
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000}
+        return factory;
 
-                ];
-                return response;
-            }, function (error) {
-                console.log(error);
-            });
-
-        }
-
-
-        return {
-            dailySalesForPeriod: dailySalesForPeriod,
-            weeklyProjections: weeklyProjections
-        }
     }
 
 })();
@@ -1309,7 +1675,17 @@ angular.module('notificate',[])
         .factory('user', user);
 
 
-    function user($resource) {
+    function user($resource,$rootScope) {
+
+        var factory = {};
+
+        factory.data = {currentUser: $rootScope.currentUser,loading:false};
+
+        factory.getUsers = function(){
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            return User.query();
+        }
 
         // ngResource call to our static data
         var User = $resource('api/users/:id', {}, {
@@ -1357,15 +1733,17 @@ angular.module('notificate',[])
         }
 
 
-
+return factory;
+        /*
         return {
             getUsers: getUsers,
             createUser: createUser,
             updateUser: updateUser,
             getById: getById,
             isValid: isValid
-        };
+        }; */
     }
+
 
 })();
 
@@ -1446,110 +1824,7 @@ angular.module('utils',[])
 
         return factory;
 });
-angular.module('mongolabResource', []).factory('mongolabResource', ['MONGOLAB_CONFIG','$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
-
-  function MongolabResourceFactory(collectionName) {
-
-    var url = MONGOLAB_CONFIG.baseUrl + MONGOLAB_CONFIG.dbName + '/collections/' + collectionName;
-    var defaultParams = {};
-    if (MONGOLAB_CONFIG.apiKey) {
-      defaultParams.apiKey = MONGOLAB_CONFIG.apiKey;
-    }
-    
-    var thenFactoryMethod = function (httpPromise, successcb, errorcb, isArray) {
-      var scb = successcb || angular.noop;
-      var ecb = errorcb || angular.noop;
-
-      return httpPromise.then(function (response) {
-        var result;
-        if (isArray) {
-          result = [];
-          for (var i = 0; i < response.data.length; i++) {
-            result.push(new Resource(response.data[i]));
-          }
-        } else {
-          //MongoLab has rather peculiar way of reporting not-found items, I would expect 404 HTTP response status...
-          if (response.data === " null "){
-            return $q.reject({
-              code:'resource.notfound',
-              collection:collectionName
-            });
-          } else {
-            result = new Resource(response.data);
-          }
-        }
-        scb(result, response.status, response.headers, response.config);
-        return result;
-      }, function (response) {
-        ecb(undefined, response.status, response.headers, response.config);
-        return undefined;
-      });
-    };
-
-    var Resource = function (data) {
-      angular.extend(this, data);
-    };
-
-    Resource.all = function (cb, errorcb) {
-      return Resource.query({}, cb, errorcb);
-    };
-
-    Resource.query = function (queryJson, successcb, errorcb) {
-      var params = angular.isObject(queryJson) ? {q:JSON.stringify(queryJson)} : {};
-      var httpPromise = $http.get(url, {params:angular.extend({}, defaultParams, params)});
-      return thenFactoryMethod(httpPromise, successcb, errorcb, true);
-    };
-
-    Resource.getById = function (id, successcb, errorcb) {
-      var httpPromise = $http.get(url + '/' + id, {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.getByIds = function (ids, successcb, errorcb) {
-      var qin = [];
-      angular.forEach(ids, function (id) {
-         qin.push({$oid: id});
-      });
-      return Resource.query({_id:{$in:qin}}, successcb, errorcb);
-    };
-
-    //instance methods
-
-    Resource.prototype.$id = function () {
-      if (this._id && this._id.$oid) {
-        return this._id.$oid;
-      }
-    };
-
-    Resource.prototype.$save = function (successcb, errorcb) {
-      var httpPromise = $http.post(url, this, {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$update = function (successcb, errorcb) {
-      var httpPromise = $http.put(url + "/" + this.$id(), angular.extend({}, this, {_id:undefined}), {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$remove = function (successcb, errorcb) {
-      var httpPromise = $http['delete'](url + "/" + this.$id(), {params:defaultParams});
-      return thenFactoryMethod(httpPromise, successcb, errorcb);
-    };
-
-    Resource.prototype.$saveOrUpdate = function (savecb, updatecb, errorSavecb, errorUpdatecb) {
-      if (this.$id()) {
-        return this.$update(updatecb, errorUpdatecb);
-      } else {
-        return this.$save(savecb, errorSavecb);
-      }
-    };
-
-    return Resource;
-  }
-  return MongolabResourceFactory;
-}]);
-
-angular.module('templates.app', ['auth/auth.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1585,6 +1860,140 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
+angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/home.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.home.sales\" ui-sref=\"app.home.sales\">Sales</li>\n" +
+    "        <!--  <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
+    "  -->\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Atomic Burger</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
+    "");
+}]);
+
+angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/calendar.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"row\" ng-if=\"organizationData.organization.default_projections && loading == false\">\n" +
+    "\n" +
+    "    <div class=\"header\">\n" +
+    "    <span class=\" glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\" ></span>\n" +
+    "        <span class=\" glyphicon glyphicon-chevron-right pull-right\" ng-click=\"next()\" ></span>\n" +
+    "\n" +
+    "        <div>{{month.format(\"MMMM, YYYY\")}}</div>\n" +
+    "</div>\n" +
+    "<div class=\"week names\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(0)\">\n" +
+    "       <div>Sun</div>\n" +
+    "    </span>\n" +
+    "     <span class=\"title\" ng-click=\"editDefaultProjection(1)\">\n" +
+    "        <div>Mon</div>\n" +
+    "     </span>\n" +
+    "\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(2)\">\n" +
+    "        <div>Tue</div>\n" +
+    "    </span>\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(3)\">\n" +
+    "        <div>Wed</div>\n" +
+    "    </span>\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(4)\">\n" +
+    "           <div>Thu</div>\n" +
+    "    </span>\n" +
+    "        <span class=\"title\" ng-click=\"editDefaultProjection(5)\">\n" +
+    "    <div>Fri</div>\n" +
+    "            </span>\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(6)\">\n" +
+    "           <div>Sat</div>\n" +
+    "    </span>\n" +
+    "      <span class=\"title\">\n" +
+    "           <div>Total</div>\n" +
+    "    </span>\n" +
+    "\n" +
+    "</div>\n" +
+    "<div class=\"week\" ng-repeat=\"week in weeks\">\n" +
+    "    <span class=\"day\" ng-class=\"{ today: day.isToday, 'different-month': !day.isCurrentMonth,\n" +
+    "    selected: day.date.isSame(selected) }\"  ng-click=\"goCustomProjection(day)\" ng-repeat=\"day in week.days\">\n" +
+    "\n" +
+    "          <div class=\"day-number center-block\">{{day.number}}</div>\n" +
+    "          <h3>{{projectionForDay(day) | currency:\"$\":0}}</h3>\n" +
+    "\n" +
+    "    </span>\n" +
+    "    <div class=\"day total\"><h3>{{projectionForWeek(week) | currency:\"$\":0}}</h3></div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("home/sales/editCustomProjection.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/editCustomProjection.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "\n" +
+    "            Edit Custom Projection\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <input type=\"text\" ng-model=\"projection\">\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("home/sales/editDefaultProjection.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/editDefaultProjection.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "\n" +
+    "            Edit Default Projection\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <input type=\"text\" ng-model=\"projection\">\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("home/sales/sales.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/sales.tpl.html",
+    "<calendar selected=\"day\" > </calendar>");
+}]);
+
 angular.module("index.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("index.tpl.html",
     "<div id=\"sidebar-wrapper\">\n" +
@@ -1608,6 +2017,10 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "\n" +
     "    </div>\n" +
     "    <ul class=\"sidebar-nav\">\n" +
+    "        <li>\n" +
+    "            <a  ui-sref-active-if=\"app.home\" ui-sref=\"app.home.sales\">\n" +
+    "                <span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><p>ATOMIC BURGER</p></a>\n" +
+    "        </li>\n" +
     "        <li>\n" +
     "            <a  ui-sref-active-if=\"app.team\" ui-sref=\"app.team.members\">\n" +
     "                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span><p>TEAM</p></a>\n" +

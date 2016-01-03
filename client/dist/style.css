@@ -5843,6 +5843,90 @@ h1 {
   h1 div {
     color: #000; }
 
+/* ===== Rounded Corners ===== */
+calendar {
+  display: block;
+  background: white;
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(101, 106, 114, 0.12); }
+  calendar .header {
+    background: #656A72;
+    height: 50px;
+    padding: 15px;
+    color: #FFF;
+    text-align: center; }
+    calendar .header > div {
+      font-size: 18px; }
+    calendar .header > span {
+      height: 30px;
+      width: 30px !important;
+      color: #656A72;
+      cursor: pointer;
+      line-height: 30px;
+      position: relative;
+      top: -5px;
+      opacity: 0.8;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 15px;
+      -moz-border-radius: 15px;
+      -webkit-border-radius: 15px; }
+    calendar .header > span {
+      width: 100%;
+      background-color: #FFF;
+      text-align: center; }
+  calendar .week {
+    float: left;
+    width: 100%;
+    border-top: solid 1px rgba(101, 106, 114, 0.12); }
+    calendar .week:first-child {
+      border-top: none; }
+    calendar .week .title {
+      background-color: #F2F4F5;
+      color: #656A72;
+      height: 50px;
+      float: left;
+      line-height: 50px;
+      width: calc(100%/8);
+      border-left: solid 1px rgba(101, 106, 114, 0.12);
+      text-align: center;
+      cursor: pointer; }
+    calendar .week > .day {
+      float: left;
+      width: calc(100%/8);
+      height: 90px;
+      border-left: solid 1px rgba(101, 106, 114, 0.12);
+      text-align: center;
+      background: white;
+      cursor: pointer;
+      color: black; }
+      calendar .week > .day.total {
+        height: 90px;
+        padding-top: 30px;
+        background: rgba(101, 106, 114, 0.12);
+        border-bottom: solid 1px rgba(101, 106, 114, 0.12); }
+      calendar .week > .day > .day-number {
+        margin-top: 10px;
+        background-color: #F2F4F5;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 12px;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 12px; }
+      calendar .week > .day:first-child {
+        border-left: none; }
+      calendar .week > .day.today > .day-number {
+        background-color: #4E8EF7 !important;
+        color: #FFF; }
+      calendar .week > .day.different-month {
+        opacity: 0.4;
+        cursor: default; }
+    calendar .week .names {
+      color: #000066;
+      font-weight: bold; }
+
 .color-primary {
   color: #4E8EF7; }
   .color-primary .faded {

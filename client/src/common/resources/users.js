@@ -8,7 +8,17 @@
         .factory('user', user);
 
 
-    function user($resource) {
+    function user($resource,$rootScope) {
+
+        var factory = {};
+
+        factory.data = {currentUser: $rootScope.currentUser,loading:false};
+
+        factory.getUsers = function(){
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            return User.query();
+        }
 
         // ngResource call to our static data
         var User = $resource('api/users/:id', {}, {
@@ -56,14 +66,16 @@
         }
 
 
-
+return factory;
+        /*
         return {
             getUsers: getUsers,
             createUser: createUser,
             updateUser: updateUser,
             getById: getById,
             isValid: isValid
-        };
+        }; */
     }
+
 
 })();

@@ -11,46 +11,23 @@
 
 
 
+        var factory = {};
+        factory.data={projections:[],loading:false};
+        factory.data.loading=false;
+
         // ngResource call to our static data
-        var Sales = $resource('api/sales/:id', {}, {
+        var Sales = $resource('api/sales/:id', {start: '@start', end:'@end'}, {
             update: {
                 method: 'PUT'
             }
         });
 
 
-        function dailySalesForPeriod() {
-            return Sales.query();
-        }
-
-
-        function weeklyProjections(){
 
 
 
-            return $resource('api/sales/projections.json', {}, {}).query().$promise.then(function (response) {
-                return  [
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000}
+        return factory;
 
-                ];
-                return response;
-            }, function (error) {
-                console.log(error);
-            });
-
-        }
-
-
-        return {
-            dailySalesForPeriod: dailySalesForPeriod,
-            weeklyProjections: weeklyProjections
-        }
     }
 
 })();
