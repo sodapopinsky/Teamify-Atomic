@@ -129,11 +129,11 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 });
 
 angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
-console.log("forms" + $scope.orderForms);
+
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
-    console.log("forms" + $scope.orderForms);
+
     $scope.saveChanges = function(){
 
         try {orderforms.isValid($scope.orderFormEditing)}

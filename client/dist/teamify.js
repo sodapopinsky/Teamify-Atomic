@@ -703,11 +703,11 @@ angular.module('inventory').controller('InventoryOrdering_CreateFormController',
 });
 
 angular.module('inventory').controller('InventoryOrdering_EditController', function($scope,$state,orderforms,$ocModal, notificate, utils) {
-console.log("forms" + $scope.orderForms);
+
     $scope.orderFormEditing = utils.copy($scope.orderForm);
     $scope.inventoryEditing = utils.copy($scope.inventory);
 
-    console.log("forms" + $scope.orderForms);
+
     $scope.saveChanges = function(){
 
         try {orderforms.isValid($scope.orderFormEditing)}
@@ -787,18 +787,9 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope,projection, inventory) {
 
-    $scope.projections = [
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000},
-        {"projection":1000}
 
-    ];
 
     $scope.inventory = [];
 
@@ -818,7 +809,19 @@ angular.module('inventory').controller('InventoryController', function($scope,$s
         });
 
     }
-    $scope.fetchInventory();
+
+    var start = moment().subtract(60,'days');
+    var end = moment().add(60,'days');
+
+    projection.getProjectionsForDateRange(start,end).$promise.then(function(response){
+        projection.data.projections = response;
+        $scope.projections = projection.data.projections;
+        $scope.fetchInventory();
+    });
+
+
+
+
 
 $scope.setAdditionalInventoryProperties = function(){
 console.log("here");
