@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -60,56 +60,81 @@ angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", functi
   $templateCache.put("home/sales/calendar.tpl.html",
     "\n" +
     "\n" +
-    "<div class=\"row\" ng-if=\"organizationData.organization.default_projections\">\n" +
+    "<div class=\"row\" ng-if=\"organizationData.organization.default_projections && loading == false\">\n" +
     "\n" +
     "    <div class=\"header\">\n" +
-    "    <i class=\"glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\"></i>\n" +
-    "    <i class=\"glyphicon glyphicon-chevron-right pull-right\" ng-click=\"next()\"></i>\n" +
+    "    <span class=\" glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\" ></span>\n" +
+    "        <span class=\" glyphicon glyphicon-chevron-right pull-right\" ng-click=\"next()\" ></span>\n" +
+    "\n" +
     "        <div>{{month.format(\"MMMM, YYYY\")}}</div>\n" +
     "</div>\n" +
     "<div class=\"week names\">\n" +
-    "    <span class=\"day\" ng-click=\"editDefaultProjection(0)\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(0)\">\n" +
     "       <div>Sun</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[0]}}</div>\n" +
     "    </span>\n" +
-    "     <span class=\"day\">\n" +
+    "     <span class=\"title\" ng-click=\"editDefaultProjection(1)\">\n" +
     "        <div>Mon</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[1]}}</div>\n" +
     "     </span>\n" +
     "\n" +
-    "    <span class=\"day\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(2)\">\n" +
     "        <div>Tue</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[2]}}</div>\n" +
     "    </span>\n" +
-    "    <span class=\"day\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(3)\">\n" +
     "        <div>Wed</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[3]}}</div>\n" +
     "    </span>\n" +
-    "    <span class=\"day\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(4)\">\n" +
     "           <div>Thu</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[4]}}</div>\n" +
     "    </span>\n" +
-    "        <span class=\"day\">\n" +
+    "        <span class=\"title\" ng-click=\"editDefaultProjection(5)\">\n" +
     "    <div>Fri</div>\n" +
-    "    <div>{{organizationData.organization.default_projections[5]}}</div>\n" +
     "            </span>\n" +
-    "    <span class=\"day\">\n" +
+    "    <span class=\"title\" ng-click=\"editDefaultProjection(6)\">\n" +
     "           <div>Sat</div>\n" +
-    "        <div>{{organizationData.organization.default_projections[6]}}</div>\n" +
+    "    </span>\n" +
+    "      <span class=\"title\">\n" +
+    "           <div>Total</div>\n" +
     "    </span>\n" +
     "\n" +
     "</div>\n" +
     "<div class=\"week\" ng-repeat=\"week in weeks\">\n" +
     "    <span class=\"day\" ng-class=\"{ today: day.isToday, 'different-month': !day.isCurrentMonth,\n" +
-    "    selected: day.date.isSame(selected) }\" ng-click=\"selectDay(day)\" ng-repeat=\"day in week.days\">\n" +
-    "          {{day.number}}\n" +
-    "          <div class=\"projection\"><h3>{{projectionForDate(day.date)}}</h3></div>\n" +
+    "    selected: day.date.isSame(selected) }\"  ng-click=\"goCustomProjection(day)\" ng-repeat=\"day in week.days\">\n" +
+    "\n" +
+    "          <div class=\"day-number center-block\">{{day.number}}</div>\n" +
+    "          <h3>{{projectionForDay(day) | currency:\"$\":0}}</h3>\n" +
     "\n" +
     "    </span>\n" +
+    "    <div class=\"day total\"><h3>{{projectionForWeek(week) | currency:\"$\":0}}</h3></div>\n" +
     "\n" +
     "</div>\n" +
     "\n" +
     "</div>");
+}]);
+
+angular.module("home/sales/editCustomProjection.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/editCustomProjection.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "\n" +
+    "            Edit Custom Projection\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <input type=\"text\" ng-model=\"projection\">\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
 }]);
 
 angular.module("home/sales/editDefaultProjection.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -120,7 +145,7 @@ angular.module("home/sales/editDefaultProjection.tpl.html", []).run(["$templateC
     "        <div class=\"container-fluid\">\n" +
     "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
     "\n" +
-    "\n" +
+    "            Edit Default Projection\n" +
     "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
     "                    style=\"margin-right:5px;\">Save</button>\n" +
     "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +

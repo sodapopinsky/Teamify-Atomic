@@ -207,24 +207,41 @@ exports.addRoutes = function(apiRoutes) {
         })
 
     ///////Projection
+    apiRoutes.route('/projections')
+        .post(function(req, res) {
+
+            var projection = new Projection();
+            projection.date = moment(req.body.date).toDate();
+            projection.organization = req.body.organization;
+            projection.projection = req.body.projection;
+
+
+            projection.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Created!', projection:projection });
+            });
+
+        });
+
     apiRoutes.route('/projections/:id')
         .get(function(req, res) {
-         //   var start = req.params.start;
-         //   var end = req.params.end;
 
-            var start = moment().startOf('day');
-            var end = moment().add(30, 'days')
+
+            var start = moment(req.query.start).startOf('day');
+            var end = moment(req.query.end).endOf('day');
 
             Projection.find({
                 date: {
-                    $gte: start.toDate()
+                    $gte: start.toDate(),
+                    $lte: end.toDate()
                 }
             }, function(err, projection) {
 
                 res.json(projection);
             });
 
-        })
+        });
 
     apiRoutes.route('/projections/update_default')
         .put(function(req, res) {

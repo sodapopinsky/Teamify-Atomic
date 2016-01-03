@@ -3,17 +3,34 @@ calendar {
   display:block;
   background:white;
   width:100%;
-  border:solid 1px #CCC;
   margin-bottom:10px;
-
+border-bottom: 1px solid $divider-on-light;
 
  .header{
 
-   width:100%;
-   background:#ccc;
-   height:40px;
-   color:$brand-navy;
+   background:$brand-navy;
+   height:50px;
+   padding:15px;
+   color:#FFF;
    text-align:center;
+   > div{
+     font-size:18px;
+   }
+  > span{
+
+    height:30px;
+    width:30px !important;
+    color: $brand-navy;
+    cursor:pointer;
+    line-height:30px;
+    position:relative;
+    top:-5px;
+    opacity:0.8;
+    background:$divider-on-dark;
+    @include round-corners(15px);
+
+  }
+
    > span{
      width:100%;
      background-color:#FFF;
@@ -26,18 +43,48 @@ calendar {
     float:left;
     width:100%;
  //    background-color:#000;
-    border-top:solid 1px #CCC;
+    border-top:solid 1px $divider-on-light;
 
     &:first-child {
       border-top:none;
     }
 
+     .title{
+       background-color: $brand-secondary;
+       color: $brand-navy;
+       height:50px;
+       float:left;
+      line-height:50px;
+       width: calc(100%/8);
+       border-left:solid 1px $divider-on-light;
+       text-align:center;
+       cursor:pointer;
+
+     }
+
     > .day {
+      &.total{
+      height:90px;
+        padding-top:20px;
+        background:$divider-on-light;
+      }
+      > .day-number{
+        margin-top:10px;
+
+        background-color: $brand-secondary;
+        width:24px;
+        height:24px;
+        line-height:24px;
+        text-align:center;
+
+        @include round-corners(12px);
+
+      }
       float:left;
-      width: calc(100%/7);
-    height:70px;
-      border-left:solid 1px #CCC;
-      font-size:0.75em;
+      width: calc(100%/8);
+      height:90px;
+      border-left:solid 1px $divider-on-light;
+
       text-align:center;
 
       background:white;
@@ -49,21 +96,25 @@ calendar {
       }
 
       &.today {
-        background:#E3F2FF;
+        > .day-number{
+
+          background-color: $brand-primary !important;
+          color: #FFF;
+
+        }
+
+
+
+
       }
 
       &.different-month {
+        opacity: 0.4;
         cursor:default;
-        > .projection {
-          visibility: hidden;
-          color: #C0C0C0;
-        }
+
       }
 
-      &.selected {
-        background:#000;
-        color:white;
-      }
+
     }
 
      .names {

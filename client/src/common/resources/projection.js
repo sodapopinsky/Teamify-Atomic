@@ -11,7 +11,7 @@
 
 
     var userData = user.data;
-        console.log(userData);
+
         var factory = {};
         factory.data={projections:[],loading:false};
         factory.data.loading=false;
@@ -31,17 +31,21 @@
             }
         });
 
-        factory.getProjectionsForDateRange  = function(start,end){
-            return Projection.query({id:1,start:start,end:end}).$promise.then(function(response){
-                factory.data.projections = response;
 
-            });
+
+        factory.getProjectionsForDateRange  = function(start,end){
+
+            return Projection.query({id:1,start:start,end:end});
         }
 
 
+        factory.save = function(data){
+            return Projection.save(data);
+        }
+
         factory.updateDefaultProjections = function(day,projection) {
 
-     console.log(userData);
+
             return r.update(
                 {organization:userData.currentUser.organization,
                     day: day,
