@@ -45,9 +45,9 @@ angular.module('directives.calendar',[]).
                     if (!day.date.isSame(scope.month, 'month'))
                         return;
 
-                    scope.customProjection(day.date);
+                    scope.customProjection(day);
 
-                };
+                }; //
 
                 scope.previous = function () {
 

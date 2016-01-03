@@ -65,8 +65,9 @@ border-bottom: 1px solid $divider-on-light;
     > .day {
       &.total{
       height:90px;
-        padding-top:20px;
+        padding-top:30px;
         background:$divider-on-light;
+        border-bottom:solid 1px $divider-on-light;
       }
       > .day-number{
         margin-top:10px;

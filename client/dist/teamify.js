@@ -301,14 +301,14 @@ angular.module('home').controller('Home_SalesController', function ($scope, orga
         console.log(day);
     }
 
-    $scope.customProjection = function (date) {
+    $scope.customProjection = function (day) {
         $ocModal.open({
             id: 'editCustomProjection',
-            url: 'home/sales/editCustomProjection.tpl.html',
+            url: 'home/sales/editCustomProjection.tpl.html', //
             controller: 'EditCustomProjectionController',
             init: {
-                date: date,
-                projection: $scope.projectionForDate(date)
+                date: day.date,
+                projection: $scope.projectionForDay(day)
             },
             onClose: function (needsRefresh) {
                 if (needsRefresh) {
@@ -1220,9 +1220,9 @@ angular.module('directives.calendar',[]).
                     if (!day.date.isSame(scope.month, 'month'))
                         return;
 
-                    scope.customProjection(day.date);
+                    scope.customProjection(day);
 
-                };
+                }; //
 
                 scope.previous = function () {
 
