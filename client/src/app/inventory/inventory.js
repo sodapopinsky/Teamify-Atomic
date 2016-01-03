@@ -14,7 +14,7 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
 
     $scope.projections = [
         {"projection":1000},

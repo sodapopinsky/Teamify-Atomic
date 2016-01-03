@@ -1,4 +1,6 @@
-<div class="row">
+
+
+<div class="row" ng-if="organizationData.organization.default_projections">
 
     <div class="header">
     <i class="glyphicon glyphicon-chevron-left pull-left" ng-click="previous()"></i>
@@ -6,17 +8,45 @@
         <div>{{month.format("MMMM, YYYY")}}</div>
 </div>
 <div class="week names">
-    <span class="day">Sun</span>
-    <span class="day">Mon</span>
-    <span class="day">Tue</span>
-    <span class="day">Wed</span>
-    <span class="day">Thu</span>
-    <span class="day">Fri</span>
-    <span class="day">Sat</span>
+    <span class="day" ng-click="editDefaultProjection(0)">
+       <div>Sun</div>
+        <div>{{organizationData.organization.default_projections[0]}}</div>
+    </span>
+     <span class="day">
+        <div>Mon</div>
+        <div>{{organizationData.organization.default_projections[1]}}</div>
+     </span>
+
+    <span class="day">
+        <div>Tue</div>
+        <div>{{organizationData.organization.default_projections[2]}}</div>
+    </span>
+    <span class="day">
+        <div>Wed</div>
+        <div>{{organizationData.organization.default_projections[3]}}</div>
+    </span>
+    <span class="day">
+           <div>Thu</div>
+        <div>{{organizationData.organization.default_projections[4]}}</div>
+    </span>
+        <span class="day">
+    <div>Fri</div>
+    <div>{{organizationData.organization.default_projections[5]}}</div>
+            </span>
+    <span class="day">
+           <div>Sat</div>
+        <div>{{organizationData.organization.default_projections[6]}}</div>
+    </span>
+
 </div>
 <div class="week" ng-repeat="week in weeks">
     <span class="day" ng-class="{ today: day.isToday, 'different-month': !day.isCurrentMonth,
-    selected: day.date.isSame(selected) }" ng-click="select(day)" ng-repeat="day in week.days">{{day.number}}</span>
+    selected: day.date.isSame(selected) }" ng-click="selectDay(day)" ng-repeat="day in week.days">
+          {{day.number}}
+          <div class="projection"><h3>{{projectionForDate(day.date)}}</h3></div>
+
+    </span>
+
 </div>
 
 </div>

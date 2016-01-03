@@ -5862,7 +5862,6 @@ calendar {
   calendar .week {
     float: left;
     width: 100%;
-    background-color: #000;
     border-top: solid 1px #CCC; }
     calendar .week:first-child {
       border-top: none; }
@@ -5881,7 +5880,10 @@ calendar {
       calendar .week > .day.today {
         background: #E3F2FF; }
       calendar .week > .day.different-month {
-        color: #C0C0C0; }
+        cursor: default; }
+        calendar .week > .day.different-month > .projection {
+          visibility: hidden;
+          color: #C0C0C0; }
       calendar .week > .day.selected {
         background: #000;
         color: white; }

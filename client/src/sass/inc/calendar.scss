@@ -25,7 +25,7 @@ calendar {
    .week {
     float:left;
     width:100%;
-     background-color:#000;
+ //    background-color:#000;
     border-top:solid 1px #CCC;
 
     &:first-child {
@@ -53,7 +53,11 @@ calendar {
       }
 
       &.different-month {
-        color:#C0C0C0;
+        cursor:default;
+        > .projection {
+          visibility: hidden;
+          color: #C0C0C0;
+        }
       }
 
       &.selected {

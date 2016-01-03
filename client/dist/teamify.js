@@ -9,12 +9,14 @@ angular.module('app', [
     'team',
     'inventory',
     'home',
+
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
+    'resources.organization',
     'notificate',
-    'oc.modal', //fd
+    'oc.modal',
     'templates.app']);
 
 
@@ -22,7 +24,7 @@ angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
          'ui.bootstrap', //f
-        'resources.sales']);
+        'resources.projection']);
 
 angular.module('app').run(function($rootScope, $state) {
 
@@ -163,7 +165,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
     .state('logout', {
             url: '/logout',
 
-            controller: function($scope,$auth,$rootScope,$state) {
+            controller: function($scope,$auth,$rootScope,$state,user) {
 
                 $auth.logout().then(function() {
 
@@ -175,6 +177,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                     $rootScope.authenticated = false;
 
                     // Remove the current user info from rootscope
+                    user.data.currentUser = null;
                     $rootScope.currentUser = null;
 
                     $state.go('auth');
@@ -184,12 +187,14 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 })
 
-.controller('AuthController', function($auth, $state, $http, $rootScope) {
+.controller('AuthController', function($auth, $state, $http, $rootScope,user) {
 
 
             var vm = this;
             vm.email = "joe@theatomicburger.com";
             vm.password = "password";
+
+        vm.userData = user.data;
 
             vm.login = function() {
 
@@ -221,6 +226,8 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                        // us to access it anywhere across the app
                        $rootScope.currentUser = response.data.user;
 
+                          vm.userData.currentUser = response.data.user;
+
                        // Everything worked out so we can now redirect to
                        // the users state to view the data
                          $state.go('app.team.members');
@@ -237,7 +244,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 
     });
-angular.module('home', [])
+angular.module('home', ['directives.calendar'])
 
     .config(function($stateProvider){
 
@@ -268,86 +275,77 @@ angular.module('home')
 
 
 
-angular.module('home').controller('Home_SalesController', function($scope,user) {
+angular.module('home').controller('Home_SalesController', function($scope,organization,projection,$ocModal) {
+
+    organization.getById(1);
+    $scope.organizationData = organization.data;
+    $scope.organization = organization.data.organization;
+
+    $scope.projection = projection.data;
+
+    projection.getProjectionsForDateRange(moment(),moment());
 
     $scope.day = moment();
 
+    $scope.selectDay = function(day){
+        console.log(day);
+    }
+
+    $scope.projectionForDate = function(date){
+
+    var x = 1;
+        var i = -1;
+
+         angular.forEach($scope.projection.projections,function(value, index){
+            if(moment(value.date).isSame(date,'day'))
+                i = index;
+            x = 2;
+        });
+
+
+        if(i > -1){
+          return $scope.projection.projections[i].projection;}
+
+     return  $scope.organizationData.organization.default_projections[date.weekday()];
+    }
+
+    $scope.editDefaultProjection = function(day) {
+
+        $ocModal.open({
+            id: 'editDefaultProjection',
+            url: 'home/sales/editDefaultProjection.tpl.html',
+            controller: 'EditDefaultProjectionController',
+            init: {
+                day: day,
+                projection: $scope.organizationData.organization.default_projections[day]
+            },
+            onClose: function(orderForm) {
+            }
+        });
+    }
+
 });
 
+angular.module('home').controller('EditDefaultProjectionController',
+    function($scope,$state,$ocModal,projection,organization,user) {
 
+console.log($scope.projection);
 
+        $scope.userData = user.data;
+        $scope.saveChanges = function(){
+            projection.updateDefaultProjections($scope.day,$scope.projection).$promise.then(function(response){
+                console.log(response);
+            });
 
-angular.module('home').
-    directive("calendar", function() {
-    return {
-        restrict: "E",
-        templateUrl: "home/sales/calendar.tpl.html",
-        scope: {
-            selected: "="
-        },
-        link: function(scope) {
-            scope.selected = _removeTime(scope.selected || moment());
-            scope.month = scope.selected.clone();
-
-            var start = scope.selected.clone();
-            start.date(1);
-            _removeTime(start.day(0));
-
-            _buildMonth(scope, start, scope.month);
-
-            scope.select = function(day) {
-                scope.selected = day.date;
-            };
-
-            scope.next = function() {
-                var next = scope.month.clone();
-                _removeTime(next.month(next.month()+1).date(1));
-                scope.month.month(scope.month.month()+1);
-                _buildMonth(scope, next, scope.month);
-            };
-
-            scope.previous = function() {
-                var previous = scope.month.clone();
-                _removeTime(previous.month(previous.month()-1).date(1));
-                scope.month.month(scope.month.month()-1);
-                _buildMonth(scope, previous, scope.month);
-            };
-        }
-    };
-
-        function _removeTime(date) {
-            return date.day(0).hour(0).minute(0).second(0).millisecond(0);
-        }
-
-        function _buildMonth(scope, start, month) {
-            scope.weeks = [];
-            var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
-            while (!done) {
-                scope.weeks.push({ days: _buildWeek(date.clone(), month) });
-                date.add(1, "w");
-                done = count++ > 2 && monthIndex !== date.month();
-                monthIndex = date.month();
-            }
-        }
-
-        function _buildWeek(date, month) {
-            var days = [];
-            for (var i = 0; i < 7; i++) {
-                days.push({
-                    name: date.format("dd").substring(0, 1),
-                    number: date.date(),
-                    isCurrentMonth: date.month() === month.month(),
-                    isToday: date.isSame(new Date(), "day"),
-                    date: date
-                });
-                date = date.clone();
-                date.add(1, "d");
-            }
-            return days;
         }
 
 
-});
+    });
+
+
+
+
+
 
 angular.module('inventory')
     .config(function($stateProvider) {
@@ -728,7 +726,7 @@ angular.module('inventory')
     });
 
 
-angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory, sales) {
+angular.module('inventory').controller('InventoryController', function($scope,$state,$auth, $rootScope, inventory) {
 
     $scope.projections = [
         {"projection":1000},
@@ -1115,6 +1113,73 @@ angular.module('team', ['team-members'])
         });
     });
 
+angular.module('directives.calendar',[]).
+    directive("calendar", function() {
+        return {
+            restrict: "E",
+            templateUrl: "home/sales/calendar.tpl.html",
+            scope: false,
+            link: function(scope) {
+                scope.selected = _removeTime(scope.selected || moment());
+                scope.month = scope.selected.clone();
+
+                var start = scope.selected.clone();
+                start.date(1);
+                _removeTime(start.day(0));
+
+                _buildMonth(scope, start, scope.month);
+
+
+                scope.next = function() {
+                    var next = scope.month.clone();
+                    _removeTime(next.month(next.month()+1).date(1));
+                    scope.month.month(scope.month.month()+1);
+                    _buildMonth(scope, next, scope.month);
+                };
+
+                scope.previous = function() {
+                    var previous = scope.month.clone();
+                    _removeTime(previous.month(previous.month()-1).date(1));
+                    scope.month.month(scope.month.month()-1);
+                    _buildMonth(scope, previous, scope.month);
+                };
+            }
+        };
+
+        function _removeTime(date) {
+            return date.day(0).hour(0).minute(0).second(0).millisecond(0);
+        }
+
+        function _buildMonth(scope, start, month) {
+            scope.weeks = [];
+            var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
+            while (!done) {
+                scope.weeks.push({ days: _buildWeek(date.clone(), month) });
+                date.add(1, "w");
+                done = count++ > 2 && monthIndex !== date.month();
+                monthIndex = date.month();
+            }
+        }
+
+        function _buildWeek(date, month) {
+            var days = [];
+            for (var i = 0; i < 7; i++) {
+                days.push({
+                    name: date.format("dd").substring(0, 1),
+                    number: date.date(),
+                    isCurrentMonth: date.month() === month.month(),
+                    isToday: date.isSame(new Date(), "day"),
+                    date: date
+                });
+                date = date.clone();
+                date.add(1, "d");
+            }
+            return days;
+        }
+
+
+    });
+
 
 angular.module('directives.loading',[]).directive('loading', function () {
         return {
@@ -1361,6 +1426,103 @@ angular.module('notificate',[])
     'use strict';
 
     angular
+        .module('resources.organization',[])
+        .factory('organization', organization);
+
+    function organization($resource) {
+
+
+        var factory = {};
+        factory.data={organization:{},loading:false};
+            factory.data.loading=false;
+
+
+        // ngResource call to our static data
+        var Organization = $resource('api/organization/:id', {}, {
+            update: {
+                method: 'PUT'//
+            }
+        });
+
+        factory.getById = function(id){
+            factory.data.loading = true;
+            return Organization.query({id:id}).$promise.then(function(response){
+
+                factory.data.organization = response[0];
+
+                factory.data.loading = true;
+
+            });
+        }
+
+
+        return factory;
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.projection',[])
+        .factory('projection', projection);
+
+    function projection($resource,user) {
+
+
+    var userData = user.data;
+        console.log(userData);
+        var factory = {};
+        factory.data={projections:[],loading:false};
+        factory.data.loading=false;
+
+        // ngResource call to our static data
+        var Projection = $resource('api/projections/:id', {start: '@start', end:'@end'}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+        var r = $resource('api/projections/update_default', {organization: '@id',
+            day: '@day',
+            projection: '@projection'}, {
+            'update': {
+                method: 'PUT'
+            }
+        });
+
+        factory.getProjectionsForDateRange  = function(start,end){
+            return Projection.query({id:1,start:start,end:end}).$promise.then(function(response){
+                factory.data.projections = response;
+
+            });
+        }
+
+
+        factory.updateDefaultProjections = function(day,projection) {
+
+     console.log(userData);
+            return r.update(
+                {organization:userData.currentUser.organization,
+                    day: day,
+                    projection: projection
+
+                });
+        }
+
+        return factory;
+
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
         .module('resources.sales',[])
         .factory('sales', sales);
 
@@ -1368,46 +1530,23 @@ angular.module('notificate',[])
 
 
 
+        var factory = {};
+        factory.data={projections:[],loading:false};
+        factory.data.loading=false;
+
         // ngResource call to our static data
-        var Sales = $resource('api/sales/:id', {}, {
+        var Sales = $resource('api/sales/:id', {start: '@start', end:'@end'}, {
             update: {
                 method: 'PUT'
             }
         });
 
 
-        function dailySalesForPeriod() {
-            return Sales.query();
-        }
-
-
-        function weeklyProjections(){
 
 
 
-            return $resource('api/sales/projections.json', {}, {}).query().$promise.then(function (response) {
-                return  [
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000},
-                    {"projection":1000}
+        return factory;
 
-                ];
-                return response;
-            }, function (error) {
-                console.log(error);
-            });
-
-        }
-
-
-        return {
-            dailySalesForPeriod: dailySalesForPeriod,
-            weeklyProjections: weeklyProjections
-        }
     }
 
 })();
@@ -1421,7 +1560,17 @@ angular.module('notificate',[])
         .factory('user', user);
 
 
-    function user($resource) {
+    function user($resource,$rootScope) {
+
+        var factory = {};
+
+        factory.data = {currentUser: $rootScope.currentUser,loading:false};
+
+        factory.getUsers = function(){
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            return User.query();
+        }
 
         // ngResource call to our static data
         var User = $resource('api/users/:id', {}, {
@@ -1469,15 +1618,17 @@ angular.module('notificate',[])
         }
 
 
-
+return factory;
+        /*
         return {
             getUsers: getUsers,
             createUser: createUser,
             updateUser: updateUser,
             getById: getById,
             isValid: isValid
-        };
+        }; */
     }
+
 
 })();
 
@@ -1558,7 +1709,7 @@ angular.module('utils',[])
 
         return factory;
 });
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1618,7 +1769,9 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/sales/calendar.tpl.html",
-    "<div class=\"row\">\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"row\" ng-if=\"organizationData.organization.default_projections\">\n" +
     "\n" +
     "    <div class=\"header\">\n" +
     "    <i class=\"glyphicon glyphicon-chevron-left pull-left\" ng-click=\"previous()\"></i>\n" +
@@ -1626,25 +1779,79 @@ angular.module("home/sales/calendar.tpl.html", []).run(["$templateCache", functi
     "        <div>{{month.format(\"MMMM, YYYY\")}}</div>\n" +
     "</div>\n" +
     "<div class=\"week names\">\n" +
-    "    <span class=\"day\">Sun</span>\n" +
-    "    <span class=\"day\">Mon</span>\n" +
-    "    <span class=\"day\">Tue</span>\n" +
-    "    <span class=\"day\">Wed</span>\n" +
-    "    <span class=\"day\">Thu</span>\n" +
-    "    <span class=\"day\">Fri</span>\n" +
-    "    <span class=\"day\">Sat</span>\n" +
+    "    <span class=\"day\" ng-click=\"editDefaultProjection(0)\">\n" +
+    "       <div>Sun</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[0]}}</div>\n" +
+    "    </span>\n" +
+    "     <span class=\"day\">\n" +
+    "        <div>Mon</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[1]}}</div>\n" +
+    "     </span>\n" +
+    "\n" +
+    "    <span class=\"day\">\n" +
+    "        <div>Tue</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[2]}}</div>\n" +
+    "    </span>\n" +
+    "    <span class=\"day\">\n" +
+    "        <div>Wed</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[3]}}</div>\n" +
+    "    </span>\n" +
+    "    <span class=\"day\">\n" +
+    "           <div>Thu</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[4]}}</div>\n" +
+    "    </span>\n" +
+    "        <span class=\"day\">\n" +
+    "    <div>Fri</div>\n" +
+    "    <div>{{organizationData.organization.default_projections[5]}}</div>\n" +
+    "            </span>\n" +
+    "    <span class=\"day\">\n" +
+    "           <div>Sat</div>\n" +
+    "        <div>{{organizationData.organization.default_projections[6]}}</div>\n" +
+    "    </span>\n" +
+    "\n" +
     "</div>\n" +
     "<div class=\"week\" ng-repeat=\"week in weeks\">\n" +
     "    <span class=\"day\" ng-class=\"{ today: day.isToday, 'different-month': !day.isCurrentMonth,\n" +
-    "    selected: day.date.isSame(selected) }\" ng-click=\"select(day)\" ng-repeat=\"day in week.days\">{{day.number}}</span>\n" +
+    "    selected: day.date.isSame(selected) }\" ng-click=\"selectDay(day)\" ng-repeat=\"day in week.days\">\n" +
+    "          {{day.number}}\n" +
+    "          <div class=\"projection\"><h3>{{projectionForDate(day.date)}}</h3></div>\n" +
+    "\n" +
+    "    </span>\n" +
+    "\n" +
     "</div>\n" +
     "\n" +
     "</div>");
 }]);
 
+angular.module("home/sales/editDefaultProjection.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/sales/editDefaultProjection.tpl.html",
+    "<div style=\"height:400px; \">\n" +
+    "\n" +
+    "    <nav class=\"navbar navbar-default\" style=\"margin-bottom:0px;\">\n" +
+    "        <div class=\"container-fluid\">\n" +
+    "            <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "\n" +
+    "\n" +
+    "            <button type=\"button\" ng-click=\"saveChanges()\" class=\"btn btn-primary  navbar-right navbar-btn\"\n" +
+    "                    style=\"margin-right:5px;\">Save</button>\n" +
+    "            <button type=\"button\" ng-click=\"cancelChanges()\" style=\"margin-right:5px;\" class=\"btn btn-default navbar-right\n" +
+    "        navbar-btn\">Cancel</button>\n" +
+    "        </div>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <hr>\n" +
+    "\n" +
+    "    <input type=\"text\" ng-model=\"projection\">\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
 angular.module("home/sales/sales.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/sales/sales.tpl.html",
-    "<calendar selected=\"day\"></calendar>");
+    "<calendar selected=\"day\" > </calendar>");
 }]);
 
 angular.module("index.tpl.html", []).run(["$templateCache", function($templateCache) {

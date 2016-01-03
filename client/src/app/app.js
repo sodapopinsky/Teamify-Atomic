@@ -5,12 +5,14 @@ angular.module('app', [
     'team',
     'inventory',
     'home',
+
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
+    'resources.organization',
     'notificate',
-    'oc.modal', //fd
+    'oc.modal',
     'templates.app']);
 
 
@@ -18,7 +20,7 @@ angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
          'ui.bootstrap', //f
-        'resources.sales']);
+        'resources.projection']);
 
 angular.module('app').run(function($rootScope, $state) {
 
