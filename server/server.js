@@ -94,22 +94,7 @@ app.get('/setup/organization', function(req, res) {
     });
 });
 
-app.get('/proejection/setup', function(req, res) {
 
-    // create a sample user test
-    var proj = new Projection({
-        date: Date.now(),
-        projection: 3000
-    });
-
-    // save the sample user
-   proj.save(function(err) {
-        if (err) throw err;
-
-
-        res.json({ success: true });
-    });
-});
 
 app.get('/setup/inventory', function(req, res) {
 
