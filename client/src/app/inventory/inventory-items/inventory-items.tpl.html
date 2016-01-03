@@ -38,11 +38,11 @@
             </td>
 
             <td class="col-sm-3 text-secondary text-center"  >
-                {{item.quantity_on_hand.quantity}}
+                {{item.quantity_on_hand.quantity | number:1}}
             </td>
 
             <td class="col-sm-3 text-center"  >
-                <div>{{item.usage_per_thousand > 0 ? item.adjusted_quantity_on_hand : 'Usage Not Set'}}</div>
+                <div>{{item.usage_per_thousand > 0 ? (item.adjusted_quantity_on_hand | number:1) : 'Usage Not Set'}}</div>
 
             </td>
 

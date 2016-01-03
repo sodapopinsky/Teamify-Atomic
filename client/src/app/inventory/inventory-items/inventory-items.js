@@ -93,7 +93,7 @@ angular.module('inventory').controller('InventoryItems_CreateController', functi
 angular.module('inventory').controller('InventoryItems_EditController', function($scope,notificate, $state,$stateParams,$auth, $rootScope,inventory,utils) {
 
 
-
+    //@tmf update for quantity needs to be separated from item infromation edit so that updated field is reliable
 
     $scope.item = utils.getObjectById($stateParams.id,$scope.inventory);
     if(!$scope.inventory || !$scope.item) {

@@ -257,11 +257,11 @@ angular.module("inventory/inventory-items/inventory-items.tpl.html", []).run(["$
     "            </td>\n" +
     "\n" +
     "            <td class=\"col-sm-3 text-secondary text-center\"  >\n" +
-    "                {{item.quantity_on_hand.quantity}}\n" +
+    "                {{item.quantity_on_hand.quantity | number:1}}\n" +
     "            </td>\n" +
     "\n" +
     "            <td class=\"col-sm-3 text-center\"  >\n" +
-    "                <div>{{item.usage_per_thousand > 0 ? item.adjusted_quantity_on_hand : 'Usage Not Set'}}</div>\n" +
+    "                <div>{{item.usage_per_thousand > 0 ? (item.adjusted_quantity_on_hand | number:1) : 'Usage Not Set'}}</div>\n" +
     "\n" +
     "            </td>\n" +
     "\n" +
@@ -692,7 +692,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "\n" +
     "\n" +
     "            <div ng-if=\"item.usage_per_thousand !== undefined\">\n" +
-    "                {{item.adjusted_quantity_on_hand}}\n" +
+    "                {{item.adjusted_quantity_on_hand | number:1}}\n" +
     "            </div>\n" +
     "            <div ng-show=\"{{item.usage_per_thousand === undefined}}\">\n" +
     "                <div class=\"text-danger\" style=\"font-size:12px\">Usage Not Set </div>\n" +
@@ -711,7 +711,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                0\n" +
     "            </div>\n" +
     "            <div ng-if=\"item.par_value >0\">\n" +
-    "                {{item.calculated_par.par}}\n" +
+    "                {{item.calculated_par.par | number:1}}\n" +
     "            </div>\n" +
     "\n" +
     "        </td>\n" +
@@ -721,7 +721,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
     "                <div class=\"text-center col-sm-8\">\n" +
     "\n" +
-    "                    <b>{{item.orderQuantity | zeroFloor }}</b>\n" +
+    "                    <b>{{item.orderQuantity | zeroFloor | number:1 }}</b>\n" +
     "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +

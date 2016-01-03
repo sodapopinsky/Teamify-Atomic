@@ -16,11 +16,18 @@ angular.module('home')
 
 angular.module('home').controller('Home_SalesController', function ($scope, organization, projection, $ocModal) {
 
-    organization.getById(1);
-
     $scope.organizationData = organization.data;
 
-    $scope.organization = organization.data.organization;
+    organization.getById(1).$promise.then(function(response){ // @tmf fix id
+        organization.data.organization = response[0];
+
+        $scope.getProjections();
+
+    });
+
+
+
+   // $scope.organization = organization.data.organization;
 
     $scope.projection = projection.data;
 
@@ -33,7 +40,7 @@ angular.module('home').controller('Home_SalesController', function ($scope, orga
             });
     };
 
-    $scope.getProjections();
+
 
     $scope.day = moment();
 

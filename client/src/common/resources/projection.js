@@ -7,7 +7,7 @@
         .module('resources.projection',[])
         .factory('projection', projection);
 
-    function projection($resource,user) {
+    function projection($resource,user,organization) {
 
 
     var userData = user.data;
@@ -32,6 +32,24 @@
         });
 
 
+        factory.projectionForDate = function (date) {
+
+            var x = 1;
+            var i = -1;
+            var organizationData = organization.data;
+            angular.forEach(factory.data.projections, function (value, index) {
+                if (moment(value.date).isSame(date, 'day'))
+                    i = index;
+                x = 2;
+            });
+
+            if (i > -1)
+               return factory.data.projections[i].projection;
+                 //@tmf this is dumb, default projections should be in this factory, not organization
+               return organizationData.organization.default_projections[date.weekday()];
+
+
+        }
 
         factory.getProjectionsForDateRange  = function(start,end){
 
