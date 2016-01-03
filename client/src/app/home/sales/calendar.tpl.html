@@ -1,0 +1,51 @@
+
+
+<div class="row" ng-if="organizationData.organization.default_projections && loading == false">
+
+    <div class="header">
+    <span class=" glyphicon glyphicon-chevron-left pull-left" ng-click="previous()" ></span>
+        <span class=" glyphicon glyphicon-chevron-right pull-right" ng-click="next()" ></span>
+
+        <div>{{month.format("MMMM, YYYY")}}</div>
+</div>
+<div class="week names">
+    <span class="title" ng-click="editDefaultProjection(0)">
+       <div>Sun</div>
+    </span>
+     <span class="title" ng-click="editDefaultProjection(1)">
+        <div>Mon</div>
+     </span>
+
+    <span class="title" ng-click="editDefaultProjection(2)">
+        <div>Tue</div>
+    </span>
+    <span class="title" ng-click="editDefaultProjection(3)">
+        <div>Wed</div>
+    </span>
+    <span class="title" ng-click="editDefaultProjection(4)">
+           <div>Thu</div>
+    </span>
+        <span class="title" ng-click="editDefaultProjection(5)">
+    <div>Fri</div>
+            </span>
+    <span class="title" ng-click="editDefaultProjection(6)">
+           <div>Sat</div>
+    </span>
+      <span class="title">
+           <div>Total</div>
+    </span>
+
+</div>
+<div class="week" ng-repeat="week in weeks">
+    <span class="day" ng-class="{ today: day.isToday, 'different-month': !day.isCurrentMonth,
+    selected: day.date.isSame(selected) }"  ng-click="goCustomProjection(day)" ng-repeat="day in week.days">
+
+          <div class="day-number center-block">{{day.number}}</div>
+          <h3>{{projectionForDay(day) | currency:"$":0}}</h3>
+
+    </span>
+    <div class="day total"><h3>{{projectionForWeek(week) | currency:"$":0}}</h3></div>
+
+</div>
+
+</div>

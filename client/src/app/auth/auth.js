@@ -13,7 +13,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
     .state('logout', {
             url: '/logout',
 
-            controller: function($scope,$auth,$rootScope,$state) {
+            controller: function($scope,$auth,$rootScope,$state,user) {
 
                 $auth.logout().then(function() {
 
@@ -25,6 +25,7 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                     $rootScope.authenticated = false;
 
                     // Remove the current user info from rootscope
+                    user.data.currentUser = null;
                     $rootScope.currentUser = null;
 
                     $state.go('auth');
@@ -34,12 +35,14 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
 
 })
 
-.controller('AuthController', function($auth, $state, $http, $rootScope) {
+.controller('AuthController', function($auth, $state, $http, $rootScope,user) {
 
 
             var vm = this;
             vm.email = "joe@theatomicburger.com";
             vm.password = "password";
+
+        vm.userData = user.data;
 
             vm.login = function() {
 
@@ -70,6 +73,8 @@ angular.module('auth').config(function($stateProvider, $authProvider) {
                        // Putting the user's data on $rootScope allows
                        // us to access it anywhere across the app
                        $rootScope.currentUser = response.data.user;
+
+                          vm.userData.currentUser = response.data.user;
 
                        // Everything worked out so we can now redirect to
                        // the users state to view the data
