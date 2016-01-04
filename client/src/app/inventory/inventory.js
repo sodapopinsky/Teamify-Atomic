@@ -69,6 +69,9 @@ $scope.setAdditionalInventoryProperties = function(){
         for(var i = 0; i < inventory.inventory.length; i++){
             var item = inventory.inventory[i];
 
+            item.adjusted_quantity_on_hand = item.quantity_on_hand.quantity;
+            
+            if(item.usage_per_thousand)
             item.adjusted_quantity_on_hand = adjustedQuantityOnHand(item);
 
             item.calculated_par = calculatedPar(item);
