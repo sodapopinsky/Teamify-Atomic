@@ -75,6 +75,7 @@ $scope.setAdditionalInventoryProperties = function(){
 
             item.popover = {templateUrl: "salesCalculationPopover.html"}
 
+
             item.orderQuantity = item.calculated_par.par - item.adjusted_quantity_on_hand;
 
             if(item.orderQuantity < 0)

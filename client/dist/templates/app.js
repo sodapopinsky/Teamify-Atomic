@@ -721,7 +721,7 @@ angular.module("inventory/inventory-ordering/inventory-ordering.tpl.html", []).r
     "                <div ng-click=\"decrementOrderQuantity(item)\"  class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-minus\"></i></div>\n" +
     "                <div class=\"text-center col-sm-8\">\n" +
     "\n" +
-    "                    <b>{{item.orderQuantity | zeroFloor | number:1 }}</b>\n" +
+    "                    <b>{{item.orderQuantity | number:1 }}</b>\n" +
     "                </div>\n" +
     "                <div ng-click=\"incrementOrderQuantity(item)\" class=\"btn btn-default col-sm-2\" style=\"padding:2px;\"><i class=\"glyphicon glyphicon-plus\"></i></div>\n" +
     "                <div class=\"clearfix\"></div>\n" +
