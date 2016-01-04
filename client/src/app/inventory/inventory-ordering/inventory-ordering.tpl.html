@@ -43,7 +43,7 @@
     <tr ng-repeat="item in inventory | inArray:selectedOrderForm.items" >
         <td  >
             <div  style="line-height:18px; ">
-                <div>{{item.name}}</div>
+                <div>{{item}}</div>
                 <div class="text-secondary" style="font-size:12px;">{{item.measurement}}</div>
             </div>
         </td>
@@ -88,7 +88,7 @@
                 <div ng-click="decrementOrderQuantity(item)"  class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-minus"></i></div>
                 <div class="text-center col-sm-8">
 
-                    <b>{{item.orderQuantity}}</b>
+                    r<b>{{item.orderQuantity}}</b>
                 </div>
                 <div ng-click="incrementOrderQuantity(item)" class="btn btn-default col-sm-2" style="padding:2px;"><i class="glyphicon glyphicon-plus"></i></div>
                 <div class="clearfix"></div>
