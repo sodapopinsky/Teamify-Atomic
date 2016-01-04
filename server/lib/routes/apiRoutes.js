@@ -247,11 +247,12 @@ exports.addRoutes = function(apiRoutes) {
         .put(function(req, res) {
 
 
-            Organization.findById(req.body.organization,function(err, organization) {
+            Organization.findOne({},function(err, organization) {
                 if (err)
                     res.send(err);
 
                 var arr = organization.default_projections;
+                console.log(arr);
                 arr[req.body.day] = req.body.projection;
                 organization.update({default_projections: arr }, null, function(err) {
                     if (err)
