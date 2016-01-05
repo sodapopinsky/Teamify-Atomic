@@ -1,0 +1,22 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Team Member</th>
+        <th >Clocked in Since</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="t in timecards">
+        <td > {{t.user['first_name']}} {{t.user['last_name']}}
+        </td>
+        <td> {{formatDate(t.clock_in)}}
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</div>
+
+

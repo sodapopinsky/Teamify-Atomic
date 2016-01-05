@@ -1,0 +1,26 @@
+
+
+
+<nav class="tmf-subnav">
+    <div  class="btn btn-primary nav-btn-right" ng-click="goCreateNewTimecard()">Create Timecard</div>
+    <ul >
+        <li  ui-sref-active-if="app.team.timecards.reports"  ui-sref="app.team.timecards.reports.summary">
+            Reports
+        </li>
+        <li  ui-sref-active="active" ui-sref="app.team.timecards.clockedin">
+            Currently Clocked In
+        </li>
+    </ul>
+
+</nav>
+
+
+<div ui-view></div>
+<!-- SIDE PANEL -->
+<div class="cd-panel from-right" id="createTimecardPanel">
+
+    <div class="cd-panel-container">
+
+        <div ng-include="panelContent"></div>
+    </div> <!-- cd-panel-container -->
+</div>

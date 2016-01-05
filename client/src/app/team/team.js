@@ -1,4 +1,4 @@
-angular.module('team', ['team-members'])
+angular.module('team', ['team-members','resources.timecards'])
 
 .config(function($stateProvider){
 

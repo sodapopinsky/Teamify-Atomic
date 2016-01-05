@@ -177,9 +177,11 @@ $scope.setAdditionalInventoryProperties = function(){
                 break;
             }
 
-            salesProjection = salesProjection + projection.projectionForDate(end);
+
+            salesProjection = salesProjection + parseInt(projection.projectionForDate(end));
             end.subtract(1, 'days');
         }
+
         return salesProjection;
     }
 

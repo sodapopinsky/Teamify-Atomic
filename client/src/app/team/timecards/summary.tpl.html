@@ -1,0 +1,32 @@
+<div ng-if="reportTimecards.length > 0 && loading == false">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="col-sm-3">First Names</th>
+            <th class="col-sm-3">Last Name</th>
+            <th class="col-sm-3" >Shifts Worked</th>
+            <th class="col-sm-3">Total Hours</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <tr  ng-repeat="(key, value) in reportTimecards | groupBy: 'user_id'">
+            <td>{{ value[0].user.first_name }}</td>
+            <td>{{ value[0].user.last_name }}</td>
+            <td>{{ value.length }}</td>
+            <td>{{ userHours(value) }}</td>
+        </tr>
+
+        <tr>
+            <td colspan="3">Total</td>
+
+            <td>{{totalHours()}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>

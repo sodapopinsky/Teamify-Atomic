@@ -1,0 +1,65 @@
+<div class="voffset2">
+
+
+
+    <input date-range-picker id="daterange1" name="daterange1" class="col-sm-4 form-control tmf-datepicker  "
+           type="text"
+           ng-model="reportDate" options="{locale: {format: 'MM/DD/YYYY'},opens:'right',autoApply:true}"  required/>
+</div>
+
+<div class="pull-left">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="padding:0px; margin-left:25px;">
+
+        <ul class="nav navbar-nav">
+
+            <li class="tmf-dropdown">
+
+                <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="false">{{activeReport.report.title}} <span class="glyphicon glyphicon-menu-down"></span></a>
+                <ul class="dropdown-menu" >
+                    <li ng-repeat="report in reports"><a ng-click="showReport($index)">{{report.title}}</a>  </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div ng-if="reportTimecards.length > 0 && activeReport.id == 1" class="collapse navbar-collapse pull-left" id="bs-example-navbar-collapse-2"  style="margin-left:15px;">
+
+
+</div>
+
+
+
+
+
+<div class="clearfix"></div>
+
+<hr class="voffset2">
+
+
+
+<div ui-view></div>
+
+
+<div ng-if="reportTimecards.length == 0  && loading == false">
+    <hr>
+    <div  class="center-block text-center voffset8">
+        <h3>No Timecards For Selected Period</h3>
+    </div>
+</div>
+
+<loading class="voffset8"></loading>
+
+
+<!--
+<div ng-include="activeReport.templateUrl"></div>
+-->
+
+</div>
+
+
+

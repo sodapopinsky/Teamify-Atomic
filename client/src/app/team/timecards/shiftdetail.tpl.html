@@ -1,0 +1,41 @@
+<div ng-if="reportTimecards.length > 0 && loading == false" >
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="col-sm-2">First Name</th>
+            <th class="col-sm-2"> Last Name</th>
+            <th class="col-sm-3">Clock In</th>
+            <th class="col-sm-3">Clock Out</th>
+            <th class="col-sm-2">Shift Length</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <tr  ng-repeat="card in filteredTimecards()" ui-sref="app.team.timecards.reports.shiftdetail.edit({id: card.id})">
+            <td>{{ card.user.first_name }}</td>
+            <td>{{ card.user.last_name }}</td>
+            <td>{{ formatDate(card.clock_in)}}</td>
+            <td>{{ formatDate(card.clock_out)}}</td>
+            <td><span class="glyphicon glyphicon-menu-right pull-right"></span>{{shiftLength(card.clock_in,card.clock_out)}}</td>
+        </tr>
+
+        <tr>
+            <td colspan="4">Total</td>
+
+            <td>{{totalFilteredHours()}}</td>
+        </tr>
+
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="cd-panel from-right" id="shiftDetailEdit">
+    <div class="cd-panel-container">
+        <div ui-view="panelContent"></div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -976,8 +976,8 @@ angular.module("team/team.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "    <ul class=\"navbar-nav navbar-right\">\n" +
     "        <li ui-sref-active-if=\"app.team.members\" ui-sref=\"app.team.members\">Members</li>\n" +
-    "      <!--  <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.reports.summary\">Timecards</li>\n" +
-    "-->\n" +
+    "        <li ui-sref-active-if=\"app.team.timecards\" ui-sref=\"app.team.timecards.clockedin\">Timecards</li>\n" +
+    "\n" +
     "    </ul>\n" +
     "\n" +
     "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
@@ -989,4 +989,333 @@ angular.module("team/team.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
     "");
+}]);
+
+angular.module("team/timecards/clockedIn.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/clockedIn.tpl.html",
+    "<table class=\"table\">\n" +
+    "    <thead>\n" +
+    "    <tr>\n" +
+    "        <th>Team Member</th>\n" +
+    "        <th >Clocked in Since</th>\n" +
+    "\n" +
+    "    </tr>\n" +
+    "    </thead>\n" +
+    "    <tbody>\n" +
+    "    <tr ng-repeat=\"t in timecards\">\n" +
+    "        <td > {{t.user['first_name']}} {{t.user['last_name']}}\n" +
+    "        </td>\n" +
+    "        <td> {{formatDate(t.clock_in)}}\n" +
+    "        </td>\n" +
+    "\n" +
+    "    </tr>\n" +
+    "    </tbody>\n" +
+    "</table>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("team/timecards/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/index.tpl.html",
+    "\n" +
+    "\n" +
+    "\n" +
+    "<nav class=\"tmf-subnav\">\n" +
+    "    <div  class=\"btn btn-primary nav-btn-right\" ng-click=\"goCreateNewTimecard()\">Create Timecard</div>\n" +
+    "    <ul >\n" +
+    "        <li  ui-sref-active-if=\"app.team.timecards.reports\"  ui-sref=\"app.team.timecards.reports.summary\">\n" +
+    "            Reports\n" +
+    "        </li>\n" +
+    "        <li  ui-sref-active=\"active\" ui-sref=\"app.team.timecards.clockedin\">\n" +
+    "            Currently Clocked In\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "\n" +
+    "<div ui-view></div>\n" +
+    "<!-- SIDE PANEL -->\n" +
+    "<div class=\"cd-panel from-right\" id=\"createTimecardPanel\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "\n" +
+    "        <div ng-include=\"panelContent\"></div>\n" +
+    "    </div> <!-- cd-panel-container -->\n" +
+    "</div>");
+}]);
+
+angular.module("team/timecards/reports.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/reports.tpl.html",
+    "<div class=\"voffset2\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <input date-range-picker id=\"daterange1\" name=\"daterange1\" class=\"col-sm-4 form-control tmf-datepicker  \"\n" +
+    "           type=\"text\"\n" +
+    "           ng-model=\"reportDate\" options=\"{locale: {format: 'MM/DD/YYYY'},opens:'right',autoApply:true}\"  required/>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"pull-left\">\n" +
+    "    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px; margin-left:25px;\">\n" +
+    "\n" +
+    "        <ul class=\"nav navbar-nav\">\n" +
+    "\n" +
+    "            <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                    aria-expanded=\"false\">{{activeReport.report.title}} <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                <ul class=\"dropdown-menu\" >\n" +
+    "                    <li ng-repeat=\"report in reports\"><a ng-click=\"showReport($index)\">{{report.title}}</a>  </li>\n" +
+    "\n" +
+    "                </ul>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div ng-if=\"reportTimecards.length > 0 && activeReport.id == 1\" class=\"collapse navbar-collapse pull-left\" id=\"bs-example-navbar-collapse-2\"  style=\"margin-left:15px;\">\n" +
+    "\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"clearfix\"></div>\n" +
+    "\n" +
+    "<hr class=\"voffset2\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<div ui-view></div>\n" +
+    "\n" +
+    "\n" +
+    "<div ng-if=\"reportTimecards.length == 0  && loading == false\">\n" +
+    "    <hr>\n" +
+    "    <div  class=\"center-block text-center voffset8\">\n" +
+    "        <h3>No Timecards For Selected Period</h3>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
+    "\n" +
+    "\n" +
+    "<!--\n" +
+    "<div ng-include=\"activeReport.templateUrl\"></div>\n" +
+    "-->\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("team/timecards/shiftdetail.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/shiftdetail.tpl.html",
+    "<div ng-if=\"reportTimecards.length > 0 && loading == false\" >\n" +
+    "    <table class=\"table table-hover\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"col-sm-2\">First Name</th>\n" +
+    "            <th class=\"col-sm-2\"> Last Name</th>\n" +
+    "            <th class=\"col-sm-3\">Clock In</th>\n" +
+    "            <th class=\"col-sm-3\">Clock Out</th>\n" +
+    "            <th class=\"col-sm-2\">Shift Length</th>\n" +
+    "\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "\n" +
+    "\n" +
+    "        <tr  ng-repeat=\"card in filteredTimecards()\" ui-sref=\"app.team.timecards.reports.shiftdetail.edit({id: card.id})\">\n" +
+    "            <td>{{ card.user.first_name }}</td>\n" +
+    "            <td>{{ card.user.last_name }}</td>\n" +
+    "            <td>{{ formatDate(card.clock_in)}}</td>\n" +
+    "            <td>{{ formatDate(card.clock_out)}}</td>\n" +
+    "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span>{{shiftLength(card.clock_in,card.clock_out)}}</td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        <tr>\n" +
+    "            <td colspan=\"4\">Total</td>\n" +
+    "\n" +
+    "            <td>{{totalFilteredHours()}}</td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel from-right\" id=\"shiftDetailEdit\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ui-view=\"panelContent\"></div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("team/timecards/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/sidepanel/create.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Timecard</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"form-group col-sm-6\">\n" +
+    "\n" +
+    "            <ul class=\"nav navbar-nav\">\n" +
+    "                <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                    <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                        aria-expanded=\"false\">\n" +
+    "\n" +
+    "                        <div ng-if=\"newTimecard.selectedUser == nil\">Select Employee</div>\n" +
+    "                        <div ng-if=\"newTimecard.selectedUser != nil\">{{newTimecard.selectedUser.first_name}} {{newTimecard.selectedUser.last_name}}</div>\n" +
+    "                        <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                    <ul class=\"dropdown-menu\" >\n" +
+    "                        <li ng-repeat=\"user in users\" role=\"menuitem\" ng-click=\"newTimecard.selectUser(user)\">\n" +
+    "                            <a>{{user.first_name}} {{user.last_name}}</a>\n" +
+    "                        </li>\n" +
+    "\n" +
+    "\n" +
+    "                    </ul>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <div class=\"form-group col-sm-5\" style=\"margin-top:20px; position:relative;\">\n" +
+    "            <label >CLOCK IN</label>\n" +
+    "            <p class=\"input-group \">\n" +
+    "                <input date-range-picker id=\"dateRangeClockIn\" name=\"dateRangeClockIn\" class=\"col-sm-4 form-control\"\n" +
+    "                       type=\"text\"\n" +
+    "                       ng-model=\"newTimecard.dates.clock_in.date.startDate\" options=\"{singleDatePicker: true, parentEl: '#clock-in-container',\n" +
+    "                   locale: {format: 'MM/DD/YYYY'},opens:'right',autoApply:true}\"  required/>\n" +
+    "\n" +
+    "              <span class=\"input-group-btn\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-click=\"openDatePicker('#dateRangeClockIn')\">\n" +
+    "                    <i class=\"glyphicon glyphicon-calendar\"></i></button>\n" +
+    "              </span>\n" +
+    "\n" +
+    "            </p>\n" +
+    "\n" +
+    "            <div id=\"clock-in-container\" style=\"position:absolute; top:82px; left:10px;\"></div>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group col-sm-6\" style=\"margin-top:10px;\">\n" +
+    "            <uib-timepicker  ng-model=\"newTimecard.dates.clock_in.time\" ng-change=\"changed(clockInTime,clockOutTime)\"\n" +
+    "                             hour-step=\"1\" minute-step=\"1\"\n" +
+    "                             show-meridian=\"true\"></uib-timepicker>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <div class=\"form-group col-sm-5\" style=\"margin-top:20px; position:relative;\">\n" +
+    "            <label >CLOCK OUT</label>\n" +
+    "            <p class=\"input-group \">\n" +
+    "                <input date-range-picker id=\"dateRangeClockOut\" name=\"dateRangeClockOut\" class=\"col-sm-4 form-control\"\n" +
+    "                       type=\"text\"\n" +
+    "                       ng-model=\"newTimecard.dates.clock_out.date.startDate\" options=\"{singleDatePicker: true, parentEl: '#clock-out-container',\n" +
+    "                   locale: {format: 'MM/DD/YYYY'},opens:'right',autoApply:true}\"  required/>\n" +
+    "\n" +
+    "              <span class=\"input-group-btn\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-click=\"openDatePicker('#dateRangeClockOut')\">\n" +
+    "                    <i class=\"glyphicon glyphicon-calendar\"></i></button>\n" +
+    "              </span>\n" +
+    "\n" +
+    "            </p>\n" +
+    "\n" +
+    "            <div id=\"clock-out-container\" style=\"position:absolute; top:82px; left:10px;\"></div>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group col-sm-6\" style=\"margin-top:10px;\">\n" +
+    "            <uib-timepicker ng-model=\"newTimecard.dates.clock_out.time\" ng-change=\"newTimecard.changed(clockInTime,clockOutTime)\"\n" +
+    "                            hour-step=\"1\" minute-step=\"1\"\n" +
+    "                            show-meridian=\"true\"></uib-timepicker>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div style=\"width:100%; margin-bottom:100px; text-align:center; font-size:50px; margin-top:50px;\">\n" +
+    "\n" +
+    "        {{newTimecard.hours}} Hours\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"newTimecard.createTimecard()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"newTimecard.cancelCreateNewTimecard()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("team/timecards/summary.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/summary.tpl.html",
+    "<div ng-if=\"reportTimecards.length > 0 && loading == false\">\n" +
+    "\n" +
+    "    <table class=\"table\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th class=\"col-sm-3\">First Names</th>\n" +
+    "            <th class=\"col-sm-3\">Last Name</th>\n" +
+    "            <th class=\"col-sm-3\" >Shifts Worked</th>\n" +
+    "            <th class=\"col-sm-3\">Total Hours</th>\n" +
+    "\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "\n" +
+    "\n" +
+    "        <tr  ng-repeat=\"(key, value) in reportTimecards | groupBy: 'user_id'\">\n" +
+    "            <td>{{ value[0].user.first_name }}</td>\n" +
+    "            <td>{{ value[0].user.last_name }}</td>\n" +
+    "            <td>{{ value.length }}</td>\n" +
+    "            <td>{{ userHours(value) }}</td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        <tr>\n" +
+    "            <td colspan=\"3\">Total</td>\n" +
+    "\n" +
+    "            <td>{{totalHours()}}</td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "\n" +
+    "</div>");
+}]);
+
+angular.module("team/timecards/timecards.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/timecards.tpl.html",
+    "fds");
 }]);
