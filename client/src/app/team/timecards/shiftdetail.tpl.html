@@ -13,7 +13,7 @@
         <tbody>
 
 
-        <tr  ng-repeat="card in filteredTimecards()" ui-sref="app.team.timecards.reports.shiftdetail.edit({id: card.id})">
+        <tr  ng-repeat="card in filteredTimecards()" ui-sref="app.team.timecards.reports.shiftdetail.edit({id: card._id})">
             <td>{{ card.user.first_name }}</td>
             <td>{{ card.user.last_name }}</td>
             <td>{{ formatDate(card.clock_in)}}</td>

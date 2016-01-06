@@ -1135,7 +1135,7 @@ angular.module("team/timecards/shiftdetail.tpl.html", []).run(["$templateCache",
     "        <tbody>\n" +
     "\n" +
     "\n" +
-    "        <tr  ng-repeat=\"card in filteredTimecards()\" ui-sref=\"app.team.timecards.reports.shiftdetail.edit({id: card.id})\">\n" +
+    "        <tr  ng-repeat=\"card in filteredTimecards()\" ui-sref=\"app.team.timecards.reports.shiftdetail.edit({id: card._id})\">\n" +
     "            <td>{{ card.user.first_name }}</td>\n" +
     "            <td>{{ card.user.last_name }}</td>\n" +
     "            <td>{{ formatDate(card.clock_in)}}</td>\n" +
@@ -1296,7 +1296,7 @@ angular.module("team/timecards/summary.tpl.html", []).run(["$templateCache", fun
     "        <tbody>\n" +
     "\n" +
     "\n" +
-    "        <tr  ng-repeat=\"(key, value) in reportTimecards | groupBy: 'user_id'\">\n" +
+    "        <tr  ng-repeat=\"(key, value) in reportTimecards | groupBy: 'user._id'\">\n" +
     "            <td>{{ value[0].user.first_name }}</td>\n" +
     "            <td>{{ value[0].user.last_name }}</td>\n" +
     "            <td>{{ value.length }}</td>\n" +

@@ -112,6 +112,9 @@ module.exports = function (grunt) {
                     'bower_components/ocModal/dist/ocModal.min.js',
                     'bower_components/moment/moment.js',
                     'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+                    'bower_components/bootstrap-daterangepicker/daterangepicker.js',
+                    'bower_components/angular-daterangepicker/js/angular-daterangepicker.min.js',
+                    'bower_components/angular-filter/dist/angular-filter.min.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js'],
                 dest: '<%= distdir %>/vendor.js'
             },
@@ -119,6 +122,7 @@ module.exports = function (grunt) {
                 src:['bower_components/components-font-awesome/css/font-awesome.min.css',
                     'bower_components/sweetalert/dist/sweetalert.css',
                     'bower_components/ocModal/dist/css/ocModal.light.min.css',
+                    'bower_components/bootstrap-daterangepicker/daterangepicker.css',
                     'bower_components/ocModal/dist/css/ocModal.animations.min.css'],
                 dest: '<%= distdir %>/vendor.css'
             },

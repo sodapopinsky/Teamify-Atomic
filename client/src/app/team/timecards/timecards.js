@@ -56,6 +56,51 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 
 
 
+    $scope.reportTimecards = [];
+
+
+    $scope.reportDate = {};
+
+    $scope.reportDate = {
+        startDate: moment().subtract(1, "days"),
+        endDate: moment(),
+        options: {
+            autoUpdateInput: false
+        }
+    };
+
+    $scope.openDatePicker = function(selector){
+        $(selector).data('daterangepicker').toggle();
+    };
+
+    $scope.reportDate.startDate = moment();
+    $scope.updateDate = function(start,end){
+        $scope.reportDate.startDate = start;
+        $scope.reportDate.endDate = end;
+        $scope.fetchTimecards();
+    }
+
+
+    $scope.fetchTimecards = function(){
+
+        var start = $scope.reportDate.startDate.startOf('day').utc().format();
+        var end =   $scope.reportDate.endDate.endOf('day').utc().format();
+
+
+
+        $scope.loading = true;
+        timecards.getTimecards({start:start, end:end}).then(function(results) {
+            $scope.loading = false;
+            $scope.reportTimecards = results;
+
+        }, function(error) { // Check for errors
+            console.log(error);
+            $scope.loading = false;
+        });
+
+
+    }
+
 
     $scope.goCreateNewTimecard = function(){
         $scope.panelContent = 'team/timecards/sidepanel/create.tpl.html';
@@ -94,6 +139,7 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 
     $scope.newTimecard.createTimecard = function() {
 
+        //@tmf this should be abstracted to resource file and hit server to validate for overlap
         if(!$scope.newTimecard.selectedUser){
           notificate.error("Please Select a Team Member");
             return;
@@ -104,7 +150,63 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
         }
 
 
+       $scope.getMomentFromComponents = function(date,time){
+            var d = moment(date).startOf('day');
+            var t = moment(time);
+            d.hour(t.hour()).minute(t.minute());
+
+            return d;
+        }
+
+
+        timecards.createTimecard({
+            "user": $scope.newTimecard.selectedUser,
+            "clock_in": $scope.getMomentFromComponents($scope.newTimecard.dates.clock_in.date,$scope.newTimecard.dates.clock_in.time).utc().format(),
+            "clock_out": $scope.getMomentFromComponents($scope.newTimecard.dates.clock_out.date,$scope.newTimecard.dates.clock_out.time).utc().format()
+        }).then(function (success) {
+
+
+            notificate.success("Timecard Created!");
+            $('#createTimecardPanel').removeClass('is-visible');
+
+        }, function (error) {
+            notificate.error("There was an error with your request.");
+        });
+
+
+
     }
+    $scope.calculateHours = function(inDate, inTime, outDate,outTime){
+        var  i = moment(inDate);
+
+        var  o = moment(outDate);
+
+
+        var inTime = moment(inTime);
+        i.hours(inTime.hours()).minutes(inTime.minutes());
+
+        var outTime = moment(outTime);
+
+
+        o.hours(outTime.hours()).minutes(outTime.minutes());
+
+        return Math.round(moment.duration(o.diff(i)).asHours() * 100) / 100;
+
+    }
+
+
+
+    $scope.newTimecard.cancelCreateNewTimecard = function(){
+        $('#createTimecardPanel').removeClass('is-visible');
+    }
+
+    $scope.$watch('[newTimecard.dates]', function(newDate) {
+
+        $scope.newTimecard.hours = $scope.calculateHours($scope.newTimecard.dates.clock_in.date,
+            $scope.newTimecard.dates.clock_in.time,$scope.newTimecard.dates.clock_out.date,
+            $scope.newTimecard.dates.clock_out.time);
+    }, true);
+
 
 
 
@@ -116,17 +218,99 @@ angular.module('team').controller('Team_ClockedInController', function($scope,us
 
 });
 
-angular.module('team').controller('Team_Timecards_ReportController', function($scope,user) {
+angular.module('team').controller('Team_Timecards_ReportController', function($scope,user,$state) {
 
+    $scope.$watch('reportDate', function(newDate) {
+        $scope.updateDate(newDate.startDate,newDate.endDate);
+    }, false);
+
+
+    $scope.reports = [
+        {"id":0,"title":"Timecard Summary","state":"app.team.timecards.reports.summary"},
+        {"id":1,"title":"Shift Detail","state":"app.team.timecards.reports.shiftdetail"}
+    ];
+
+    $scope.activeReport = {};
+
+    $scope.showReport = function(index){
+        $scope.activeReport =  $scope.reports[index];
+        $state.go($scope.reports[index].state);
+    };
+
+    $scope.formatDate =   function formatDate(date){
+        if(!date)
+            return "-";
+        return moment(date).format("ddd MM/D/YYYY, h:mm a");
+    };
+
+    $scope.shiftLength = function(clock_in,clock_out){
+        start = moment(clock_in);
+        end = moment(clock_out);
+        return Math.round(moment.duration(end.diff(start)).asHours() * 100) / 100;
+    };
+
+    $scope.fetchTimecards();
+
+    $scope.selectedUser = {_id:-1,title:"All Employees"};
+
+    $scope.selectUser = function(user){
+        $scope.selectedUser = user;
+        $scope.selectedUser.title = user.first_name + " " + user.last_name;
+    };
 
 });
 
-angular.module('team').controller('Team_Timecards_Report_SummaryController', function($scope,user) {
 
+angular.module('team').controller('Team_Timecards_Report_SummaryController', function($scope) {
+
+    $scope.activeReport.report = $scope.reports[0];
+
+    $scope.userHours = function(shifts){
+        var hours = 0;
+
+        for(var i = 0; i < shifts.length; i++){
+            hours = hours + $scope.shiftLength(shifts[i].clock_in,shifts[i].clock_out);
+        }
+        return hours;
+    };
+
+    $scope.totalHours = function(){
+        var hours = 0;
+        angular.forEach($scope.reportTimecards,function(value,index){
+            hours = hours + $scope.shiftLength(value.clock_in,value.clock_out);
+        });
+
+        return hours;
+    };
 
 });
 
-angular.module('team').controller('Team_Timecards_Report_ShiftDetailController', function($scope,user) {
+angular.module('team').controller('Team_Timecards_Report_ShiftDetailController', function($scope) {
 
+    $scope.activeReport.report = $scope.reports[1];
+
+    $scope.filteredTimecards = function(){
+
+        if($scope.selectedUser._id == -1)
+            return $scope.reportTimecards;
+
+        var filtered = [];
+
+        angular.forEach($scope.reportTimecards,function(value,index){
+            if($scope.selectedUser._id == value.user._id)
+                filtered.push(value);
+        });
+
+        return filtered;
+    };
+
+    $scope.totalFilteredHours = function(){
+        var filtered = $scope.filteredTimecards();
+        var hours = 0;
+        for(var i = 0; i < filtered.length; i++){
+            hours = hours + $scope.shiftLength(filtered[i].clock_in,filtered[i].clock_out);
+        }
+        return hours;
+    };
 
 });

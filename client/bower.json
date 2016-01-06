@@ -25,6 +25,8 @@
     "satellizer": "~0.13.2",
     "angular-resource": "~1.4.8",
     "angular-bootstrap": "~0.14.3",
-    "components-font-awesome": "~4.5.0"
+    "components-font-awesome": "~4.5.0",
+    "angular-daterangepicker": "~0.2.2",
+    "bootstrap-daterangepicker": "~2.1.17"
   }
 }

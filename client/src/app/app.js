@@ -12,7 +12,9 @@ angular.module('app', [
     'utils',
     'resources.organization',
     'notificate',
+    'daterangepicker',
     'oc.modal',
+    'angular.filter',
     'templates.app']);
 
 

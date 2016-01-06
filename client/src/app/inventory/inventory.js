@@ -16,7 +16,7 @@ angular.module('inventory')
 
 angular.module('inventory').controller('InventoryController', function($scope,$state,$auth,organization, $rootScope,projection, inventory) {
 
-
+//
 
     $scope.organizationData = organization.data;
     $scope.projections = projection.data;

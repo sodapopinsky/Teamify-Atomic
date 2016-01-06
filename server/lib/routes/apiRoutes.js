@@ -3,6 +3,7 @@ var Inventory   = require('../models/inventory');
 var OrderForm   = require('../models/orderform');
 var Organization   = require('../models/organization');
 var Projection   = require('../models/projection');
+var Timecard   = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
 exports.addRoutes = function(apiRoutes) {
@@ -252,7 +253,7 @@ exports.addRoutes = function(apiRoutes) {
                     res.send(err);
 
                 var arr = organization.default_projections;
-                console.log(arr);
+
                 arr[req.body.day] = req.body.projection;
                 organization.update({default_projections: arr }, null, function(err) {
                     if (err)
@@ -267,6 +268,33 @@ exports.addRoutes = function(apiRoutes) {
             });
 
         })
+
+    ///////Timecard
+    apiRoutes.route('/timecards')
+        .get(function(req, res) {
+
+            Timecard.find({}, function(err, timecards) {
+                if (err)
+                    res.send(err);
+                res.json(timecards);
+            });
+        })
+        .post(function(req, res) {
+
+            var timecard = new Timecard();
+
+            timecard.user = req.body.user;
+            timecard.clock_in = moment(req.body.clock_in).toDate();
+            timecard.clock_out = moment(req.body.clock_out).toDate();
+
+
+            timecard.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Created!'});
+            });
+
+        });
 
 
 
