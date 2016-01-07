@@ -16,7 +16,7 @@
 
 
         // ngResource call to our static data
-        var Timecard = $resource('api/timecards', {}, {
+        var Timecard = $resource('api/timecards/:id', {}, {
             update: {
                 method: 'PUT'
             }
@@ -28,6 +28,12 @@
         }
 
 
+        factory.updateTimecard = function(data) {
+
+            return Timecard.update({id:data._id}, data).$promise;
+
+
+        }
 
         factory.createTimecard = function(data) {
 

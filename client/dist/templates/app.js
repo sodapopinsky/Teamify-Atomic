@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -1272,6 +1272,103 @@ angular.module("team/timecards/sidepanel/create.tpl.html", []).run(["$templateCa
     "\n" +
     "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"newTimecard.createTimecard()\">Save</button>\n" +
     "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"newTimecard.cancelCreateNewTimecard()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("team/timecards/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("team/timecards/sidepanel/edit.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Edit Timecard</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">{{timecard.user.first_name}} {{timecard.user.last_name}}</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <div class=\"form-group col-sm-5\" style=\"margin-top:20px; position:relative;\">\n" +
+    "            <label >CLOCK IN</label>\n" +
+    "            <p class=\"input-group \">\n" +
+    "                <input date-range-picker id=\"dateRangeClockIn\" name=\"dateRangeClockIn\" class=\"col-sm-4 form-control\"\n" +
+    "                       type=\"text\"\n" +
+    "                       ng-model=\"editDates.clock_in.date\" options=\"{singleDatePicker: true, parentEl: '#clock-in-container',\n" +
+    "                       locale: {format: 'MM/DD/YYYY'},\n" +
+    "                   opens:'right',autoApply:true}\"  required/>\n" +
+    "\n" +
+    "              <span class=\"input-group-btn\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-click=\"openDatePicker('#dateRangeClockIn')\">\n" +
+    "                    <i class=\"glyphicon glyphicon-calendar\"></i></button>\n" +
+    "              </span>\n" +
+    "\n" +
+    "            </p>\n" +
+    "\n" +
+    "            <div id=\"clock-in-container\" style=\"position:absolute; top:82px; left:10px;\"></div>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group col-sm-6\" style=\"margin-top:10px;\">\n" +
+    "            <uib-timepicker  ng-model=\"editDates.clock_in.time\" ng-change=\"changed(clockInTime,clockOutTime)\"\n" +
+    "                             hour-step=\"1\" minute-step=\"1\"\n" +
+    "                             show-meridian=\"true\"></uib-timepicker>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"row\">\n" +
+    "\n" +
+    "        <div class=\"form-group col-sm-5\" style=\"margin-top:20px; position:relative;\">\n" +
+    "            <label >CLOCK OUT</label>\n" +
+    "            <p class=\"input-group \">\n" +
+    "                <input date-range-picker id=\"dateRangeClockOut\" name=\"dateRangeClockOut\" class=\"col-sm-4 form-control\"\n" +
+    "                       type=\"text\"\n" +
+    "                       ng-model=\"editDates.clock_out.date\" options=\"{singleDatePicker: true, parentEl: '#clock-out-container',\n" +
+    "                   locale: {format: 'MM/DD/YYYY'},opens:'right',autoApply:true}\"  required/>\n" +
+    "\n" +
+    "              <span class=\"input-group-btn\">\n" +
+    "                <button type=\"button\" class=\"btn btn-default\" ng-click=\"openDatePicker('#dateRangeClockOut')\">\n" +
+    "                    <i class=\"glyphicon glyphicon-calendar\"></i></button>\n" +
+    "              </span>\n" +
+    "\n" +
+    "            </p>\n" +
+    "\n" +
+    "            <div id=\"clock-out-container\" style=\"position:absolute; top:82px; left:10px;\"></div>\n" +
+    "        </div>\n" +
+    "        <div class=\"form-group col-sm-6\" style=\"margin-top:10px;\">\n" +
+    "            <uib-timepicker ng-model=\"editDates.clock_out.time\" ng-change=\"changed(clockInTime,clockOutTime)\"\n" +
+    "                            hour-step=\"1\" minute-step=\"1\"\n" +
+    "                            show-meridian=\"true\"></uib-timepicker>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div style=\"width:100%; margin-bottom:100px; text-align:center; font-size:50px; margin-top:50px;\">\n" +
+    "\n" +
+    "        {{hours}} Hours\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateTimecard()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelChanges()\">Cancel</button>\n" +
     "    </div>\n" +
     "</div> <!-- cd-panel-content -->\n" +
     "\n" +

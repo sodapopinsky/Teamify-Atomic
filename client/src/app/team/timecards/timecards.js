@@ -34,7 +34,16 @@ angular.module('team')
         url: '/detail',
         templateUrl: "team/timecards/shiftdetail.tpl.html",
         controller: "Team_Timecards_Report_ShiftDetailController"
-    });
+    })
+            .state('app.team.timecards.reports.shiftdetail.edit', { // added view mode
+                url: "/:id",
+                views: {
+                    "panelContent@app.team.timecards.reports.shiftdetail": {
+                        controller: "Team_Timecards_Report_ShiftDetail_EditController",
+                        templateUrl: "team/timecards/sidepanel/edit.tpl.html"
+                    }
+                }
+            });
 
     });
 
@@ -150,19 +159,10 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
         }
 
 
-       $scope.getMomentFromComponents = function(date,time){
-            var d = moment(date).startOf('day');
-            var t = moment(time);
-            d.hour(t.hour()).minute(t.minute());
-
-            return d;
-        }
-
-
         timecards.createTimecard({
             "user": $scope.newTimecard.selectedUser,
-            "clock_in": $scope.getMomentFromComponents($scope.newTimecard.dates.clock_in.date,$scope.newTimecard.dates.clock_in.time).utc().format(),
-            "clock_out": $scope.getMomentFromComponents($scope.newTimecard.dates.clock_out.date,$scope.newTimecard.dates.clock_out.time).utc().format()
+            "clock_in": utils.getMomentFromComponents($scope.newTimecard.dates.clock_in.date,$scope.newTimecard.dates.clock_in.time).utc().format(),
+            "clock_out": utils.getMomentFromComponents($scope.newTimecard.dates.clock_out.date,$scope.newTimecard.dates.clock_out.time).utc().format()
         }).then(function (success) {
 
 
@@ -312,5 +312,70 @@ angular.module('team').controller('Team_Timecards_Report_ShiftDetailController',
         }
         return hours;
     };
+
+});
+
+
+angular.module('team').controller('Team_Timecards_Report_ShiftDetail_EditController', function($scope,$rootScope,$state,$stateParams,utils,timecards,notificate) {
+
+    $scope.timecard =  utils.getObjectById($stateParams.id,$scope.reportTimecards);
+    if(!$scope.timecard) {
+        $state.go("app.team.timecards.reports.shiftdetail");
+        return;
+    }
+
+    $('#shiftDetailEdit').addClass('is-visible');
+
+
+    $scope.hours = 0;
+    $scope.editDates = {
+        clock_in: {
+            date: {
+                startDate: $scope.timecard.clock_in,
+                endDate: $scope.timecard.clock_in
+            },
+            time: moment($scope.timecard.clock_in)
+        },
+        clock_out: {
+            date: {
+                startDate:  $scope.timecard.clock_out,
+                endDate: null
+            },
+            time: moment($scope.timecard.clock_out)
+        }
+    };
+
+    $scope.updateTimecard = function() {
+            //@tmf validate
+        timecards.updateTimecard({
+                "user": $scope.timecard.user,
+                "_id": $scope.timecard._id,
+                "clock_in": utils.getMomentFromComponents($scope.editDates.clock_in.date.startDate, $scope.editDates.clock_in.time).utc().format(),
+                "clock_out": utils.getMomentFromComponents($scope.editDates.clock_out.date.startDate, $scope.editDates.clock_out.time).utc().format()
+            }
+        ).then(function(){
+                $('#shiftDetailEdit').removeClass('is-visible');
+
+                notificate.success("Timecard Updated!");
+                $state.go("app.team.timecards.reports.shiftdetail");
+            },
+        function(){
+            notificate.error("There was an error with your request.");
+        });
+
+    }
+
+
+    $scope.cancelChanges = function(){
+        $('#shiftDetailEdit').removeClass('is-visible');
+        $state.go("app.team.timecards.reports.shiftdetail");
+        $scope.editDates.clock_in.date.endDate = null;
+        $scope.editDates.clock_out.date.endDate = null;
+    }
+    $scope.$watch('[editDates]', function(newDate) {
+
+        $scope.hours =  $scope.calculateHours($scope.editDates.clock_in.date,$scope.editDates.clock_in.time,$scope.editDates.clock_out.date,$scope.editDates.clock_out.time);
+    }, true);
+
 
 });

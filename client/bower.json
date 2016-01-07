@@ -27,6 +27,7 @@
     "angular-bootstrap": "~0.14.3",
     "components-font-awesome": "~4.5.0",
     "angular-daterangepicker": "~0.2.2",
-    "bootstrap-daterangepicker": "~2.1.17"
+    "bootstrap-daterangepicker": "~2.1.17",
+    "angular-filter": "~0.5.8"
   }
 }

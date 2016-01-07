@@ -273,13 +273,37 @@ exports.addRoutes = function(apiRoutes) {
     apiRoutes.route('/timecards')
         .get(function(req, res) {
 
-            Timecard.find({}, function(err, timecards) {
-                if (err)
-                    res.send(err);
-                res.json(timecards);
-            });
+            Timecard.find()
+                .or(
+                [
+                    {
+                        clock_in:
+                        {$gt: moment(req.query.start).startOf('day').toDate(),
+                          $lt: moment(req.query.end).startOf('day').toDate()
+                        }
+                    },
+                    {
+                        clock_out:
+                        {$gt: moment(req.query.start).startOf('day').toDate(),
+                            $lt: moment(req.query.end).endOf('day').toDate()
+                        }
+                    },
+                    {
+                        clock_out:
+                        {$gt: moment(req.query.end).startOf('day').toDate()},
+                        clock_in:
+                        {$lt: moment(req.query.end).endOf('day').toDate()}
+                    }
+                ]
+                  )
+                .exec(function (err, records) {
+                    if (err)
+                        res.send(err);
+                    res.json(records);
+                });
         })
-        .post(function(req, res) {
+
+            .post(function(req, res) {
 
             var timecard = new Timecard();
 
@@ -296,7 +320,27 @@ exports.addRoutes = function(apiRoutes) {
 
         });
 
+    apiRoutes.route('/timecards/:id')
+        .put(function(req, res) {
+
+            Timecard.findById(req.body._id, function(err, timecard) {
+                if (err)
+                    res.send(err);
+                 console.log(timecard);
+                timecard.update({
+                    clock_in:moment(req.body.clock_in).toDate(),
+                    clock_out:moment(req.body.clock_out).toDate()
+                }, null, function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: ' updated'});
+                });
 
 
+
+
+            })
+        });
 
 };

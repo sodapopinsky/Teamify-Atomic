@@ -42,6 +42,14 @@ angular.module('utils',[])
             return item;
         }
 
+        factory.getMomentFromComponents = function(date,time){
+            var d = moment(date).startOf('day');
+            var t = moment(time);
+            d.hour(t.hour()).minute(t.minute());
+
+            return d;
+        }
+
         factory.getIndexByAttributeValue = function(array, attributeName, attributeValue){
 
             var i = null;
