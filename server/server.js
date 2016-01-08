@@ -237,13 +237,5 @@ apiRoutes.use(function(req, res, next) {
 // Include API Routes
 require('./lib/routes/apiRoutes').addRoutes(apiRoutes);
 
-app.get('/api/authenticate/user', function(req, res) {
-    res.json({ message: 'Welcome to the coolest API on earth!' });
-});
-
-apiRoutes.get('/', function(req, res) {
-    res.json({ message: 'Welcome to the coolest API on earth!' });
-});
-
 
 app.use('/api', apiRoutes);

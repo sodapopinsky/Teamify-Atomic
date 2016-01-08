@@ -6,8 +6,19 @@ var Projection   = require('../models/projection');
 var Timecard   = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
+var async = require('async');
 exports.addRoutes = function(apiRoutes) {
 
+
+    function guid(){
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    };
 
     // ----------------------------------------------------
     apiRoutes.route('/users')
@@ -27,6 +38,7 @@ exports.addRoutes = function(apiRoutes) {
         user.last_name = req.body.last_name;
         user.pin = req.body.pin;
             user.status = 1;
+            user.updated_at = Date.now();
 
         user.save(function(err) {
             if (err)
@@ -52,12 +64,13 @@ exports.addRoutes = function(apiRoutes) {
                 user.last_name = req.body.last_name;
                 user.pin = req.body.pin;
                 user.status = req.body.status;
+                user.updated_at = Date.now();
 
-               user.save(function(err) {
+               user.save(function(err,user) {
                     if (err)
                         res.send(err);
 
-                    res.json({ message: 'User updated!' });
+                    res.json({ message: 'User updated!' , user: user });
                 });
 
             });
@@ -343,4 +356,237 @@ exports.addRoutes = function(apiRoutes) {
             })
         });
 
+
+    apiRoutes.route('/opentimecards')
+        .get(function(req, res) {
+
+            Timecard.find({clock_out: null}, function(err, timecards) {
+                if (err)
+                    res.send(err);
+                res.send(timecards);
+            })
+        });
+
+    // ---------------------------------------------------- SYNC
+    apiRoutes.route('/sync/users')
+
+        .post(function(req, res) {
+
+
+            User.find({}, function(err, users) {
+                res.json(users);
+            });
+
+        });
+
+    apiRoutes.route('/sync/timecards')
+
+        .post(function(req, res) {
+            var synced = [];
+            async.each(req.body.timecards, function (value, callback) {
+
+
+                Timecard.findOne({guid:value.guid}, function (err, doc) {
+                    var clock_out = null;
+
+                    if(value.clock_out)
+                        clock_out = moment(value.clock_out).toDate();
+
+                    if(doc){
+                        console.log("found");
+
+                        doc.clock_out = clock_out;
+                        doc.synced_at = Date.now();
+                        doc.save(function(err, item){
+                            if (err){
+                                console.log(err);
+                            }
+                            synced.push(item);
+                            callback();
+
+                        });
+                    }
+                    else{
+
+                        var timecard = new Timecard({
+                            user: value.user,
+                            guid: value.guid,
+                            clock_in: moment(value.clock_in).toDate(),
+                            clock_out: clock_out,
+                            synced_at: Date.now()
+                        });
+
+                        timecard.save(function(err, item){
+                            if (err){
+                                console.log(err);
+                            }
+                            synced.push(timecard);
+                            callback();
+                        });
+                    }
+
+
+                });//
+
+
+
+
+            }, function (error) {
+                if (error) res.json(500, {error: error});
+                console.log(synced);
+                res.send(synced);
+
+
+            });
+
+
+        });
+
+
+/*
+            if(req.body.timecards[0])
+            {
+                var guid = req.body.timecards[0].guid;
+
+                var value = req.body.timecards[0];
+                Timecard.findOne({guid:guid}, function (err, doc) {
+                    var clock_out = null;
+
+                    if(value.clock_out)
+                        clock_out = moment(value.clock_out).toDate();
+
+                    if(doc){
+                        console.log("found");
+
+                        doc.clock_out = clock_out;
+                        doc.synced_at = Date.now();
+                        doc.save(function(err, item){
+                            if (err){
+                                console.log(err);
+                            }
+                            console.log("saved" + item);
+
+                        });
+                    }
+                    else{
+
+
+                        console.log("notfound");
+                        var timecard = new Timecard({
+                            user: value.user,
+                            guid: value.guid,
+                            clock_in: moment(value.clock_in).toDate(),
+                            clock_out: clock_out,
+                            synced_at: Date.now()
+                        });
+
+                        timecard.save(function(err, item){
+                            if (err){
+                                console.log(err);
+                            }
+                            console.log("saved" + item);
+
+                        });
+                    }
+
+
+                });//
+
+            }
+
+            res.json({done: "done"});
+
+*/
+
+
+
+
+
+
+
+            /*
+
+            async.each(req.body.timecards, function (value, callback) {
+
+
+                Timecard.findOne({ guid:value.guid }, function (err, doc){
+                    doc.clock_out = Date.now();
+                    console.log(doc);
+                    doc.save(function(){
+                        callback();
+                    });
+                });
+
+
+
+
+ Timecard.update({guid:value.guid}, { $set: { clock_out: Date.now()}},
+ null, function(){
+ callback();
+ });
+
+ Timecard.find({guid:value.guid}, function(err, timecards) {
+
+                    if(err)
+                        console.log(err);
+                    var clock_out = null;
+
+                    if(value.clock_out)
+                    clock_out = moment(value.clock_out).toDate();
+
+                    console.log("clockout" + clock_out);
+
+                    //Update existing timecard
+                    if(timecards.length > 0){
+                        var timecard = timecards[0];
+                        timecard.update({
+                            clock_out: Date.now()
+                        }, null, function(err,tim) {
+                            if (err)
+                                console.log(err);
+                            console.log("updated");
+                            console.log(tim);
+                            callback();
+                        });
+
+
+                        timecard.clock_out = clock_out;
+                        timecard.synced_at =  c;
+                    }
+                    //Create new timecard
+                    else{
+                        var timecard = new Timecard({});
+                        timecard.user = value.user;
+                        timecard.guid = valtimeue.guid;
+                        timecard.clock_in = moment(value.clock_in).toDate();
+                        timecard.clock_out = clock_out;
+                        timecard.synced_at = Date.now();
+
+                        timecard.save(function(err, item){
+                            if (err){
+                                console.log(err);
+                            }
+                            console.log("saved" + item);
+                            callback();
+                        });
+
+                    }
+
+
+                });
+
+
+        }, function (error) {
+            if (error) res.json(500, {error: error});
+                Timecard.find({clock_out:null}, function(err, timecards) {
+                    res.send(timecards);
+                });
+
+
+        });
+
+
+        });
+
+             */
 };

@@ -30,11 +30,11 @@
         var users = [];
 
 
-        function createUser(data) {
+        factory.createUser = function(data) {
 
             return User.save(data);
         }
-        function updateUser(data) {
+       factory.updateUser = function(data) {
 
             return User.update({id: data._id}, data);
         }
@@ -50,7 +50,7 @@
         }
 
 
-        function isValid(user) {
+       factory.isValid = function(user) {
 
             if (!user.first_name || !user.last_name)
                 throw "First and Last Names are required.";

@@ -10,5 +10,6 @@ module.exports = mongoose.model('User', new Schema({
     admin: Boolean,
     email: String,
     pin: Number,
-    status: Number
+    status: Number,
+    updated_at: Date
 }));

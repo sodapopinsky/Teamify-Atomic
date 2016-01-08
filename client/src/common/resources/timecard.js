@@ -22,6 +22,8 @@
             }
         });
 
+
+
         factory.getTimecards = function(data) {
 
             return Timecard.query(data).$promise;

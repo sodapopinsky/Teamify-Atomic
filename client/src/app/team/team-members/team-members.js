@@ -15,7 +15,7 @@ angular.module('team-members', ['resources.users'])
 
 
 
-angular.module('team-members').controller('TeamMembersController', function($scope,user) {
+angular.module('team-members').controller('TeamMembersController', function($scope,user,notificate) {
 
     $scope.users = [];
 
@@ -85,7 +85,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         try {user.isValid($scope.activeUser);}
         catch (error) {
-            Crash.notificate.error(error);
+            notificate.error(error);
             return;
         }
 
@@ -95,7 +95,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
         user.updateUser($scope.activeUser).$promise.then(function(success) {
             console.log("Fa" + $scope.activeUser);
             $scope.staleUser = $scope.activeUser;
-          //  Crash.notificate.success("Your Changes Have Been Saved");
+          notificate.success("Your Changes Have Been Saved");
         }, function(error) {
             console.log(error);
         });
@@ -108,7 +108,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             user.isValid($scope.activeUser);
         }
         catch (error) {
-          //  Crash.notificate.error(error);
+          //  Crash.notificate.error(error); fff
             return;
         }
 
