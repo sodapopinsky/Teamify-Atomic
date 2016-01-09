@@ -1,0 +1,28 @@
+
+<nav class="tmf-nav">
+
+
+
+    <ul class="navbar-nav navbar-right">
+        <li ui-sref-active-if="app.tasks.tasks" ui-sref="app.tasks.tasks">Tasks</li>
+        <li ui-sref-active-if="app.tasks.positions" ui-sref="app.tasks.positions">Positions</li>
+    </ul>
+
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <a class="navbar-brand" >Tasks</a>
+    </div>
+
+</nav>
+<div ui-view="content" style="margin:20px;"></div>
+
+    <!-- SIDE PANEL -->
+    <div class="cd-panel from-right">
+
+        <div class="cd-panel-container">
+
+            <div ng-include="panelContent"></div>
+        </div> <!-- cd-panel-container -->
+    </div> <!-- cd-panel -->
+

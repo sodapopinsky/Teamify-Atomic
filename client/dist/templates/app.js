@@ -1,4 +1,4 @@
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'tasks/tasks.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'tasks/index.tpl.html', 'tasks/positions/positions.tpl.html', 'tasks/positions/sidepanel/create.tpl.html', 'tasks/tasks/sidepanel/create.tpl.html', 'tasks/tasks/sidepanel/edit.tpl.html', 'tasks/tasks/tasks.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -204,7 +204,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "                <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span><p>INVENTORY</p></a>\n" +
     "        </li>\n" +
     "        <li>\n" +
-    "            <a  ui-sref-active-if=\"app.tasks\" ui-sref=\"app.tasks\">\n" +
+    "            <a  ui-sref-active-if=\"app.tasks\" ui-sref=\"app.tasks.tasks\">\n" +
     "                <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span><p>TASKS</p></a>\n" +
     "        </li>\n" +
     "    </ul>\n" +
@@ -805,11 +805,17 @@ angular.module("inventory/inventory.tpl.html", []).run(["$templateCache", functi
     "</div> <!-- cd-panels -->");
 }]);
 
-angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("tasks/tasks.tpl.html",
+angular.module("tasks/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/index.tpl.html",
     "\n" +
     "<nav class=\"tmf-nav\">\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.tasks.tasks\" ui-sref=\"app.tasks.tasks\">Tasks</li>\n" +
+    "        <li ui-sref-active-if=\"app.tasks.positions\" ui-sref=\"app.tasks.positions\">Positions</li>\n" +
+    "    </ul>\n" +
     "\n" +
     "\n" +
     "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
@@ -818,50 +824,7 @@ angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($temp
     "    </div>\n" +
     "\n" +
     "</nav>\n" +
-    "\n" +
-    "<div style=\"margin:20px;\">\n" +
-    "    <div>\n" +
-    "        <div class=\"btn btn-primary  pull-right\">New Task</div>\n" +
-    "        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
-    "\n" +
-    "            <ul class=\"nav navbar-nav\">\n" +
-    "\n" +
-    "                <li class=\"tmf-dropdown\">\n" +
-    "\n" +
-    "                    <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
-    "                        aria-expanded=\"false\">Status ({{status.title}}) <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
-    "                    <ul class=\"dropdown-menu\" >\n" +
-    "                        <li ><a ng-click=\"filterByStatus(1)\">Active</a> </li>\n" +
-    "                        <li><a ng-click=\"filterByStatus(0)\">Terminated</a></li>\n" +
-    "                    </ul>\n" +
-    "                </li>\n" +
-    "            </ul>\n" +
-    "        </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "        <table class=\"table table-hover voffset3\">\n" +
-    "            <thead>\n" +
-    "            <tr>\n" +
-    "                <th>First Name</th>\n" +
-    "                <th>Last Name</th>\n" +
-    "                <th>Status</th>\n" +
-    "                <th></th>\n" +
-    "            </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "            <tr ng-repeat=\"task in tasks\">\n" +
-    "                <td></td>\n" +
-    "                <td></td>\n" +
-    "                <td></td>\n" +
-    "                <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
-    "            </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "    </div>\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
     "\n" +
     "    <!-- SIDE PANEL -->\n" +
     "    <div class=\"cd-panel from-right\">\n" +
@@ -871,6 +834,244 @@ angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($temp
     "            <div ng-include=\"panelContent\"></div>\n" +
     "        </div> <!-- cd-panel-container -->\n" +
     "    </div> <!-- cd-panel -->\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/positions/positions.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/positions/positions.tpl.html",
+    "\n" +
+    "    <div>\n" +
+    "        <div class=\"btn btn-primary  pull-right\" ng-click=\"goCreatePosition()\">New Position</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <table class=\"table table-hover voffset3\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>Name</th>\n" +
+    "\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"position in positions.positions\" ng-click=\"goEdit(position)\">\n" +
+    "                <td>{{position.name}}</td>\n" +
+    "\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel from-right\" id=\"positionsPanel\">\n" +
+    "        <div class=\"cd-panel-container\">\n" +
+    "            <div ng-include=\"panelContent\"></div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "");
+}]);
+
+angular.module("tasks/positions/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/positions/sidepanel/create.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Position</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Position Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"newPosition.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createPosition()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreatePosition()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/sidepanel/create.tpl.html",
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Task</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Task Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"activeTask.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"description\">Description</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"description\" ng-model=\"activeTask.description\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"assigned_to\">Assigned To</label>\n" +
+    "                <ul class=\"nav navbar-nav\" id=\"assigned_to\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                           aria-expanded=\"false\">\n" +
+    "                            {{ activeTask._position.name}}\n" +
+    "                            <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul class=\"dropdown-menu\">\n" +
+    "                            <li ng-repeat=\"position in positions.positions\" ng-click=\"selectPosition(position)\">\n" +
+    "                                <a>{{position.name}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createTask()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreateTask()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/sidepanel/edit.tpl.html",
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\" navbar-brand\">{{activeTask.name}}</div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Task Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"activeTask.name\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"description\">Description</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"description\" ng-model=\"activeTask.description\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"assigned_to\">Assigned To</label>\n" +
+    "                <ul class=\"nav navbar-nav\" id=\"assigned_to\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                           aria-expanded=\"false\">\n" +
+    "                            {{ activeTask._position.name}}\n" +
+    "                            <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul class=\"dropdown-menu\">\n" +
+    "                            <li ng-repeat=\"position in positions.positions\" ng-click=\"selectPosition(position)\">\n" +
+    "                                <a>{{position.name}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateTask()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelEditTask()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/tasks.tpl.html",
+    "<div>\n" +
+    "    <div class=\"btn btn-primary  pull-right\" ng-click=\"goCreateTask()\">New Task</div>\n" +
+    "    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
+    "        <ul class=\"nav navbar-nav\">\n" +
+    "            <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                   aria-expanded=\"false\">Position: {{activePosition.name}} <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                <ul class=\"dropdown-menu\">\n" +
+    "                    <li ng-repeat=\"position in positions.positions\"><a ng-click=\"filterByPosition(position)\">{{position.name}}</a></li>\n" +
+    "\n" +
+    "                </ul>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <table class=\"table table-hover voffset3\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th>Name</th>\n" +
+    "\n" +
+    "            <th>Position</th>\n" +
+    "            <th></th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"task in tasks.tasks\" ng-click=\"goEditTask(task)\">\n" +
+    "            <td>{{task.name}}</td>\n" +
+    "         <td>{{task._position.name}}</td>\n" +
+    "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"cd-panel from-right\" id=\"taskPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ng-include=\"panelContent\"></div>\n" +
+    "    </div>\n" +
     "</div>\n" +
     "");
 }]);

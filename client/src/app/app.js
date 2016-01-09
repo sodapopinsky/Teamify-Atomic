@@ -5,25 +5,30 @@ angular.module('app', [
     'team',
     'inventory',
     'home',
-
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
+    'tasks',
     'resources.organization',
+    'resources.tasks',
+    'resources.positions',
     'notificate',
     'daterangepicker',
     'oc.modal',
     'angular.filter',
-    'tasks',
+
     'templates.app']);
 
 
+//@tmf Some Modules are declared in this file because they were causing crash when in their own file.  Why?
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
          'ui.bootstrap', //f
         'resources.projection']);
+
+angular.module('tasks',[]);
 
 angular.module('app').run(function($rootScope, $state) {
 

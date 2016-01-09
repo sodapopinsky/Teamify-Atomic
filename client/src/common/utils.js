@@ -54,7 +54,7 @@ angular.module('utils',[])
 
             var i = null;
           angular.forEach(array,function(value, index){
-                console.log(index);
+
                 var property = 'value.' + attributeName;
 
                 if(attributeValue == eval(property)){

@@ -1,0 +1,32 @@
+
+    <div>
+        <div class="btn btn-primary  pull-right" ng-click="goCreatePosition()">New Position</div>
+
+
+
+
+        <table class="table table-hover voffset3">
+            <thead>
+            <tr>
+                <th>Name</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="position in positions.positions" ng-click="goEdit(position)">
+                <td>{{position.name}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+    <div class="cd-panel from-right" id="positionsPanel">
+        <div class="cd-panel-container">
+            <div ng-include="panelContent"></div>
+
+        </div>
+    </div>

@@ -1,0 +1,57 @@
+<div class="cd-panel-content">
+
+    <div class="cd-panel-nav">
+
+
+        <div class=" navbar-brand">Create Task</div>
+
+    </div>
+
+    <form>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="name">Task Name</label>
+                <input type="text" class="form-control" id="name" ng-model="activeTask.name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" ng-model="activeTask.description">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="assigned_to">Assigned To</label>
+                <ul class="nav navbar-nav" id="assigned_to">
+                    <li class="tmf-dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            {{ activeTask._position.name}}
+                            <span class="glyphicon glyphicon-menu-down"></span></a>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="position in positions.positions" ng-click="selectPosition(position)">
+                                <a>{{position.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+    </form>
+
+
+    <div class="cd-panel-notification" id="cd-panel-notification"></div>
+
+    <div class="cd-panel-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="createTask()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelCreateTask()">Cancel</button>
+    </div>
+
+</div>
+
+

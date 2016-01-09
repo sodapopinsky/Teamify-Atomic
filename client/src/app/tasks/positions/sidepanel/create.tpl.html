@@ -1,0 +1,36 @@
+
+
+<div class="cd-panel-content">
+
+    <div class="cd-panel-nav">
+
+
+        <div class=" navbar-brand">Create Position</div>
+
+    </div>
+
+    <form>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="name">Position Name</label>
+                <input type="text" class="form-control" id="name" ng-model="newPosition.name">
+            </div>
+        </div>
+
+
+
+
+    </form>
+
+
+    <div class="cd-panel-notification" id="cd-panel-notification"></div>
+
+    <div class="cd-panel-footer">
+        <button type="submit" class="btn btn-primary pull-right" ng-click="createPosition()">Save</button>
+        <button class="btn btn-default btn-default pull-right" ng-click="cancelCreatePosition()">Cancel</button>
+    </div>
+
+</div>
+
+

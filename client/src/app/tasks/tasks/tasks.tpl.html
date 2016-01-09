@@ -1,0 +1,40 @@
+<div>
+    <div class="btn btn-primary  pull-right" ng-click="goCreateTask()">New Task</div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="padding:0px;">
+        <ul class="nav navbar-nav">
+            <li class="tmf-dropdown">
+
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">Position: {{activePosition.name}} <span class="glyphicon glyphicon-menu-down"></span></a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="position in positions.positions"><a ng-click="filterByPosition(position)">{{position.name}}</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <table class="table table-hover voffset3">
+        <thead>
+        <tr>
+            <th>Name</th>
+
+            <th>Position</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in tasks.tasks" ng-click="goEditTask(task)">
+            <td>{{task.name}}</td>
+         <td>{{task._position.name}}</td>
+            <td><span class="glyphicon glyphicon-menu-right pull-right"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="cd-panel from-right" id="taskPanel">
+    <div class="cd-panel-container">
+        <div ng-include="panelContent"></div>
+    </div>
+</div>

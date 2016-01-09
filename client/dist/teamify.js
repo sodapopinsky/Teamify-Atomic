@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-08
+/*! teamify - v0.0.1 - 2016-01-09
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -9,25 +9,30 @@ angular.module('app', [
     'team',
     'inventory',
     'home',
-
     'directives.uiSrefActiveIf',
     'directives.loading',
     'filters',
     'utils',
+    'tasks',
     'resources.organization',
+    'resources.tasks',
+    'resources.positions',
     'notificate',
     'daterangepicker',
     'oc.modal',
     'angular.filter',
-    'tasks',
+
     'templates.app']);
 
 
+//@tmf Some Modules are declared in this file because they were causing crash when in their own file.  Why?
 angular.module('inventory', [
         'resources.inventory',
         'resources.orderforms',
          'ui.bootstrap', //f
         'resources.projection']);
+
+angular.module('tasks',[]);
 
 angular.module('app').run(function($rootScope, $state) {
 
@@ -1023,20 +1028,200 @@ $scope.setAdditionalInventoryProperties = function(){
 
 
 
-angular.module('tasks', [])
+angular.module('tasks')
     .config(function($stateProvider){
         $stateProvider
+            .state('app.tasks.positions', {
+                url:"/positions",
+                views: {
+                    "content": {
+                        templateUrl: "tasks/positions/positions.tpl.html",
+                        controller: "Tasks_PositionsController"
+                    }
+                }
+            });
+    })
+    .controller("Tasks_PositionsController",function($scope,notificate, utils, positions) {
+
+        $scope.positions = positions.data;
+        positions.fetchPositions();
+
+        /**
+         * @name $scope.goCreatePosition
+         * @description Open create new position sidepanel
+         */
+        $scope.goCreatePosition = function(){
+            $scope.newPosition = {};
+            $scope.panelContent = 'tasks/positions/sidepanel/create.tpl.html';
+            $('#positionsPanel').addClass('is-visible');
+        };
+
+        /**
+         * @name $scope.createPosition
+         * @description Validate and create new position
+         */
+        $scope.createPosition = function(){
+          try {positions.isValid($scope.newPosition)}
+          catch (error){
+              notificate.error(error)
+              return;
+          }
+        positions.create($scope.newPosition).then(function(){
+            $('#positionsPanel').removeClass('is-visible');
+            notificate.success("New Position Created!");
+        },
+        function(error){
+            notificate.error("There was an error with your request");
+        });
+        };
+
+        /**
+         * @name $scope.cancelCreatePosition
+         * @description Close create new position sidepanel
+         */
+        $scope.cancelCreatePosition = function(){
+            $('#positionsPanel').removeClass('is-visible');
+        };
+    });
+
+//@tmf need to populate the "Unassigned" entry when creating account
+angular.module('tasks')
+    .config(function ($stateProvider) {
+        $stateProvider
             .state('app.tasks', {
-                url:"/tasks",
+                abstract: true,
+                url: "/tasks",
                 views: {
                     "content@app": {
-                        templateUrl: "tasks/tasks.tpl.html",
+                        templateUrl: "tasks/index.tpl.html"
+                    }
+                }
+            })
+            .state('app.tasks.tasks', {
+                url: "/tasks",
+                views: {
+                    "content": {
+                        templateUrl: "tasks/tasks/tasks.tpl.html",
                         controller: "TasksController"
                     }
                 }
             });
     })
-.controller("TasksController",function(){
+    .controller("TasksController", function ($scope, tasks, notificate, utils, positions) {
+
+        //Populate tasks data
+        $scope.tasks = tasks.data;
+        tasks.fetchTasks();
+
+        //Populate positions data
+        $scope.positions = positions.data;
+        positions.fetchPositions().then(function (response) {
+            if (response[0])
+                $scope.activePosition = response[0];
+        });
+
+        /**
+         * @name $scope.goCreateTask
+         * @description Open create task side panel
+         */
+        $scope.goCreateTask = function () {
+            $scope.activeTask = {
+                _position: $scope.activePosition
+            };
+
+            $scope.panelContent = 'tasks/tasks/sidepanel/create.tpl.html';
+            $('#taskPanel').addClass('is-visible');
+        };
+
+        /**
+         * @name $scope.createTask
+         * @description Validate and create new task
+         */
+        $scope.createTask = function () {
+            try {
+                tasks.isValid($scope.activeTask);
+            }
+            catch (error) {
+                notificate.error(error);
+                return;
+            }
+
+            tasks.createTask({
+                name: $scope.activeTask.name,
+                description: $scope.activeTask.description,
+                position: $scope.activeTask.position
+            }).then(function () {
+                $('#taskPanel').removeClass('is-visible');
+                notificate.success("Task Created!");
+                //@tmf this doesnt need to be a server hit, use response
+                tasks.fetchTasks();
+            });
+        };
+
+        /**
+         * @name $scope.cancelCreateTask
+         * @description Close create task side panel
+         */
+        $scope.cancelCreateTask = function () {
+            $('#taskPanel').removeClass('is-visible');
+        }
+
+        /**
+         * @name $scope.filterByPosition
+         * @description Filter tasks by position
+         * @param position
+         */
+        $scope.filterByPosition = function (position) {
+            $scope.activePosition = position;
+        };
+
+        /**
+         * @name $scope.selectPosition
+         * @description Select position for new or updated tasks
+         * @param position
+         */
+        $scope.selectPosition = function (position) {
+            $scope.activeTask._position = position;
+        };
+
+        /**
+         * @name $scope.goEditTask
+         * @description
+         * @param task
+         */
+        $scope.goEditTask = function (task) {
+            $scope.panelContent = 'tasks/tasks/sidepanel/edit.tpl.html';
+            $('#taskPanel').addClass('is-visible');
+            $scope.activeTask = task;
+            $scope.staleTask = JSON.parse(JSON.stringify(task));
+        };
+
+        /**
+         * @name $scope.cancelEditTask
+         * @description Reverts changes to task and closes side panel
+         */
+        $scope.cancelEditTask = function () {
+            var index = utils.getIndexByAttributeValue($scope.tasks.tasks, "_id", $scope.activeTask._id);
+            $scope.tasks.tasks[index] = utils.copy($scope.staleTask);
+            $('#taskPanel').removeClass('is-visible');
+        };
+
+        $scope.updateTask = function(){
+            try {
+                tasks.isValid($scope.activeTask);
+            }
+            catch (error) {
+                notificate.error(error);
+                return;
+            }
+
+            tasks.update($scope.activeTask).then(function(){
+                notificate.success("Changes Saved");
+                $('#taskPanel').removeClass('is-visible');
+            },function(){
+                notificate.error("There was a problem with your request");
+            });
+        }
 
     });
 angular.module('team-members', ['resources.users'])
@@ -2008,6 +2193,68 @@ angular.module('notificate',[])
 })();
 
 (function() {
+    'use strict';
+    angular
+        .module('resources.positions',['ngResource'])
+        .factory('positions', positions);
+
+    function positions($resource) {
+
+        var factory = {};
+
+        factory.data = {
+            positions: [],
+            loading:false
+        };
+
+        // ngResource call to our data
+        var Position = $resource('api/positions/:id', {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+        /**
+         * @name fetchPositions
+         * @description Fetches all positions for an organization
+         * @returns {$promise|*}
+         */
+        factory.fetchPositions= function(){
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            var promise = Position.query().$promise;
+            promise.then(function(response){
+                factory.data.positions = response;
+            });
+            return promise;
+        }
+
+        /**
+         * @name isValid
+         * @description Validates the position
+         * @param data
+         * @throws {String} Error Description
+         */
+        factory.isValid = function(position){
+            if(!position.name)
+                throw "Name Required";
+        };
+
+        /**
+         *
+         * @param data
+         * @returns {$promise|*}
+         */
+        factory.create = function(position) {
+            return Position.save(position).$promise;
+        }
+
+        return factory;
+    }
+
+})();
+
+(function() {
 
     'use strict';
 
@@ -2116,6 +2363,66 @@ angular.module('notificate',[])
         return factory;
 
     }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    angular
+        .module('resources.tasks',['ngResource'])
+        .factory('tasks', tasks);
+
+
+    function tasks($resource) {
+
+        var factory = {};
+
+        factory.data = {
+             tasks: [],
+            loading:false};
+
+
+        // ngResource call to our static data
+        var Task = $resource('api/tasks/:_id', {}, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
+
+        factory.fetchTasks= function(){
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            var promise = Task.query().$promise;
+            promise.then(function(response){
+                factory.data.tasks = response;
+            });
+            return promise
+        }
+
+
+        factory.isValid = function(data){
+
+              if(!data.name)
+              throw "Name Required";
+
+        };
+
+        factory.update = function(data){
+            return Task.update({_id:data._id}, data).$promise;
+        };
+
+        factory.createTask = function(data) {
+            return Task.save(data).$promise;
+        }
+
+
+        return factory;
+
+    }
+
 
 })();
 
@@ -2319,7 +2626,7 @@ angular.module('utils',[])
 
             var i = null;
           angular.forEach(array,function(value, index){
-                console.log(index);
+
                 var property = 'value.' + attributeName;
 
                 if(attributeValue == eval(property)){
@@ -2349,7 +2656,7 @@ angular.module('utils',[])
 
         return factory;
 });
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'tasks/tasks.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'tasks/index.tpl.html', 'tasks/positions/positions.tpl.html', 'tasks/positions/sidepanel/create.tpl.html', 'tasks/tasks/sidepanel/create.tpl.html', 'tasks/tasks/sidepanel/edit.tpl.html', 'tasks/tasks/tasks.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -2555,7 +2862,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "                <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span><p>INVENTORY</p></a>\n" +
     "        </li>\n" +
     "        <li>\n" +
-    "            <a  ui-sref-active-if=\"app.tasks\" ui-sref=\"app.tasks\">\n" +
+    "            <a  ui-sref-active-if=\"app.tasks\" ui-sref=\"app.tasks.tasks\">\n" +
     "                <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span><p>TASKS</p></a>\n" +
     "        </li>\n" +
     "    </ul>\n" +
@@ -3156,11 +3463,17 @@ angular.module("inventory/inventory.tpl.html", []).run(["$templateCache", functi
     "</div> <!-- cd-panels -->");
 }]);
 
-angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("tasks/tasks.tpl.html",
+angular.module("tasks/index.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/index.tpl.html",
     "\n" +
     "<nav class=\"tmf-nav\">\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "    <ul class=\"navbar-nav navbar-right\">\n" +
+    "        <li ui-sref-active-if=\"app.tasks.tasks\" ui-sref=\"app.tasks.tasks\">Tasks</li>\n" +
+    "        <li ui-sref-active-if=\"app.tasks.positions\" ui-sref=\"app.tasks.positions\">Positions</li>\n" +
+    "    </ul>\n" +
     "\n" +
     "\n" +
     "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
@@ -3169,50 +3482,7 @@ angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($temp
     "    </div>\n" +
     "\n" +
     "</nav>\n" +
-    "\n" +
-    "<div style=\"margin:20px;\">\n" +
-    "    <div>\n" +
-    "        <div class=\"btn btn-primary  pull-right\">New Task</div>\n" +
-    "        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
-    "\n" +
-    "            <ul class=\"nav navbar-nav\">\n" +
-    "\n" +
-    "                <li class=\"tmf-dropdown\">\n" +
-    "\n" +
-    "                    <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
-    "                        aria-expanded=\"false\">Status ({{status.title}}) <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
-    "                    <ul class=\"dropdown-menu\" >\n" +
-    "                        <li ><a ng-click=\"filterByStatus(1)\">Active</a> </li>\n" +
-    "                        <li><a ng-click=\"filterByStatus(0)\">Terminated</a></li>\n" +
-    "                    </ul>\n" +
-    "                </li>\n" +
-    "            </ul>\n" +
-    "        </div>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "        <table class=\"table table-hover voffset3\">\n" +
-    "            <thead>\n" +
-    "            <tr>\n" +
-    "                <th>First Name</th>\n" +
-    "                <th>Last Name</th>\n" +
-    "                <th>Status</th>\n" +
-    "                <th></th>\n" +
-    "            </tr>\n" +
-    "            </thead>\n" +
-    "            <tbody>\n" +
-    "            <tr ng-repeat=\"task in tasks\">\n" +
-    "                <td></td>\n" +
-    "                <td></td>\n" +
-    "                <td></td>\n" +
-    "                <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
-    "            </tr>\n" +
-    "            </tbody>\n" +
-    "        </table>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "    </div>\n" +
+    "<div ui-view=\"content\" style=\"margin:20px;\"></div>\n" +
     "\n" +
     "    <!-- SIDE PANEL -->\n" +
     "    <div class=\"cd-panel from-right\">\n" +
@@ -3222,6 +3492,244 @@ angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($temp
     "            <div ng-include=\"panelContent\"></div>\n" +
     "        </div> <!-- cd-panel-container -->\n" +
     "    </div> <!-- cd-panel -->\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/positions/positions.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/positions/positions.tpl.html",
+    "\n" +
+    "    <div>\n" +
+    "        <div class=\"btn btn-primary  pull-right\" ng-click=\"goCreatePosition()\">New Position</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <table class=\"table table-hover voffset3\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>Name</th>\n" +
+    "\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"position in positions.positions\" ng-click=\"goEdit(position)\">\n" +
+    "                <td>{{position.name}}</td>\n" +
+    "\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel from-right\" id=\"positionsPanel\">\n" +
+    "        <div class=\"cd-panel-container\">\n" +
+    "            <div ng-include=\"panelContent\"></div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "");
+}]);
+
+angular.module("tasks/positions/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/positions/sidepanel/create.tpl.html",
+    "\n" +
+    "\n" +
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Position</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Position Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"newPosition.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createPosition()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreatePosition()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/sidepanel/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/sidepanel/create.tpl.html",
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "\n" +
+    "\n" +
+    "        <div class=\" navbar-brand\">Create Task</div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Task Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"activeTask.name\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"description\">Description</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"description\" ng-model=\"activeTask.description\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"assigned_to\">Assigned To</label>\n" +
+    "                <ul class=\"nav navbar-nav\" id=\"assigned_to\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                           aria-expanded=\"false\">\n" +
+    "                            {{ activeTask._position.name}}\n" +
+    "                            <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul class=\"dropdown-menu\">\n" +
+    "                            <li ng-repeat=\"position in positions.positions\" ng-click=\"selectPosition(position)\">\n" +
+    "                                <a>{{position.name}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "\n" +
+    "    <div class=\"cd-panel-notification\" id=\"cd-panel-notification\"></div>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"createTask()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelCreateTask()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/sidepanel/edit.tpl.html",
+    "<div class=\"cd-panel-content\">\n" +
+    "\n" +
+    "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\" navbar-brand\">{{activeTask.name}}</div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <form>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"name\">Task Name</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"name\" ng-model=\"activeTask.name\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"description\">Description</label>\n" +
+    "                <input type=\"text\" class=\"form-control\" id=\"description\" ng-model=\"activeTask.description\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-12\">\n" +
+    "                <label for=\"assigned_to\">Assigned To</label>\n" +
+    "                <ul class=\"nav navbar-nav\" id=\"assigned_to\">\n" +
+    "                    <li class=\"tmf-dropdown\">\n" +
+    "                        <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                           aria-expanded=\"false\">\n" +
+    "                            {{ activeTask._position.name}}\n" +
+    "                            <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                        <ul class=\"dropdown-menu\">\n" +
+    "                            <li ng-repeat=\"position in positions.positions\" ng-click=\"selectPosition(position)\">\n" +
+    "                                <a>{{position.name}}</a>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <div class=\"cd-panel-footer background-secondary\">\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateTask()\">Save</button>\n" +
+    "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelEditTask()\">Cancel</button>\n" +
+    "    </div>\n" +
+    "</div> <!-- cd-panel-content -->\n" +
+    "");
+}]);
+
+angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks/tasks.tpl.html",
+    "<div>\n" +
+    "    <div class=\"btn btn-primary  pull-right\" ng-click=\"goCreateTask()\">New Task</div>\n" +
+    "    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
+    "        <ul class=\"nav navbar-nav\">\n" +
+    "            <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                   aria-expanded=\"false\">Position: {{activePosition.name}} <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                <ul class=\"dropdown-menu\">\n" +
+    "                    <li ng-repeat=\"position in positions.positions\"><a ng-click=\"filterByPosition(position)\">{{position.name}}</a></li>\n" +
+    "\n" +
+    "                </ul>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <table class=\"table table-hover voffset3\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th>Name</th>\n" +
+    "\n" +
+    "            <th>Position</th>\n" +
+    "            <th></th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr ng-repeat=\"task in tasks.tasks\" ng-click=\"goEditTask(task)\">\n" +
+    "            <td>{{task.name}}</td>\n" +
+    "         <td>{{task._position.name}}</td>\n" +
+    "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "        </tr>\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"cd-panel from-right\" id=\"taskPanel\">\n" +
+    "    <div class=\"cd-panel-container\">\n" +
+    "        <div ng-include=\"panelContent\"></div>\n" +
+    "    </div>\n" +
     "</div>\n" +
     "");
 }]);
