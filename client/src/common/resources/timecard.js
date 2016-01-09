@@ -12,7 +12,9 @@
 
         var factory = {};
 
-        factory.data = {timecards: [],loading:false};
+        factory.data = {timecards: [],
+            openTimecards: [],
+            loading:false};
 
 
         // ngResource call to our static data
@@ -23,6 +25,15 @@
         });
 
 
+        factory.fetchOpenTimecards = function(){
+            var OpenTimecards = $resource('/api/opentimecards',{},
+                {
+                    'save': {method:'POST', isArray: true}
+                });
+            OpenTimecards.query().$promise.then(function(response){
+                factory.data.openTimecards = response;
+            });
+        };
 
         factory.getTimecards = function(data) {
 

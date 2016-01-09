@@ -213,8 +213,13 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 });
 
 
-angular.module('team').controller('Team_ClockedInController', function($scope,user) {
+angular.module('team').controller('Team_ClockedInController', function($scope,timecards) {
 
+    $scope.formatDate = function(date){
+        return moment(date).format("ddd h:mm a");
+    }
+    timecards.fetchOpenTimecards();
+     $scope.timecards = timecards.data;
 
 });
 

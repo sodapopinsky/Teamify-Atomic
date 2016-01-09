@@ -76,6 +76,20 @@ exports.addRoutes = function(apiRoutes) {
             });
         });
 
+    apiRoutes.route('/users/:user_id/timecards')
+
+
+        .get(function(req, res) {
+            Timecard.find({'user._id':  req.params.user_id})
+                .sort({clock_in: -1}).exec(function(err, timecards) {
+                if(err)
+                    res.send(err);
+                res.json(timecards);
+            });
+        });
+
+
+
 
 
     // ---------------------------------------------------- Inventory
@@ -435,7 +449,6 @@ exports.addRoutes = function(apiRoutes) {
                 if (error) res.json(500, {error: error});
                 console.log(synced);
                 res.send(synced);
-
 
             });
 

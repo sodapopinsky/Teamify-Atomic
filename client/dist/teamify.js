@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-07
+/*! teamify - v0.0.1 - 2016-01-08
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -19,6 +19,7 @@ angular.module('app', [
     'daterangepicker',
     'oc.modal',
     'angular.filter',
+    'tasks',
     'templates.app']);
 
 
@@ -1022,6 +1023,22 @@ $scope.setAdditionalInventoryProperties = function(){
 
 
 
+angular.module('tasks', [])
+    .config(function($stateProvider){
+        $stateProvider
+            .state('app.tasks', {
+                url:"/tasks",
+                views: {
+                    "content@app": {
+                        templateUrl: "tasks/tasks.tpl.html",
+                        controller: "TasksController"
+                    }
+                }
+            });
+    })
+.controller("TasksController",function(){
+
+    });
 angular.module('team-members', ['resources.users'])
 .config(function($stateProvider) {
     $stateProvider
@@ -1424,8 +1441,13 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 });
 
 
-angular.module('team').controller('Team_ClockedInController', function($scope,user) {
+angular.module('team').controller('Team_ClockedInController', function($scope,timecards) {
 
+    $scope.formatDate = function(date){
+        return moment(date).format("ddd h:mm a");
+    }
+    timecards.fetchOpenTimecards();
+     $scope.timecards = timecards.data;
 
 });
 
@@ -2110,7 +2132,9 @@ angular.module('notificate',[])
 
         var factory = {};
 
-        factory.data = {timecards: [],loading:false};
+        factory.data = {timecards: [],
+            openTimecards: [],
+            loading:false};
 
 
         // ngResource call to our static data
@@ -2119,6 +2143,17 @@ angular.module('notificate',[])
                 method: 'PUT'
             }
         });
+
+
+        factory.fetchOpenTimecards = function(){
+            var OpenTimecards = $resource('/api/opentimecards',{},
+                {
+                    'save': {method:'POST', isArray: true}
+                });
+            OpenTimecards.query().$promise.then(function(response){
+                factory.data.openTimecards = response;
+            });
+        };
 
         factory.getTimecards = function(data) {
 
@@ -2314,7 +2349,7 @@ angular.module('utils',[])
 
         return factory;
 });
-angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
+angular.module('templates.app', ['auth/auth.tpl.html', 'home/home.tpl.html', 'home/sales/calendar.tpl.html', 'home/sales/editCustomProjection.tpl.html', 'home/sales/editDefaultProjection.tpl.html', 'home/sales/sales.tpl.html', 'index.tpl.html', 'inventory/inventory-items/inventory-items.tpl.html', 'inventory/inventory-items/sidepanel/create.tpl.html', 'inventory/inventory-items/sidepanel/edit.tpl.html', 'inventory/inventory-ordering/createForm.tpl.html', 'inventory/inventory-ordering/editForm.tpl.html', 'inventory/inventory-ordering/inventory-ordering.tpl.html', 'inventory/inventory.tpl.html', 'tasks/tasks.tpl.html', 'team/team-members/sidepanel/edit.tpl.html', 'team/team-members/sidepanel/new_employee.tpl.html', 'team/team-members/team-members.tpl.html', 'team/team.tpl.html', 'team/timecards/clockedIn.tpl.html', 'team/timecards/index.tpl.html', 'team/timecards/reports.tpl.html', 'team/timecards/shiftdetail.tpl.html', 'team/timecards/sidepanel/create.tpl.html', 'team/timecards/sidepanel/edit.tpl.html', 'team/timecards/summary.tpl.html', 'team/timecards/timecards.tpl.html']);
 
 angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("auth/auth.tpl.html",
@@ -2502,7 +2537,7 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "                    </ul>\n" +
     "                </li>\n" +
     "            </ul>\n" +
-    "        </div><!-- /.navbar-collapse -->\n" +
+    "        </div><!-- /.navbar-collapsse -->\n" +
     "\n" +
     "\n" +
     "    </div>\n" +
@@ -2518,6 +2553,10 @@ angular.module("index.tpl.html", []).run(["$templateCache", function($templateCa
     "        <li>\n" +
     "            <a  ui-sref-active-if=\"app.inventory\" ui-sref=\"app.inventory.items\">\n" +
     "                <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span><p>INVENTORY</p></a>\n" +
+    "        </li>\n" +
+    "        <li>\n" +
+    "            <a  ui-sref-active-if=\"app.tasks\" ui-sref=\"app.tasks\">\n" +
+    "                <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span><p>TASKS</p></a>\n" +
     "        </li>\n" +
     "    </ul>\n" +
     "</div>\n" +
@@ -3117,6 +3156,76 @@ angular.module("inventory/inventory.tpl.html", []).run(["$templateCache", functi
     "</div> <!-- cd-panels -->");
 }]);
 
+angular.module("tasks/tasks.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tasks/tasks.tpl.html",
+    "\n" +
+    "<nav class=\"tmf-nav\">\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    <!-- Brand and toggle get grouped for better mobile display -->\n" +
+    "    <div class=\"navbar-header\">\n" +
+    "        <a class=\"navbar-brand\" >Tasks</a>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</nav>\n" +
+    "\n" +
+    "<div style=\"margin:20px;\">\n" +
+    "    <div>\n" +
+    "        <div class=\"btn btn-primary  pull-right\">New Task</div>\n" +
+    "        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\" style=\"padding:0px;\">\n" +
+    "\n" +
+    "            <ul class=\"nav navbar-nav\">\n" +
+    "\n" +
+    "                <li class=\"tmf-dropdown\">\n" +
+    "\n" +
+    "                    <a  class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\"\n" +
+    "                        aria-expanded=\"false\">Status ({{status.title}}) <span class=\"glyphicon glyphicon-menu-down\"></span></a>\n" +
+    "                    <ul class=\"dropdown-menu\" >\n" +
+    "                        <li ><a ng-click=\"filterByStatus(1)\">Active</a> </li>\n" +
+    "                        <li><a ng-click=\"filterByStatus(0)\">Terminated</a></li>\n" +
+    "                    </ul>\n" +
+    "                </li>\n" +
+    "            </ul>\n" +
+    "        </div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "        <table class=\"table table-hover voffset3\">\n" +
+    "            <thead>\n" +
+    "            <tr>\n" +
+    "                <th>First Name</th>\n" +
+    "                <th>Last Name</th>\n" +
+    "                <th>Status</th>\n" +
+    "                <th></th>\n" +
+    "            </tr>\n" +
+    "            </thead>\n" +
+    "            <tbody>\n" +
+    "            <tr ng-repeat=\"task in tasks\">\n" +
+    "                <td></td>\n" +
+    "                <td></td>\n" +
+    "                <td></td>\n" +
+    "                <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +
+    "            </tr>\n" +
+    "            </tbody>\n" +
+    "        </table>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <!-- SIDE PANEL -->\n" +
+    "    <div class=\"cd-panel from-right\">\n" +
+    "\n" +
+    "        <div class=\"cd-panel-container\">\n" +
+    "\n" +
+    "            <div ng-include=\"panelContent\"></div>\n" +
+    "        </div> <!-- cd-panel-container -->\n" +
+    "    </div> <!-- cd-panel -->\n" +
+    "</div>\n" +
+    "");
+}]);
+
 angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("team/team-members/sidepanel/edit.tpl.html",
     "\n" +
@@ -3318,7 +3427,7 @@ angular.module("team/timecards/clockedIn.tpl.html", []).run(["$templateCache", f
     "    </tr>\n" +
     "    </thead>\n" +
     "    <tbody>\n" +
-    "    <tr ng-repeat=\"t in timecards\">\n" +
+    "    <tr ng-repeat=\"t in timecards.openTimecards\">\n" +
     "        <td > {{t.user['first_name']}} {{t.user['last_name']}}\n" +
     "        </td>\n" +
     "        <td> {{formatDate(t.clock_in)}}\n" +
@@ -3327,7 +3436,6 @@ angular.module("team/timecards/clockedIn.tpl.html", []).run(["$templateCache", f
     "    </tr>\n" +
     "    </tbody>\n" +
     "</table>\n" +
-    "\n" +
     "</div>\n" +
     "\n" +
     "\n" +

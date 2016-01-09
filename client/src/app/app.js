@@ -15,6 +15,7 @@ angular.module('app', [
     'daterangepicker',
     'oc.modal',
     'angular.filter',
+    'tasks',
     'templates.app']);
 
 

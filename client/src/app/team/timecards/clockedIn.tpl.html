@@ -7,7 +7,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="t in timecards">
+    <tr ng-repeat="t in timecards.openTimecards">
         <td > {{t.user['first_name']}} {{t.user['last_name']}}
         </td>
         <td> {{formatDate(t.clock_in)}}
@@ -16,7 +16,6 @@
     </tr>
     </tbody>
 </table>
-
 </div>
 
 
