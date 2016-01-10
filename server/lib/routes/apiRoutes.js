@@ -5,12 +5,13 @@ var Organization = require('../models/organization');
 var Projection = require('../models/projection');
 var Position = require('../models/position');
 var Task = require('../models/task');
+var TaskCompletion = require('../models/taskCompletion');
 var Timecard = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
 var async = require('async');
-exports.addRoutes = function (apiRoutes) {
 
+exports.addRoutes = function (apiRoutes) {
 
     function guid() {
         function s4() {
@@ -554,6 +555,53 @@ exports.addRoutes = function (apiRoutes) {
                 if (err)
                     res.send(err);
                 res.json(position);
+            });
+        });
+
+
+    /**
+     * @route "api/taskcompletions"
+     */
+    apiRoutes.route('/taskcompletions')
+
+    /**
+     * @request GET
+     * @tmf Should accept organization parameter and filter for organization
+     * @query {date} The date for the completions
+     * @returns {array} An array of all task completions for a date
+     */
+        .get(function (req, res) {
+            var start = moment(req.query.date).startOf('day');
+            var end = moment(req.query.date).endOf('day');
+            TaskCompletion.find({
+                date: {
+                    $gte: start.toDate(),
+                    $lte: end.toDate()
+                }
+            }, function (err, projection) {
+                if (err)
+                    res.send(err);
+                res.json(projection);
+            });
+        })
+    /**
+     * @request POST
+     * @tmf Should accept organization parameter and filter for organization
+     * @param {date} The date of the completion
+     * @param {userId} The id of the user who completed the task
+     * @param {taskId} The id of the task
+     * @returns {json} The newly created completion object
+     */
+        .post(function (req, res) {
+            var taskCompletion = new TaskCompletion();
+            taskCompletion._user = req.body.userId;
+            taskCompletion._task = req.body.taskId;
+            taskCompletion.date = moment(req.body.date).toDate();
+
+            taskCompletion.save(function (err,result) {
+                if (err)
+                    res.send(err);
+                res.json(result);
             });
         });
 
