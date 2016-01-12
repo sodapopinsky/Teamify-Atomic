@@ -368,7 +368,9 @@ exports.addRoutes = function (apiRoutes) {
     apiRoutes.route('/opentimecards')
         .get(function (req, res) {
 
-            Timecard.find({clock_out: null}, function (err, timecards) {
+            Timecard.find({clock_out: null})
+                .populate("_position")
+                .exec(function (err, timecards) {
                 if (err)
                     res.send(err);
                 res.send(timecards);
@@ -401,8 +403,6 @@ exports.addRoutes = function (apiRoutes) {
                         clock_out = moment(value.clock_out).toDate();
 
                     if (doc) {
-                        console.log("found");
-
                         doc.clock_out = clock_out;
                         doc.synced_at = Date.now();
                         doc.save(function (err, item) {
@@ -421,6 +421,7 @@ exports.addRoutes = function (apiRoutes) {
                             guid: value.guid,
                             clock_in: moment(value.clock_in).toDate(),
                             clock_out: clock_out,
+                            _position: value.position._id,
                             synced_at: Date.now()
                         });
 
@@ -573,16 +574,18 @@ exports.addRoutes = function (apiRoutes) {
         .get(function (req, res) {
             var start = moment(req.query.date).startOf('day');
             var end = moment(req.query.date).endOf('day');
-            TaskCompletion.find({
-                date: {
-                    $gte: start.toDate(),
+
+            var query = TaskCompletion.find({ date: {
+                $gte: start.toDate(),
                     $lte: end.toDate()
-                }
-            }, function (err, projection) {
+            }}).populate('_user');
+
+            query.exec(function (err,completion) {
                 if (err)
                     res.send(err);
-                res.json(projection);
-            });
+                console.log(completion);
+                res.json(completion);
+             })
         })
     /**
      * @request POST
@@ -596,12 +599,34 @@ exports.addRoutes = function (apiRoutes) {
             var taskCompletion = new TaskCompletion();
             taskCompletion._user = req.body.userId;
             taskCompletion._task = req.body.taskId;
+            taskCompletion.guid = req.body.guid;
             taskCompletion.date = moment(req.body.date).toDate();
 
             taskCompletion.save(function (err,result) {
                 if (err)
                     res.send(err);
                 res.json(result);
+            });
+        });
+
+    /**
+     * @route "api/taskcompletions/:guid"
+     */
+    apiRoutes.route('/taskcompletions/:guid')
+
+    /**
+     * @request DELETE
+     * @param {guid} The guid of the task completion
+     * @returns {json} Success
+     */
+        .delete(function (req, res) {
+            TaskCompletion.remove({guid: req.params.guid}, function (err) {
+                if (!err) {
+                    res.json("Success!");
+                }
+                else {
+                    res.send(err);
+                }
             });
         });
 

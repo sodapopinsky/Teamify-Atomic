@@ -8,7 +8,7 @@ module.exports = mongoose.model('Timecard', new Schema({
     ,
     clock_in: Date,
     clock_out: Date,
-    position: String,
+    _position:  { type: Schema.Types.ObjectId, ref: 'Position' },
     synced_at: Date,
     guid: String
 }));
