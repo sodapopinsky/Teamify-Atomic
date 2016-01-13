@@ -81,7 +81,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
     $scope.updateUser = function() {
 
-        console.log("Fa" + $scope.activeUser);
+
 
         try {user.isValid($scope.activeUser);}
         catch (error) {
@@ -93,7 +93,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         // Update the time entry and then refresh the list
         user.updateUser($scope.activeUser).$promise.then(function(success) {
-            console.log("Fa" + $scope.activeUser);
+
             $scope.staleUser = $scope.activeUser;
           notificate.success("Your Changes Have Been Saved");
         }, function(error) {

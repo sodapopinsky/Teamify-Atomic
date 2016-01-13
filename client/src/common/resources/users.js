@@ -32,10 +32,11 @@
 
         factory.createUser = function(data) {
 
+
             return User.save(data);
         }
        factory.updateUser = function(data) {
-
+           console.dir(data);
             return User.update({id: data._id}, data);
         }
         function getUsers() {

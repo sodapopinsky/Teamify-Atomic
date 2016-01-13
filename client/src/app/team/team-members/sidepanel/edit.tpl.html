@@ -48,6 +48,33 @@
 
         </div>
 
+        <div class="row">
+            <div class="form-group col-sm-6">
+             Permissions
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="activeUser.permissions.employee_file">
+                       Employee Files
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="activeUser.permissions.inventory">
+                       Inventory
+                    </label>
+                </div>
+            </div>
+
+        </div>
 
 
 
@@ -59,4 +86,4 @@
         <button type="submit" class="btn btn-primary pull-right" ng-click="updateUser()">Save</button>
         <button class="btn btn-default btn-default pull-right" ng-click="cancelChanges()">Cancel</button>
     </div>
-</div> <!-- cd-panel-content -->
+</div> <!-- cd-panel-s -->

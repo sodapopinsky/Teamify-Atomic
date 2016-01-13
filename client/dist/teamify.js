@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-09
+/*! teamify - v0.0.1 - 2016-01-13
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -1307,7 +1307,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
     $scope.updateUser = function() {
 
-        console.log("Fa" + $scope.activeUser);
+
 
         try {user.isValid($scope.activeUser);}
         catch (error) {
@@ -1319,7 +1319,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
 
         // Update the time entry and then refresh the list
         user.updateUser($scope.activeUser).$promise.then(function(success) {
-            console.log("Fa" + $scope.activeUser);
+
             $scope.staleUser = $scope.activeUser;
           notificate.success("Your Changes Have Been Saved");
         }, function(error) {
@@ -2523,10 +2523,11 @@ angular.module('notificate',[])
 
         factory.createUser = function(data) {
 
+
             return User.save(data);
         }
        factory.updateUser = function(data) {
-
+           console.dir(data);
             return User.update({id: data._id}, data);
         }
         function getUsers() {
@@ -3786,6 +3787,33 @@ angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateC
     "\n" +
     "        </div>\n" +
     "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "             Permissions\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <div class=\"checkbox\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" ng-model=\"activeUser.permissions.employee_file\">\n" +
+    "                       Employee Files\n" +
+    "                    </label>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"form-group col-sm-6\">\n" +
+    "                <div class=\"checkbox\">\n" +
+    "                    <label>\n" +
+    "                        <input type=\"checkbox\" ng-model=\"activeUser.permissions.inventory\">\n" +
+    "                       Inventory\n" +
+    "                    </label>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -3797,7 +3825,7 @@ angular.module("team/team-members/sidepanel/edit.tpl.html", []).run(["$templateC
     "        <button type=\"submit\" class=\"btn btn-primary pull-right\" ng-click=\"updateUser()\">Save</button>\n" +
     "        <button class=\"btn btn-default btn-default pull-right\" ng-click=\"cancelChanges()\">Cancel</button>\n" +
     "    </div>\n" +
-    "</div> <!-- cd-panel-content -->\n" +
+    "</div> <!-- cd-panel-s -->\n" +
     "");
 }]);
 

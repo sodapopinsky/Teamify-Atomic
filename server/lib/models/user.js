@@ -11,5 +11,10 @@ module.exports = mongoose.model('User', new Schema({
     email: String,
     pin: Number,
     status: Number,
-    updated_at: Date
+    updated_at: Date,
+    permissions: {
+        "employee_file": {type: Boolean, default: false},
+        "inventory": {type: Boolean, default: false}
+    },
+    _notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
 }));

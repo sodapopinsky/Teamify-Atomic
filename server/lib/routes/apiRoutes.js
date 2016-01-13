@@ -5,7 +5,9 @@ var Organization = require('../models/organization');
 var Projection = require('../models/projection');
 var Position = require('../models/position');
 var Task = require('../models/task');
+var Notification = require('../models/notification');
 var TaskCompletion = require('../models/taskCompletion');
+var EmployeeFile = require('../models/employeeFile');
 var Timecard = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
@@ -29,12 +31,19 @@ exports.addRoutes = function (apiRoutes) {
 
         .get(function (req, res) {
 
-            User.find({}, function (err, users) {
-                res.json(users);
-            });
+
+
+            User.find(req.params.user_id)
+                //populates only unread notifications
+                .populate('_notifications', 'message',
+                { read_receipts: {$ne: this._id}})
+                .exec( function (err, users){
+                    if (err)
+                        res.send(err);
+                    res.json(users);
+                });
+
         })
-
-
         .post(function (req, res) {
 
             var user = new User();
@@ -43,6 +52,7 @@ exports.addRoutes = function (apiRoutes) {
             user.pin = req.body.pin;
             user.status = 1;
             user.updated_at = Date.now();
+
 
             user.save(function (err) {
                 if (err)
@@ -57,9 +67,8 @@ exports.addRoutes = function (apiRoutes) {
 
 
         .put(function (req, res) {
-
             // use our bear model to find the bear we want
-            User.findById(req.params.user_id, function (err, user) {
+            User.findById(req.params.user_id, function(err, user) {
 
                 if (err)
                     res.send(err);
@@ -68,16 +77,16 @@ exports.addRoutes = function (apiRoutes) {
                 user.last_name = req.body.last_name;
                 user.pin = req.body.pin;
                 user.status = req.body.status;
-                user.updated_at = Date.now();
-
-                user.save(function (err, user) {
+                user.permissions = req.body.permissions;
+                user.save(function(err) {
                     if (err)
                         res.send(err);
 
-                    res.json({message: 'User updated!', user: user});
+                    res.json({ message: 'User updated!' });
                 });
 
             });
+
         });
 
     apiRoutes.route('/users/:user_id/timecards')
@@ -630,6 +639,98 @@ exports.addRoutes = function (apiRoutes) {
             });
         });
 
+    /**
+     * @route "api/employeefile"
+     */
+    apiRoutes.route('/employeefile')
+    /**
+     * @request POST
+     * @param {guid}
+     * @param {userId}
+     * @param {entryType}
+     * @param {createdBy}
+     * @returns {json} the created object
+     */
+        .post(function (req, res) {
+            var employeeFile = new EmployeeFile();
+            employeeFile._user = req.body.userId;
+            employeeFile.guid = req.body.guid;
+            employeeFile.updated_at = moment().toDate();
+            employeeFile.entry_type = req.body.entryType;
+            employeeFile.entry = req.body.entry;
+            employeeFile._created_by = req.body.createdBy;
+
+            console.log(req.body.createdBy);
+            employeeFile.save(function (err,result) {
+                if (err)
+                    res.send(err);
+                res.json(result);
+            });
+        });
+
+
+    /**
+     * @route "api/employeefile/:id"
+     */
+    apiRoutes.route('/employeefile/:id')
+
+    /**
+     * @request GET
+     */
+        .get(function (req, res) {
+
+            var query = EmployeeFile.find({_user: req.params.id})
+                .populate('_created_by')
+                .sort({updated_at: -1});
+
+            query.exec(function (err,results) {
+                if (err)
+                    res.send(err);
+
+                res.json(results);
+            })
+        })
+
 
 
 };
+
+
+
+
+/*
+//code to save notifications
+ //get recipients
+ var users = [req.params.user_id];
+ //create notification
+ var notification = new Notification();
+ notification._created_by = req.params.user_id;
+ notification.message = "test";
+ notification.users = users;
+ notification.read_receipts = users;
+ notification.save(function (err, n) {
+ if (err)
+ res.send(err);
+
+ //update users
+ User.update(
+ {_id: {$in: users}},
+ {$push: {"_notifications": n._id}},
+ function (err) {
+ if (err)
+ res.send(err);
+
+ User.findById(req.params.user_id)
+ .populate('_notifications', 'message',
+ { read_receipts: {$ne: req.params.user_id}})
+ .exec( function (err, user){
+ if (err)
+ res.send(err);
+ res.json(user);
+ });
+
+
+ });
+ });
+
+ */

@@ -24,7 +24,6 @@ var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
 var Inventory   = require('./lib/models/inventory');
 var Organization   = require('./lib/models/organization');
-var Projection   = require('./lib/models/projection');
 var moment = require('moment');
 var async = require('async');
 app.use(allowCrossDomain);
@@ -57,8 +56,6 @@ app.get('/', function(req, res) {
     res.sendfile(path.resolve('../client/dist/index.html'));
 
 });
-
-
 
 
 
@@ -187,9 +184,7 @@ apiRoutes.post('/authenticate', function(req, res) {
                     user: user
                 });
             }
-
         }
-
     });
 });
 
