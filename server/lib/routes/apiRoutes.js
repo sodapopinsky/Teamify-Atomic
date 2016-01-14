@@ -1,6 +1,6 @@
 var Notification = require('../models/notification');
 
-var User   = require('User');
+
 /*
 
 
@@ -20,7 +20,7 @@ var Timecard = require('../models/timecard');
 
  */
 
-exports.addRoutes = function (apiRoutes) {
+exports.addRoutes = function (apiRoutes,User) {
 
     function guid() {
         function s4() {
