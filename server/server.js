@@ -229,7 +229,7 @@ apiRoutes.use(function(req, res, next) {
     }
 });
 // Include API Routes
-require('./lib/routes/apiRoutes').addRoutes(apiRoutes,User);
+require('./lib/routes/apiRoutes').addRoutes(apiRoutes);
 
 
 app.use('/api', apiRoutes);

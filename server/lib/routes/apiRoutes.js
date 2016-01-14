@@ -1,35 +1,21 @@
-
-var User   = require('./lib/models/user');
+var User   = require('../models/user');
 var Notification = require('../models/notification');
+var Inventory = require('../models/inventory');
+var OrderForm = require('../models/orderform');
+var Organization = require('../models/organization');
+var Projection = require('../models/projection');
+var Position = require('../models/position');
+var Task = require('../models/task');
+var TaskCompletion = require('../models/taskcompletions');
+var EmployeeFile = require('../models/employeeFile');
+var Timecard = require('../models/timecard');
 
 var async = require('async');
 var morgan = require('morgan');
 var moment = require('moment');
 
 
-var Inventory = require('../models/inventory');
-
-var OrderForm = require('../models/orderform');
-
-var Organization = require('../models/organization');
-
-var Projection = require('../models/projection');
-
-var Position = require('../models/position');
-
-var Task = require('../models/task');
-
-
-var TaskCompletion = require('../models/taskcompletions');
-
-var EmployeeFile = require('../models/employeeFile');
-
-var Timecard = require('../models/timecard');
-
-
-
-
-exports.addRoutes = function (apiRoutes,User) {
+exports.addRoutes = function (apiRoutes) {
 
     function guid() {
         function s4() {
@@ -381,8 +367,12 @@ exports.addRoutes = function (apiRoutes,User) {
             Timecard.find({clock_out: null})
                 .populate("_position")
                 .exec(function (err, timecards) {
-                    if (err)
+                    if (err) {
+                        console.log("here " + err);
                         res.send(err);
+
+                    }
+
                     res.send(timecards);
                 })
         });
