@@ -1,4 +1,4 @@
-var User   = require('./lib/models/user');
+var Notification = require('../models/notification');
 /*
 var User = require('../models/user');
 
