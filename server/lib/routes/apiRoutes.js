@@ -7,12 +7,6 @@ var Position = require('../models/position');
 var Task = require('../models/task');
 
 
-var Timecard = require('../models/timecard');
-var morgan = require('morgan');
-var moment = require('moment');
-var async = require('async');
-
-
 exports.addRoutes = function (apiRoutes) {
 
 
