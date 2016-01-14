@@ -21,7 +21,7 @@ var bodyParser = require('body-parser');    // pull information from HTML POST (
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var config = require('./config');
 var jwt    = require('jsonwebtoken');
-var User   = require('./lib/models/user');
+var UserServer   = require('./lib/models/user');
 var Inventory   = require('./lib/models/inventory');
 var Organization   = require('./lib/models/organization');
 var moment = require('moment');
@@ -150,7 +150,7 @@ var apiRoutes = express.Router();
 apiRoutes.post('/authenticate', function(req, res) {
 
     // find the user
-    User.findOne({
+    UserServer.findOne({
         email: req.body.email
     }, function(err, user) {
 
