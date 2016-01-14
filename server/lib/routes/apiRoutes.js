@@ -6,7 +6,7 @@ var Projection = require('../models/projection');
 var Position = require('../models/position');
 var Task = require('../models/task');
 
-var EmployeeFile = require('../models/employeeFile');
+
 var Timecard = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
