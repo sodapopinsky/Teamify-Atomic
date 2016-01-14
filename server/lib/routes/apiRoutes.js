@@ -1,5 +1,5 @@
 
-
+var User   = require('./lib/models/user');
 var Notification = require('../models/notification');
 
 var async = require('async');
@@ -22,9 +22,9 @@ var Task = require('../models/task');
 
 var TaskCompletion = require('../models/taskcompletions');
 
-//var EmployeeFile = require('../models/employeeFile');
+var EmployeeFile = require('../models/employeeFile');
 
-//var Timecard = require('../models/timecard');
+var Timecard = require('../models/timecard');
 
 
 
