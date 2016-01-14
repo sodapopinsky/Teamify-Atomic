@@ -1,31 +1,31 @@
 
-console.log("1");
+
 var Notification = require('../models/notification');
 
 var async = require('async');
 var morgan = require('morgan');
 var moment = require('moment');
 
-console.log("2");
-var Inventory = require('../models/inventory');
-console.log("3");
-var OrderForm = require('../models/orderform');
-console.log("4");
-var Organization = require('../models/organization');
-console.log("5");
-var Projection = require('../models/projection');
-console.log("6");
-var Position = require('../models/pos');
-console.log("7");
-var Task = require('../models/task');
-console.log("8");
 
-//var TaskCompletion = require('../models/taskCompletion');
-console.log("9");
+var Inventory = require('../models/inventory');
+
+var OrderForm = require('../models/orderform');
+
+var Organization = require('../models/organization');
+
+var Projection = require('../models/projection');
+
+var Position = require('../models/position');
+
+var Task = require('../models/task');
+
+
+var TaskCompletion = require('../models/taskcompletions');
+
 //var EmployeeFile = require('../models/employeeFile');
-console.log("10");
+
 //var Timecard = require('../models/timecard');
-console.log("11");
+
 
 
 
