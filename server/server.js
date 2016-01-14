@@ -22,8 +22,7 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var config = require('./config');
 var jwt    = require('jsonwebtoken');
 var User   = require('./lib/models/user');
-var Inventory   = require('./lib/models/inventory');
-var Organization   = require('./lib/models/organization');
+
 var moment = require('moment');
 var async = require('async');
 app.use(allowCrossDomain);
