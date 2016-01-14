@@ -1,6 +1,8 @@
 var Notification = require('../models/notification');
+
+var Userz = require('../models/user');
 /*
-var User = require('../models/user');
+
 
 var Inventory = require('../models/inventory');
 var OrderForm = require('../models/orderform');
@@ -12,10 +14,10 @@ var Notification = require('../models/notification');
 var TaskCompletion = require('../models/taskCompletion');
 var EmployeeFile = require('../models/employeeFile');
 var Timecard = require('../models/timecard');
+ var morgan = require('morgan');
+ var moment = require('moment');
+ var async = require('async');
 
-var morgan = require('morgan');
-var moment = require('moment');
-var async = require('async');
  */
 
 exports.addRoutes = function (apiRoutes) {
