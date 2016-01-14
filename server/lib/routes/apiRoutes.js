@@ -1,6 +1,6 @@
 var Notification = require('../models/notification');
 
-
+var User   = require('User');
 /*
 
 
