@@ -10,7 +10,7 @@ module.exports = mongoose.model('User', new Schema({
     admin: Boolean,
     email: String,
     pin: Number,
-    status: Number,
+    status: {type:Number,default:1},
     updated_at: Date,
     permissions: {
         "employee_file": {type: Boolean, default: false},

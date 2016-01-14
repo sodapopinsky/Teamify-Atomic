@@ -7,5 +7,6 @@ module.exports = mongoose.model('Notification', new Schema({
     requires_acknowledge: {type:Boolean, default:false},
     recipients: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     read_receipts:Array,
+    subject: String,
     message: String
 }));

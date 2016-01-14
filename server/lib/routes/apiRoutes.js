@@ -12,6 +12,7 @@ var Timecard = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
 var async = require('async');
+var _ = require('lodash');
 
 exports.addRoutes = function (apiRoutes) {
 
@@ -30,14 +31,11 @@ exports.addRoutes = function (apiRoutes) {
     apiRoutes.route('/users')
 
         .get(function (req, res) {
-
-
-
             User.find(req.params.user_id)
                 //populates only unread notifications
                 .populate('_notifications', 'message',
-                { read_receipts: {$ne: this._id}})
-                .exec( function (err, users){
+                {read_receipts: {$ne: this._id}})
+                .exec(function (err, users) {
                     if (err)
                         res.send(err);
                     res.json(users);
@@ -67,27 +65,15 @@ exports.addRoutes = function (apiRoutes) {
 
 
         .put(function (req, res) {
-            // use our bear model to find the bear we want
-            User.findById(req.params.user_id, function(err, user) {
 
-                if (err)
-                    res.send(err);
-
-                user.first_name = req.body.first_name;
-                user.last_name = req.body.last_name;
-                user.pin = req.body.pin;
-                user.status = req.body.status;
-                user.permissions = req.body.permissions;
-                user.save(function(err) {
-                    if (err)
-                        res.send(err);
-
-                    res.json({ message: 'User updated!' });
-                });
-
+            User.findOneAndUpdate({_id: req.params.user_id}, req.body, function (err, doc) {
+                if (err) return res.send(500, {error: err});
+                return res.send(doc);
             });
 
+
         });
+
 
     apiRoutes.route('/users/:user_id/timecards')
 
@@ -358,7 +344,7 @@ exports.addRoutes = function (apiRoutes) {
             Timecard.findById(req.body._id, function (err, timecard) {
                 if (err)
                     res.send(err);
-                console.log(timecard);
+
                 timecard.update({
                     clock_in: moment(req.body.clock_in).toDate(),
                     clock_out: moment(req.body.clock_out).toDate()
@@ -380,10 +366,10 @@ exports.addRoutes = function (apiRoutes) {
             Timecard.find({clock_out: null})
                 .populate("_position")
                 .exec(function (err, timecards) {
-                if (err)
-                    res.send(err);
-                res.send(timecards);
-            })
+                    if (err)
+                        res.send(err);
+                    res.send(timecards);
+                })
         });
 
     // ---------------------------------------------------- SYNC
@@ -404,7 +390,6 @@ exports.addRoutes = function (apiRoutes) {
             var synced = [];
             async.each(req.body.timecards, function (value, callback) {
 
-
                 Timecard.findOne({guid: value.guid}, function (err, doc) {
                     var clock_out = null;
 
@@ -420,11 +405,9 @@ exports.addRoutes = function (apiRoutes) {
                             }
                             synced.push(item);
                             callback();
-
                         });
                     }
                     else {
-
                         var timecard = new Timecard({
                             user: value.user,
                             guid: value.guid,
@@ -433,7 +416,6 @@ exports.addRoutes = function (apiRoutes) {
                             _position: value.position._id,
                             synced_at: Date.now()
                         });
-
                         timecard.save(function (err, item) {
                             if (err) {
                                 console.log(err);
@@ -474,7 +456,9 @@ exports.addRoutes = function (apiRoutes) {
                 .find({})
                 .populate('_position')
                 .exec(function (err, tasks) {
-                    if(err){res.send(err)}
+                    if (err) {
+                        res.send(err)
+                    }
                     res.json(tasks);
                 });
         })
@@ -546,7 +530,9 @@ exports.addRoutes = function (apiRoutes) {
             Position
                 .find({})
                 .exec(function (err, positions) {
-                    if (err) {res.send(err);}
+                    if (err) {
+                        res.send(err);
+                    }
                     res.json(positions);
                 });
 
@@ -584,17 +570,19 @@ exports.addRoutes = function (apiRoutes) {
             var start = moment(req.query.date).startOf('day');
             var end = moment(req.query.date).endOf('day');
 
-            var query = TaskCompletion.find({ date: {
-                $gte: start.toDate(),
+            var query = TaskCompletion.find({
+                date: {
+                    $gte: start.toDate(),
                     $lte: end.toDate()
-            }}).populate('_user');
+                }
+            }).populate('_user');
 
-            query.exec(function (err,completion) {
+            query.exec(function (err, completion) {
                 if (err)
                     res.send(err);
                 console.log(completion);
                 res.json(completion);
-             })
+            })
         })
     /**
      * @request POST
@@ -611,7 +599,7 @@ exports.addRoutes = function (apiRoutes) {
             taskCompletion.guid = req.body.guid;
             taskCompletion.date = moment(req.body.date).toDate();
 
-            taskCompletion.save(function (err,result) {
+            taskCompletion.save(function (err, result) {
                 if (err)
                     res.send(err);
                 res.json(result);
@@ -660,8 +648,8 @@ exports.addRoutes = function (apiRoutes) {
             employeeFile.entry = req.body.entry;
             employeeFile._created_by = req.body.createdBy;
 
-            console.log(req.body.createdBy);
-            employeeFile.save(function (err,result) {
+
+            employeeFile.save(function (err, result) {
                 if (err)
                     res.send(err);
                 res.json(result);
@@ -683,7 +671,7 @@ exports.addRoutes = function (apiRoutes) {
                 .populate('_created_by')
                 .sort({updated_at: -1});
 
-            query.exec(function (err,results) {
+            query.exec(function (err, results) {
                 if (err)
                     res.send(err);
 
@@ -692,14 +680,63 @@ exports.addRoutes = function (apiRoutes) {
         })
 
 
+    /**
+     * @route api/notifications
+     */
+
+    apiRoutes.route('/notifications')
+
+    /**
+     * @request POST
+     */
+        .post(function (req, res) {
+
+            Notification.create(req.body, function (err, doc) {
+                if (err) return res.send(500, {error: err});
+
+                User.update({_id: {"$in": req.body.recipients}}, {$push: {"_notifications": doc._id}}, {},
+                    function (err,users) {
+                    if (err) return res.send(500, {error: err});
+                    console.log(users);
+                    return res.send(doc);
+                })
+            })
+
+        });
+
+
+    /**
+     * @route api/notifications/markread
+     */
+    apiRoutes.route('/notifications/markread')
+
+    /**
+     * @request PUT
+     * @description Mark some notifications as read
+     * @param {string | user_id} The id of the user
+     * @param {array | notificationIds}
+     */
+        .put(function (req, res) {
+
+            var ids = [];
+            for (var i = 0; i < req.body.notificationIds.length; i++) {
+                ids.push(req.body.notificationIds[i]._id);
+            }
+
+            //@tmf how to push only if not exists?
+            Notification.update({_id: {"$in": ids}},
+                {$push: {"read_receipts": req.body.user_id}}, {multi: true},
+                function (err, items) {
+                    if (err) return res.send(500, {error: err});
+                    return res.send(items);
+                });
+        });
 
 };
 
 
-
-
 /*
-//code to save notifications
+ //code to save notifications
  //get recipients
  var users = [req.params.user_id];
  //create notification
