@@ -1,7 +1,8 @@
 var Notification = require('../models/notification');
 
 var async = require('async');
-
+var morgan = require('morgan');
+var moment = require('moment');
 
 /*
 var Inventory = require('../models/inventory');
@@ -14,8 +15,7 @@ var Notification = require('../models/notification');
 var TaskCompletion = require('../models/taskCompletion');
 var EmployeeFile = require('../models/employeeFile');
 var Timecard = require('../models/timecard');
- var morgan = require('morgan');
- var moment = require('moment');
+
 */
 
 
