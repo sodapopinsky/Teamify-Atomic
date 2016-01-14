@@ -12,7 +12,7 @@ var Timecard = require('../models/timecard');
 var morgan = require('morgan');
 var moment = require('moment');
 var async = require('async');
-var _ = require('lodash');
+//var _ = require('lodash');
 
 exports.addRoutes = function (apiRoutes) {
 
