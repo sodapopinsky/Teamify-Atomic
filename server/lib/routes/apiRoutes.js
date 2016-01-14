@@ -1,6 +1,6 @@
 var Notification = require('../models/notification');
 
-
+var async = require('async');
 /*
 
 
