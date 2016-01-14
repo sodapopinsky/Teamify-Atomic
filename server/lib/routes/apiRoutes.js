@@ -5,8 +5,7 @@ var Organization = require('../models/organization');
 var Projection = require('../models/projection');
 var Position = require('../models/position');
 var Task = require('../models/task');
-var Notification = require('../models/notification');
-var TaskCompletion = require('../models/taskCompletion');
+
 var EmployeeFile = require('../models/employeeFile');
 var Timecard = require('../models/timecard');
 var morgan = require('morgan');
@@ -16,6 +15,6 @@ var async = require('async');
 
 exports.addRoutes = function (apiRoutes) {
 
-   
+
 
 };
