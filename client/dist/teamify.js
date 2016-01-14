@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-13
+/*! teamify - v0.0.1 - 2016-01-14
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -1134,10 +1134,12 @@ angular.module('tasks')
         };
 
         /**
-         * @name $scope.createTask
+         * @name $scope.createTaskss
          * @description Validate and create new task
          */
         $scope.createTask = function () {
+
+
             try {
                 tasks.isValid($scope.activeTask);
             }
@@ -1149,7 +1151,7 @@ angular.module('tasks')
             tasks.createTask({
                 name: $scope.activeTask.name,
                 description: $scope.activeTask.description,
-                position: $scope.activeTask.position
+                position: $scope.activeTask._position
             }).then(function () {
                 $('#taskPanel').removeClass('is-visible');
                 notificate.success("Task Created!");

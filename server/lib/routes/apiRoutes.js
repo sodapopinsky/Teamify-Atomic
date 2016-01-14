@@ -480,6 +480,7 @@ exports.addRoutes = function (apiRoutes) {
             task.name = req.body.name;
             task.description = req.body.description;
             task.updated_at = Date.now();
+            if(req.body.position)
             task._position = req.body.position._id;
 
             task.save(function (err) {
