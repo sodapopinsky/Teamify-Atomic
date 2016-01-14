@@ -1,3 +1,4 @@
+var User   = require('./lib/models/user');
 /*
 var User = require('../models/user');
 
