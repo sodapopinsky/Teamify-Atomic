@@ -15,9 +15,9 @@ var Organization = require('../models/organization');
 console.log("5");
 var Projection = require('../models/projection');
 console.log("6");
-//var Position = require('../models/position');
+var Position = require('../models/position');
 console.log("7");
-//var Task = require('../models/task');
+var Task = require('../models/task');
 console.log("8");
 
 //var TaskCompletion = require('../models/taskCompletion');
