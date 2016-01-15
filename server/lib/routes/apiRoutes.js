@@ -34,7 +34,7 @@ exports.addRoutes = function (apiRoutes) {
         .get(function (req, res) {
             User.find(req.params.user_id)
                 //populates only unread notifications
-                .populate('_notifications', 'message',
+                .populate('_notifications', {},
                 {read_receipts: {$ne: this._id}})
                 .exec(function (err, users) {
                     if (err)
