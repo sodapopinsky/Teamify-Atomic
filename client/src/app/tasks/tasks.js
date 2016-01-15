@@ -121,7 +121,7 @@ angular.module('tasks')
 
             if(data._position === undefined)
             return false;
-       
+
                 if (data._position._id == $scope.activePosition._id)
                     return true;
 
