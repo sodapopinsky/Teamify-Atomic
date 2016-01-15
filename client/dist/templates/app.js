@@ -1059,7 +1059,7 @@ angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody>\n" +
-    "        <tr ng-repeat=\"task in tasks.tasks\" ng-click=\"goEditTask(task)\">\n" +
+    "        <tr ng-repeat=\"task in tasks.tasks | filter:tasksFilter\" ng-click=\"goEditTask(task)\">\n" +
     "            <td>{{task.name}}</td>\n" +
     "         <td>{{task._position.name}}</td>\n" +
     "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +

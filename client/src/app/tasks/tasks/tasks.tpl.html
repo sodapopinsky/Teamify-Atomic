@@ -24,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="task in tasks.tasks" ng-click="goEditTask(task)">
+        <tr ng-repeat="task in tasks.tasks | filter:tasksFilter" ng-click="goEditTask(task)">
             <td>{{task.name}}</td>
          <td>{{task._position.name}}</td>
             <td><span class="glyphicon glyphicon-menu-right pull-right"></span></td>

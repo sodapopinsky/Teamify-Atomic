@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-14
+/*! teamify - v0.0.1 - 2016-01-15
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -1196,6 +1196,23 @@ angular.module('tasks')
             $('#taskPanel').addClass('is-visible');
             $scope.activeTask = task;
             $scope.staleTask = JSON.parse(JSON.stringify(task));
+        };
+
+        /**
+         * @name $scope.tasksFilter
+         * @description Filter tasks based on user selections
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.tasksFilter = function (data) {
+
+            if(data._position === undefined)
+            return false;
+                console.log(data);
+                if (data._position._id == $scope.activePosition._id)
+                    return true;
+            
+            return false;
         };
 
         /**
@@ -3720,7 +3737,7 @@ angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function
     "        </tr>\n" +
     "        </thead>\n" +
     "        <tbody>\n" +
-    "        <tr ng-repeat=\"task in tasks.tasks\" ng-click=\"goEditTask(task)\">\n" +
+    "        <tr ng-repeat=\"task in tasks.tasks | filter:tasksFilter\" ng-click=\"goEditTask(task)\">\n" +
     "            <td>{{task.name}}</td>\n" +
     "         <td>{{task._position.name}}</td>\n" +
     "            <td><span class=\"glyphicon glyphicon-menu-right pull-right\"></span></td>\n" +

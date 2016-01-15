@@ -112,6 +112,23 @@ angular.module('tasks')
         };
 
         /**
+         * @name $scope.tasksFilter
+         * @description Filter tasks based on user selections
+         * @param data
+         * @returns {boolean}
+         */
+        $scope.tasksFilter = function (data) {
+
+            if(data._position === undefined)
+            return false;
+                console.log(data);
+                if (data._position._id == $scope.activePosition._id)
+                    return true;
+            
+            return false;
+        };
+
+        /**
          * @name $scope.cancelEditTask
          * @description Reverts changes to task and closes side panel
          */
