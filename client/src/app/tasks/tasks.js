@@ -121,10 +121,10 @@ angular.module('tasks')
 
             if(data._position === undefined)
             return false;
-                console.log(data);
+       
                 if (data._position._id == $scope.activePosition._id)
                     return true;
-            
+
             return false;
         };
 
