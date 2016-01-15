@@ -110,13 +110,13 @@ var tasks = [{"id":1,"organization":1,"item_name":"Bring meat up to par","descri
           if(err)
           console.log("error");
 
-          console.log(doc[0]._id);
-          callback();
+
+
 
           var t = value;
           var task = new Task({
               name: t.item_name,
-              _position: doc._id
+              _position: doc[0]._id
           });
           task.save(function(err) {
               if (err) throw err;
