@@ -9,7 +9,7 @@ module.exports = mongoose.model('User', new Schema({
     password: String,
     admin: Boolean,
     email: String,
-    pin: Number,
+    pin: {type:Number, unique:true},
     status: {type:Number,default:1},
     updated_at: Date,
     permissions: {
