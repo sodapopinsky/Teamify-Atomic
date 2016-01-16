@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-15
+/*! teamify - v0.0.1 - 2016-01-16
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -804,7 +804,7 @@ angular.module('inventory')
 
 angular.module('inventory').controller('InventoryController', function($scope,$state,$auth,organization, $rootScope,projection, inventory) {
 
-//
+
 
     $scope.organizationData = organization.data;
     $scope.projections = projection.data;
@@ -1111,7 +1111,11 @@ angular.module('tasks')
 
         //Populate tasks data
         $scope.tasks = tasks.data;
-        tasks.fetchTasks();
+        $scope.loading = true;
+
+        tasks.fetchTasks().then(function(){
+            $scope.loading = false;
+        });
 
         //Populate positions data
         $scope.positions = positions.data;
@@ -1138,8 +1142,6 @@ angular.module('tasks')
          * @description Validate and create new task
          */
         $scope.createTask = function () {
-
-
             try {
                 tasks.isValid($scope.activeTask);
             }
@@ -1167,6 +1169,20 @@ angular.module('tasks')
         $scope.cancelCreateTask = function () {
             $('#taskPanel').removeClass('is-visible');
         }
+
+        /**
+         * @name $scope.deleteTask
+         * @description Deletes the active task
+         */
+        $scope.deleteTask = function(){
+            tasks.deleteTask($scope.activeTask._id).then(function(){
+                notificate.success("Task has been deleted");
+                $('#taskPanel').removeClass('is-visible');
+            },
+            function(error){
+                notificate.error("There was an error with your request.");
+            });
+        };
 
         /**
          * @name $scope.filterByPosition
@@ -1208,10 +1224,10 @@ angular.module('tasks')
 
             if(data._position === undefined)
             return false;
-                console.log(data);
+
                 if (data._position._id == $scope.activePosition._id)
                     return true;
-            
+
             return false;
         };
 
@@ -1262,10 +1278,17 @@ angular.module('team-members', ['resources.users'])
 
 angular.module('team-members').controller('TeamMembersController', function($scope,user,notificate) {
 
+    //populate users
     $scope.users = [];
-
     $scope.status = {value:1, title:'Active'};
 
+    $scope.loading = true;
+    user.getUsers().$promise.then(
+        function(response){
+            $scope.users = response;
+            $scope.loading = false;
+        }
+    );
 
     $scope.statusTitle = function(status){
         if(status === 1)
@@ -1296,11 +1319,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
     };
 
 
-    user.getUsers().$promise.then(
-        function(response){
-            $scope.users = response;
-        }
-    );
+
 
     $scope.goCreateNewEmployee = function(){
         $scope.activeUser = {};
@@ -1935,17 +1954,19 @@ angular.module('directives.calendar',[]).
     });
 
 
-angular.module('directives.loading',[]).directive('loading', function () {
+angular.module('directives.loading',[]).directive('loading', function (utils) {
         return {
             restrict: 'E',
             replace:true,
             template: '<div class="center-block text-center"><img src="img/spinner.gif" style="width:30px; height:30px;"></div>',
-            link: function (scope, element, attr) {
+            link: function (scope, element) {
                 scope.$watch('loading', function (val) {
+
                     if (val)
                     { $(element).show(); }
                     else
                     {  $(element).hide(); }
+
                 });
             }
         };
@@ -2394,13 +2415,13 @@ angular.module('notificate',[])
         .factory('tasks', tasks);
 
 
-    function tasks($resource) {
+    function tasks($resource,utils) {
 
         var factory = {};
 
         factory.data = {
              tasks: [],
-            loading:false};
+             loading:{loading: true}};
 
 
         // ngResource call to our static data
@@ -2412,11 +2433,11 @@ angular.module('notificate',[])
 
 
         factory.fetchTasks= function(){
-            // $promise.then allows us to intercept the results
-            // which we will use later
+            factory.data.loading.loading = true;
             var promise = Task.query().$promise;
             promise.then(function(response){
                 factory.data.tasks = response;
+                factory.data.loading.loading = false;
             });
             return promise
         }
@@ -2434,7 +2455,21 @@ angular.module('notificate',[])
         };
 
         factory.createTask = function(data) {
-            return Task.save(data).$promise;
+            var promise = Task.save(data).$promise;
+            promise.then(function(response){
+                factory.data.tasks.push(response);
+            });
+            return promise;
+        }
+
+        factory.deleteTask = function(id){
+            var promise = Task.delete({_id:id}).$promise;
+            promise.then(function(){
+              var index = utils.getIndexByAttributeValue(factory.data.tasks,"_id",id);
+                if(index != null)
+                    factory.data.tasks.splice(index,1);
+            });
+            return promise;
         }
 
 
@@ -2702,7 +2737,7 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "            </div>\n" +
     "            <div class=\"form-group voffset5\">\n" +
     "                <div>\n" +
-    "                    <button class=\" tmf-form-control btn btn-primary btn-caps\" ng-click=\"auth.login()\">LOG IN</button>\n" +
+    "                    <button class=\"button button-positive\" ng-click=\"auth.login()\">LOG IN</button>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </form>\n" +
@@ -3660,8 +3695,11 @@ angular.module("tasks/tasks/sidepanel/edit.tpl.html", []).run(["$templateCache",
   $templateCache.put("tasks/tasks/sidepanel/edit.tpl.html",
     "<div class=\"cd-panel-content\">\n" +
     "\n" +
+    "\n" +
     "    <div class=\"cd-panel-nav\">\n" +
-    "        <div class=\" navbar-brand\">{{activeTask.name}}</div>\n" +
+    "        <button class=\"btn btn-default btn-right\"\n" +
+    "                ng-click=\"deleteTask(activeTask._id)\">Delete</button>\n" +
+    "        <div class=\" navbar-brand\">{{activeTask.name}}sfd</div>\n" +
     "    </div>\n" +
     "\n" +
     "    <form>\n" +
@@ -3745,7 +3783,7 @@ angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function
     "        </tbody>\n" +
     "    </table>\n" +
     "</div>\n" +
-    "\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
     "<div class=\"cd-panel from-right\" id=\"taskPanel\">\n" +
     "    <div class=\"cd-panel-container\">\n" +
     "        <div ng-include=\"panelContent\"></div>\n" +
@@ -3938,7 +3976,7 @@ angular.module("team/team-members/team-members.tpl.html", []).run(["$templateCac
     "\n" +
     "\n" +
     "</div>\n" +
-    "\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
     "<!-- SIDE PANEL -->\n" +
     "<div class=\"cd-panel from-right\">\n" +
     "\n" +

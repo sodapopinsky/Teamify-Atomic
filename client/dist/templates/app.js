@@ -24,7 +24,7 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "            </div>\n" +
     "            <div class=\"form-group voffset5\">\n" +
     "                <div>\n" +
-    "                    <button class=\" tmf-form-control btn btn-primary btn-caps\" ng-click=\"auth.login()\">LOG IN</button>\n" +
+    "                    <button class=\"button button-positive\" ng-click=\"auth.login()\">LOG IN</button>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </form>\n" +
@@ -982,8 +982,11 @@ angular.module("tasks/tasks/sidepanel/edit.tpl.html", []).run(["$templateCache",
   $templateCache.put("tasks/tasks/sidepanel/edit.tpl.html",
     "<div class=\"cd-panel-content\">\n" +
     "\n" +
+    "\n" +
     "    <div class=\"cd-panel-nav\">\n" +
-    "        <div class=\" navbar-brand\">{{activeTask.name}}</div>\n" +
+    "        <button class=\"btn btn-default btn-right\"\n" +
+    "                ng-click=\"deleteTask(activeTask._id)\">Delete</button>\n" +
+    "        <div class=\" navbar-brand\">{{activeTask.name}}sfd</div>\n" +
     "    </div>\n" +
     "\n" +
     "    <form>\n" +
@@ -1067,7 +1070,7 @@ angular.module("tasks/tasks/tasks.tpl.html", []).run(["$templateCache", function
     "        </tbody>\n" +
     "    </table>\n" +
     "</div>\n" +
-    "\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
     "<div class=\"cd-panel from-right\" id=\"taskPanel\">\n" +
     "    <div class=\"cd-panel-container\">\n" +
     "        <div ng-include=\"panelContent\"></div>\n" +
@@ -1260,7 +1263,7 @@ angular.module("team/team-members/team-members.tpl.html", []).run(["$templateCac
     "\n" +
     "\n" +
     "</div>\n" +
-    "\n" +
+    "<loading class=\"voffset8\"></loading>\n" +
     "<!-- SIDE PANEL -->\n" +
     "<div class=\"cd-panel from-right\">\n" +
     "\n" +

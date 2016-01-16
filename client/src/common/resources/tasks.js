@@ -8,13 +8,13 @@
         .factory('tasks', tasks);
 
 
-    function tasks($resource) {
+    function tasks($resource,utils) {
 
         var factory = {};
 
         factory.data = {
              tasks: [],
-            loading:false};
+             loading:{loading: true}};
 
 
         // ngResource call to our static data
@@ -26,11 +26,11 @@
 
 
         factory.fetchTasks= function(){
-            // $promise.then allows us to intercept the results
-            // which we will use later
+            factory.data.loading.loading = true;
             var promise = Task.query().$promise;
             promise.then(function(response){
                 factory.data.tasks = response;
+                factory.data.loading.loading = false;
             });
             return promise
         }
@@ -48,7 +48,21 @@
         };
 
         factory.createTask = function(data) {
-            return Task.save(data).$promise;
+            var promise = Task.save(data).$promise;
+            promise.then(function(response){
+                factory.data.tasks.push(response);
+            });
+            return promise;
+        }
+
+        factory.deleteTask = function(id){
+            var promise = Task.delete({_id:id}).$promise;
+            promise.then(function(){
+              var index = utils.getIndexByAttributeValue(factory.data.tasks,"_id",id);
+                if(index != null)
+                    factory.data.tasks.splice(index,1);
+            });
+            return promise;
         }
 
 

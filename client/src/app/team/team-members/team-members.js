@@ -17,10 +17,17 @@ angular.module('team-members', ['resources.users'])
 
 angular.module('team-members').controller('TeamMembersController', function($scope,user,notificate) {
 
+    //populate users
     $scope.users = [];
-
     $scope.status = {value:1, title:'Active'};
 
+    $scope.loading = true;
+    user.getUsers().$promise.then(
+        function(response){
+            $scope.users = response;
+            $scope.loading = false;
+        }
+    );
 
     $scope.statusTitle = function(status){
         if(status === 1)
@@ -51,11 +58,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
     };
 
 
-    user.getUsers().$promise.then(
-        function(response){
-            $scope.users = response;
-        }
-    );
+
 
     $scope.goCreateNewEmployee = function(){
         $scope.activeUser = {};

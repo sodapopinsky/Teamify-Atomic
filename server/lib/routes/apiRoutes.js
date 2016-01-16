@@ -520,6 +520,16 @@ exports.addRoutes = function (apiRoutes) {
 
 
             })
+        })
+        .delete(function (req, res) {
+
+            Task.remove({_id: req.params._id}, function (err) {
+                if (err)
+                    res.send(err);
+
+                res.json({message: 'Item deleted!'});
+
+            });
         });
 
     /**

@@ -6757,6 +6757,12 @@ html, body {
   height: 70px;
   margin: -20px;
   margin-bottom: 20px; }
+  .cd-panel-nav .btn-right {
+    float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px; }
   .cd-panel-nav .avatar {
     float: left;
     position: relative;

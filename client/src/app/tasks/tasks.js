@@ -24,7 +24,11 @@ angular.module('tasks')
 
         //Populate tasks data
         $scope.tasks = tasks.data;
-        tasks.fetchTasks();
+        $scope.loading = true;
+
+        tasks.fetchTasks().then(function(){
+            $scope.loading = false;
+        });
 
         //Populate positions data
         $scope.positions = positions.data;
@@ -51,8 +55,6 @@ angular.module('tasks')
          * @description Validate and create new task
          */
         $scope.createTask = function () {
-
-
             try {
                 tasks.isValid($scope.activeTask);
             }
@@ -80,6 +82,20 @@ angular.module('tasks')
         $scope.cancelCreateTask = function () {
             $('#taskPanel').removeClass('is-visible');
         }
+
+        /**
+         * @name $scope.deleteTask
+         * @description Deletes the active task
+         */
+        $scope.deleteTask = function(){
+            tasks.deleteTask($scope.activeTask._id).then(function(){
+                notificate.success("Task has been deleted");
+                $('#taskPanel').removeClass('is-visible');
+            },
+            function(error){
+                notificate.error("There was an error with your request.");
+            });
+        };
 
         /**
          * @name $scope.filterByPosition

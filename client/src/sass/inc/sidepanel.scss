@@ -367,6 +367,11 @@ html, body {
   margin:-20px;
   margin-bottom:20px;
 
+  .btn-right{
+    float:right;
+    @include vertical-center();
+    right:15px;
+  }
   .avatar{
     float:left;
     position:relative;

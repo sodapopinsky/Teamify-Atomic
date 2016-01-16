@@ -54,3 +54,9 @@ $default_rounded_amount: 20px;
   @include round-corner("#{$vert}-#{$side}", $amount);
   @include round-corner-mozilla("#{$vert}#{$side}", $amount);
 }
+
+@mixin vertical-center() {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
