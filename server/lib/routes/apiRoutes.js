@@ -62,6 +62,30 @@ exports.addRoutes = function (apiRoutes) {
 
         });
 
+    /**
+     * @route /api/users/active
+     */
+    apiRoutes.route('/users/active')
+
+    /**
+     * @method GET
+     * @description Retrieve all active users
+     */
+        .get(function(req,res){
+            console.dir("decoded");
+            console.dir(req.decoded);
+
+            User.find({status:1},function(err,users){
+                if (err)
+                    res.send(err);
+
+                res.json(users);
+            });
+    });
+
+
+
+
     apiRoutes.route('/users/:user_id')
 
 
