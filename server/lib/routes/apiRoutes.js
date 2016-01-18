@@ -1,4 +1,4 @@
-var User   = require('../models/user');
+var User = require('../models/user');
 var Notification = require('../models/notification');
 var Inventory = require('../models/inventory');
 var OrderForm = require('../models/orderform');
@@ -71,19 +71,17 @@ exports.addRoutes = function (apiRoutes) {
      * @method GET
      * @description Retrieve all active users
      */
-        .get(function(req,res){
-            console.dir("decoded");
-            console.dir(req.decoded);
-
-            User.find({status:1},function(err,users){
-                if (err)
-                    res.send(err);
-
-                res.json(users);
-            });
-    });
-
-
+        .get(function (req, res) {
+            User.find({status: 1})
+                //populates only unread notifications
+                .populate('_notifications', {},
+                {read_receipts: {$ne: this._id}})
+                .exec(function (err, users) {
+                    if (err)
+                        res.send(err);
+                    res.json(users);
+                });
+        });
 
 
     apiRoutes.route('/users/:user_id')
@@ -504,8 +502,8 @@ exports.addRoutes = function (apiRoutes) {
             task.name = req.body.name;
             task.description = req.body.description;
             task.updated_at = Date.now();
-            if(req.body.position)
-            task._position = req.body.position._id;
+            if (req.body.position)
+                task._position = req.body.position._id;
 
             task.save(function (err) {
                 if (err)
@@ -735,11 +733,11 @@ exports.addRoutes = function (apiRoutes) {
                 if (err) return res.send(500, {error: err});
 
                 User.update({_id: {"$in": req.body.recipients}}, {$push: {"_notifications": doc._id}}, {},
-                    function (err,users) {
-                    if (err) return res.send(500, {error: err});
-                    console.log(users);
-                    return res.send(doc);
-                })
+                    function (err, users) {
+                        if (err) return res.send(500, {error: err});
+                        console.log(users);
+                        return res.send(doc);
+                    })
             })
 
         });
