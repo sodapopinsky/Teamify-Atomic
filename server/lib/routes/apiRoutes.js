@@ -467,6 +467,40 @@ exports.addRoutes = function (apiRoutes) {
         });
 
 
+
+    apiRoutes.route('/sync/taskcompletions')
+        .post(function (req, res) {
+            var synced = [];
+            async.each(req.body.completions, function (value, callback) {
+
+                //@tmf validate that the task has not already been completed
+
+                var completion = new TaskCompletion({
+                    _user: value._user,
+                    _task: value._task,
+                    updated_at : moment(value.updated_at).toDate(),
+                    date: moment(value.date).toDate(),
+                    guid: value.guid
+                });
+               completion.save(function (err, item) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    synced.push(completion);
+                    callback();
+                });
+
+
+            }, function (error) {
+                if (error) res.json(500, {error: error});
+                console.log(synced);
+                res.send(synced);
+
+            });
+
+
+        });
+
     /**
      * @route "api/tasks"
      */
