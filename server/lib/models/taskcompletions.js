@@ -4,8 +4,9 @@ var Schema = mongoose.Schema;
 
 // set up a mongoose model and pass it using module.exports
 module.exports = mongoose.model('TaskCompletion', new Schema({
-    date: Date,
+    date: Date, //the date of the checklist item
     guid: String,
+    updated_at: Date,
     _user: { type: Schema.Types.ObjectId, ref: 'User' },
     _task: { type: Schema.Types.ObjectId, ref: 'Task' }
 }));

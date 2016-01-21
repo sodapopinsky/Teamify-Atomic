@@ -636,7 +636,7 @@ exports.addRoutes = function (apiRoutes) {
             taskCompletion._task = req.body.taskId;
             taskCompletion.guid = req.body.guid;
             taskCompletion.date = moment(req.body.date).toDate();
-
+            taskCompletion.updated_at = req.body.updated_at;
             taskCompletion.save(function (err, result) {
                 if (err)
                     res.send(err);
