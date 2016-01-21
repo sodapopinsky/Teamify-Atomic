@@ -440,7 +440,7 @@ exports.addRoutes = function (apiRoutes) {
                             guid: value.guid,
                             clock_in: moment(value.clock_in).toDate(),
                             clock_out: clock_out,
-                            _position: value.position._id,
+                            _position: value._position._id,
                             synced_at: Date.now()
                         });
                         timecard.save(function (err, item) {
