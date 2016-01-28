@@ -24,7 +24,7 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "            </div>\n" +
     "            <div class=\"form-group voffset5\">\n" +
     "                <div>\n" +
-    "                    <button class=\"button button-positive\" ng-click=\"auth.login()\">LOG IN</button>\n" +
+    "                    <button class=\" tmf-form-control btn btn-primary btn-caps\" ng-click=\"auth.login()\">LOG IN</button>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </form>\n" +

@@ -92,6 +92,7 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 
     $scope.fetchTimecards = function(){
 
+
         var start = $scope.reportDate.startDate.startOf('day').utc().format();
         var end =   $scope.reportDate.endDate.endOf('day').utc().format();
 

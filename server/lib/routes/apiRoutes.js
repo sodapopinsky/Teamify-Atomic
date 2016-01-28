@@ -315,27 +315,25 @@ exports.addRoutes = function (apiRoutes) {
     ///////Timecard
     apiRoutes.route('/timecards')
         .get(function (req, res) {
-            console.log(moment(req.query.end));
 
-            console.log(moment(req.query.end).endOf('day').toDate());
             Timecard.find()
                 .or(
                 [
                     {
                         clock_in: {
-                            $gt: moment(req.query.start).startOf('day').toDate(),
-                            $lt: moment(req.query.end).startOf('day').toDate()
+                            $gt: moment(req.query.start).toDate(),
+                            $lt: moment(req.query.end).toDate()
                         }
                     },
                     {
                         clock_out: {
-                            $gt: moment(req.query.start).startOf('day').toDate(),
-                            $lt: moment(req.query.end).endOf('day').toDate()
+                            $gt: moment(req.query.start).toDate(),
+                            $lt: moment(req.query.end).toDate()
                         }
                     },
                     {
-                        clock_out: {$gt: moment(req.query.end).startOf('day').toDate()},
-                        clock_in: {$lt: moment(req.query.end).endOf('day').toDate()}
+                        clock_out: {$gt: moment(req.query.end).toDate()},
+                        clock_in: {$lt: moment(req.query.end).toDate()}
                     }
                 ]
             )

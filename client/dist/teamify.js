@@ -1,4 +1,4 @@
-/*! teamify - v0.0.1 - 2016-01-16
+/*! teamify - v0.0.1 - 2016-01-28
  * Copyright (c) 2016 Nick Spitale;
  * Licensed 
  */
@@ -1543,6 +1543,7 @@ angular.module('team').controller('Team_TimecardsController', function($scope,ti
 
     $scope.fetchTimecards = function(){
 
+
         var start = $scope.reportDate.startDate.startOf('day').utc().format();
         var end =   $scope.reportDate.endDate.endOf('day').utc().format();
 
@@ -2737,7 +2738,7 @@ angular.module("auth/auth.tpl.html", []).run(["$templateCache", function($templa
     "            </div>\n" +
     "            <div class=\"form-group voffset5\">\n" +
     "                <div>\n" +
-    "                    <button class=\"button button-positive\" ng-click=\"auth.login()\">LOG IN</button>\n" +
+    "                    <button class=\" tmf-form-control btn btn-primary btn-caps\" ng-click=\"auth.login()\">LOG IN</button>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </form>\n" +
