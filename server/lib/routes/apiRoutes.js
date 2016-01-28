@@ -315,7 +315,8 @@ exports.addRoutes = function (apiRoutes) {
     ///////Timecard
     apiRoutes.route('/timecards')
         .get(function (req, res) {
-
+        console.log(moment(req.query.start).startOf('day').toDate());
+            console.log(moment(req.query.end).endOf('day').toDate());
             Timecard.find()
                 .or(
                 [
