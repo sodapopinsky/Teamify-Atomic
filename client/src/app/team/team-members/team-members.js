@@ -144,6 +144,7 @@ angular.module('team-members').controller('TeamMembersController', function($sco
             confirmButtonText: "Confirm",
             closeOnConfirm: true }, function(){
 
+
             $scope.activeUser.status = 0;
             $scope.updateUser();
 

@@ -52,18 +52,12 @@ angular.module('team')
 
 angular.module('team').controller('Team_TimecardsController', function($scope,timecards,notificate,user) {
 
-
-
-
     user.getUsers().$promise.then(function(results) {
         $scope.users = results;
 
     }, function(error) { // Check for errors
         console.log(error);
     });
-
-
-
 
     $scope.reportTimecards = [];
 
@@ -351,19 +345,43 @@ angular.module('team').controller('Team_Timecards_Report_ShiftDetail_EditControl
         }
     };
 
+    $scope.deleteTimecard = function(timecard){
+        swal({   title: "Are you sure?",
+            text: "This timecard will be lost and gone forever!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true }, function(){
+
+            timecards.delete(timecard.guid).then(
+                function(success){
+                    notificate.success("Timecard Deleted!");
+                    $('#shiftDetailEdit').removeClass('is-visible');
+                },function(error){
+                    notificate.error("Oops! We couldn't complete your request.");
+                });
+            $state.go("app.team.timecards.reports.shiftdetail");
+
+        });
+    };
+
     $scope.updateTimecard = function() {
+
             //@tmf validate
         timecards.updateTimecard({
                 "user": $scope.timecard.user,
                 "_id": $scope.timecard._id,
-                "clock_in": utils.getMomentFromComponents($scope.editDates.clock_in.date.startDate, $scope.editDates.clock_in.time).utc().format(),
-                "clock_out": utils.getMomentFromComponents($scope.editDates.clock_out.date.startDate, $scope.editDates.clock_out.time).utc().format()
+                "guid": $scope.timecard.guid,
+                "clock_in": utils.getMomentFromComponents($scope.editDates.clock_in.date, $scope.editDates.clock_in.time).utc().format(),
+                "clock_out": utils.getMomentFromComponents($scope.editDates.clock_out.date, $scope.editDates.clock_out.time).utc().format()
             }
         ).then(function(){
                 $('#shiftDetailEdit').removeClass('is-visible');
 
                 notificate.success("Timecard Updated!");
                 $state.go("app.team.timecards.reports.shiftdetail");
+                $scope.updateDate($scope.reportDate.startDate,$scope.reportDate.endDate);
             },
         function(){
             notificate.error("There was an error with your request.");
@@ -379,7 +397,7 @@ angular.module('team').controller('Team_Timecards_Report_ShiftDetail_EditControl
         $scope.editDates.clock_out.date.endDate = null;
     }
     $scope.$watch('[editDates]', function(newDate) {
-
+    
         $scope.hours =  $scope.calculateHours($scope.editDates.clock_in.date,$scope.editDates.clock_in.time,$scope.editDates.clock_out.date,$scope.editDates.clock_out.time);
     }, true);
 

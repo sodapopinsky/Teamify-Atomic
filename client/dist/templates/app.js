@@ -1591,7 +1591,10 @@ angular.module("team/timecards/sidepanel/edit.tpl.html", []).run(["$templateCach
     "\n" +
     "\n" +
     "    <div class=\"cd-panel-nav\">\n" +
+    "        <div class=\"pull-right\" style=\"position:relative;  right:10px;\">\n" +
+    "            <button class=\"btn btn-default\" ng-click=\"deleteTimecard(timecard)\" >Delete</button>\n" +
     "\n" +
+    "        </div>\n" +
     "\n" +
     "        <div class=\" navbar-brand\">Edit Timecard</div>\n" +
     "\n" +

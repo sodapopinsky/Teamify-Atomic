@@ -312,7 +312,9 @@ exports.addRoutes = function (apiRoutes) {
 
         })
 
-    ///////Timecard
+    /**
+     * @route timecards
+     */
     apiRoutes.route('/timecards')
         .get(function (req, res) {
 
@@ -357,11 +359,12 @@ exports.addRoutes = function (apiRoutes) {
                 if (err)
                     res.send(err);
                 res.json({message: 'Created!'});
-            });
+            })
+          ;
 
         });
 
-    apiRoutes.route('/timecards/:id')
+    apiRoutes.route('/timecards/:guid')
         .put(function (req, res) {
 
             Timecard.findById(req.body._id, function (err, timecard) {
@@ -380,6 +383,13 @@ exports.addRoutes = function (apiRoutes) {
 
 
             })
+        }) .delete(function (req, res) {
+            console.log(req.params.guid);
+            Timecard.remove({guid: req.params.guid}, function (err) {
+                if (err)
+                    res.send(err);
+                res.json({message: 'Item deleted!'});
+            });
         });
 
 
